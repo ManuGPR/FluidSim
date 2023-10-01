@@ -23,7 +23,7 @@ using namespace std;
 
 int main(int argc, char **argv) {
     // Constantes vectoriales de la simulación
-    const vector<double> aceleracion_externa = {0.0, 9.8, 0.0};
+    const vector<double> aceleracion_externa = {0.0, -9.8, 0.0};
     const vector<double> limite_sup_recinto = {0.065, 0.1, 0.065};
     const vector<double> limite_inf_recinto = {-0.065, -0.08, -0.065};
     //Variables de la simulación
@@ -69,8 +69,6 @@ int main(int argc, char **argv) {
     ppm = static_cast<double>(ppm_float);
     file_in.read(reinterpret_cast<char*> (&np), sizeof(int));
 
-    cout << ppm<<endl;
-    cout << np<<endl;
     /* if (entry::check_np_h(argv[2]) == -5){
      *  std::cerr << "Invalid number of particles:" << np;
      *  return -5;
@@ -81,11 +79,51 @@ int main(int argc, char **argv) {
      *  return -5;
      *  }
      */
+    vector<int> num_bloques(3);
+    malla::num_bloques(limite_sup_recinto, limite_inf_recinto, longitud_de_suavizado, num_bloques);
+    float aux_float;
+    double lectura;
+    struct Enclosure3D malla(np, nts, num_bloques);
+    struct Particula particulas(np);
+    //LECTURA DEL FICHERO
+    for (int i = 0; i<np; i++) {
+        //SABEMOS QUE SE PUEDE REDUCIR, NO SABEMOS COMO
+        file_in.read(reinterpret_cast<char*> (&aux_float), sizeof(float));
+        lectura = static_cast<double>(aux_float);
+        particulas.pos_x[i] = lectura;
+        file_in.read(reinterpret_cast<char*> (&aux_float), sizeof(float));
+        lectura = static_cast<double>(aux_float);
+        particulas.pos_y[i] = lectura;
+        file_in.read(reinterpret_cast<char*> (&aux_float), sizeof(float));
+        lectura = static_cast<double>(aux_float);
+        particulas.pos_z[i] = lectura;
+        file_in.read(reinterpret_cast<char*> (&aux_float), sizeof(float));
+        lectura = static_cast<double>(aux_float);
+        particulas.hv_x[i] = lectura;
+        file_in.read(reinterpret_cast<char*> (&aux_float), sizeof(float));
+        lectura = static_cast<double>(aux_float);
+        particulas.hv_y[i] = lectura;
+        file_in.read(reinterpret_cast<char*> (&aux_float), sizeof(float));
+        lectura = static_cast<double>(aux_float);
+        particulas.hv_z[i] = lectura;
+        file_in.read(reinterpret_cast<char*> (&aux_float), sizeof(float));
+        lectura = static_cast<double>(aux_float);
+        particulas.vel_x[i] = lectura;
+        file_in.read(reinterpret_cast<char*> (&aux_float), sizeof(float));
+        lectura = static_cast<double>(aux_float);
+        particulas.vel_y[i] = lectura;
+        file_in.read(reinterpret_cast<char*> (&aux_float), sizeof(float));
+        lectura = static_cast<double>(aux_float);
+        particulas.vel_z[i] = lectura;
+        particulas.acel_x[i] = aceleracion_externa[0];
+        particulas.acel_y[i] = aceleracion_externa[1];
+        particulas.acel_z[i]= aceleracion_externa[2];
+    }
 
-     //LECTURA DEL FICHERO
+    // TO DO LIST
+    //Comprobar el segmentation fault
+    //Mirar la funcion de lectura
+    //Comprobar que el numero de particulas leidas son correctas
+    //Bucle principal que llame a las funciones de particulas (jueves en principio)
 
-     double masa = (DENSIDAD_DE_FLUIDO) / (pow(ppm, 3));
-     double longitud_de_suavizado = (RADIO / ppm);
-     cout << masa << endl;
-     cout << longitud_de_suavizado<< endl;
 }

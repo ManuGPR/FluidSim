@@ -73,6 +73,12 @@ build CMakeFiles/AC3.dir/fluid/fluid.cpp.o: CXX_COMPILER__AC3_unscanned_Release 
   OBJECT_DIR = CMakeFiles/AC3.dir
   OBJECT_FILE_DIR = CMakeFiles/AC3.dir/fluid
 
+build CMakeFiles/AC3.dir/sim/calculos.cpp.o: CXX_COMPILER__AC3_unscanned_Release /home/manu/CLionProjects/AC3/sim/calculos.cpp || cmake_object_order_depends_target_AC3
+  DEP_FILE = CMakeFiles/AC3.dir/sim/calculos.cpp.o.d
+  FLAGS = -O3 -DNDEBUG -std=gnu++20 -fdiagnostics-color=always
+  OBJECT_DIR = CMakeFiles/AC3.dir
+  OBJECT_FILE_DIR = CMakeFiles/AC3.dir/sim
+
 
 # =============================================================================
 # Link build statements for EXECUTABLE target AC3
@@ -81,7 +87,7 @@ build CMakeFiles/AC3.dir/fluid/fluid.cpp.o: CXX_COMPILER__AC3_unscanned_Release 
 #############################################
 # Link the executable AC3
 
-build AC3: CXX_EXECUTABLE_LINKER__AC3_Release CMakeFiles/AC3.dir/sim/block.cpp.o CMakeFiles/AC3.dir/sim/grid.cpp.o CMakeFiles/AC3.dir/sim/progargs.cpp.o CMakeFiles/AC3.dir/fluid/fluid.cpp.o
+build AC3: CXX_EXECUTABLE_LINKER__AC3_Release CMakeFiles/AC3.dir/sim/block.cpp.o CMakeFiles/AC3.dir/sim/grid.cpp.o CMakeFiles/AC3.dir/sim/progargs.cpp.o CMakeFiles/AC3.dir/fluid/fluid.cpp.o CMakeFiles/AC3.dir/sim/calculos.cpp.o
   FLAGS = -O3 -DNDEBUG
   OBJECT_DIR = CMakeFiles/AC3.dir
   POST_BUILD = :

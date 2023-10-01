@@ -17,9 +17,52 @@ namespace malla {
     int pos_particula_z (double pos_z, double zmin, double tam_bloque_z);
 }
 
-class grid {
+struct Enclosure3D{
+    /*class members*/
+    int np;
+    vector<int> num_bloques;
+    double iterations;
 
+    /*member functions*/
+    /* initialize all the vector arrays in the constructor */
+    explicit Enclosure3D(int np, double iterations, vector<int> num_bloq) {
+        /*constructor using parameters specified in cmd*/
+        Enclosure3D::np = np;
+        Enclosure3D::iterations = iterations;
+        Enclosure3D::num_bloques[0] = num_bloq[0];
+        Enclosure3D::num_bloques[1] = num_bloq[1];
+        Enclosure3D::num_bloques[2] = num_bloq[2];
+    }
+    ~Enclosure3D() = default;
+    /* rest of member functions*/
 };
 
 
+struct Particula {
+    /*class attributes*/
+    vector<double> pos_x;
+    vector<double> pos_y;
+    vector<double> pos_z;
+    vector<double> hv_x;
+    vector<double> hv_y;
+    vector<double> hv_z;
+    vector<double> vel_x;
+    vector<double> vel_y;
+    vector<double> vel_z;
+    vector<double> acel_x;
+    vector<double> acel_y;
+    vector<double> acel_z;
+    vector<double> dens;
+    vector<int> c_x;
+    vector<int> c_y;
+    vector<int> c_z;
+    /*class methods*/
+    explicit Particula(int np) : pos_x(np), pos_y(np), pos_z(np),
+                                       hv_x(np), hv_y(np), hv_z(np),
+                                       vel_x(np), vel_y(np), vel_z(np),
+                                       acel_x(np),acel_y(np),acel_z(np),
+                                       dens(np, 0.0),c_x(np),
+                                       c_y(np), c_z(np){};
+    ~Particula() = default;
+};
 #endif //ARQUITECTURA_GRID_HPP

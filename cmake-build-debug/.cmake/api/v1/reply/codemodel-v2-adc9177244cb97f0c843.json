@@ -6,7 +6,7 @@
 			[
 				{
 					"build" : ".",
-					"jsonFile" : "directory-.-Release-f5ebdc15457944623624.json",
+					"jsonFile" : "directory-.-Debug-f5ebdc15457944623624.json",
 					"minimumCMakeVersion" : 
 					{
 						"string" : "3.26"
@@ -19,7 +19,7 @@
 					]
 				}
 			],
-			"name" : "Release",
+			"name" : "Debug",
 			"projects" : 
 			[
 				{
@@ -39,7 +39,7 @@
 				{
 					"directoryIndex" : 0,
 					"id" : "AC3::@6890427a1f51a3e7e1df",
-					"jsonFile" : "target-AC3-Release-42dd0dc1217ce2cf9308.json",
+					"jsonFile" : "target-AC3-Debug-1fce5de2bc7ede6d1261.json",
 					"name" : "AC3",
 					"projectIndex" : 0
 				}
@@ -49,7 +49,7 @@
 	"kind" : "codemodel",
 	"paths" : 
 	{
-		"build" : "/home/manu/CLionProjects/AC3/cmake-build-release",
+		"build" : "/home/manu/CLionProjects/AC3/cmake-build-debug",
 		"source" : "/home/manu/CLionProjects/AC3"
 	},
 	"version" : 
