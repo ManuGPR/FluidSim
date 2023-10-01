@@ -7,6 +7,7 @@
 #include <vector>
 #include <cmath>
 #include "../sim/progargs.hpp"
+#include "../sim/grid.hpp"
 
 //CONSTANTES ESCALARES DE SIMULACIÓN
 
@@ -68,6 +69,9 @@ int main(int argc, char **argv) {
     file_in.read(reinterpret_cast<char*> (&ppm_float), sizeof(float));
     ppm = static_cast<double>(ppm_float);
     file_in.read(reinterpret_cast<char*> (&np), sizeof(int));
+
+    double masa = (DENSIDAD_DE_FLUIDO) / (pow(ppm, 3));
+    double longitud_de_suavizado = (RADIO / ppm);
 
     /* if (entry::check_np_h(argv[2]) == -5){
      *  std::cerr << "Invalid number of particles:" << np;

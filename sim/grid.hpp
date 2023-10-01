@@ -3,6 +3,9 @@
 //
 
 #include <vector>
+#include <iostream>
+#include <iomanip>
+#include <fstream>
 
 #ifndef ARQUITECTURA_GRID_HPP
 #define ARQUITECTURA_GRID_HPP
