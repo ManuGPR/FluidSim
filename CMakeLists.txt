@@ -11,4 +11,6 @@ add_executable(AC3
     sim/progargs.hpp
     sim/progargs.cpp
     fluid/fluid.cpp
+        sim/calculos.cpp
+        sim/calculos.hpp
 )
