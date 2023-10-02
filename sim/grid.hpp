@@ -13,7 +13,7 @@
 using namespace std;
 
 namespace malla {
-    int num_bloques (vector<double> lim_sup, vector<double> lim_inf, double h, vector<int> result);
+    int num_bloques (vector<double> lim_sup, vector<double> lim_inf, double h, vector<int> & result);
     int tam_bloques (vector<double> lim_sup, vector<double> lim_inf, vector<int> num_bloques, vector<double> result);
     int pos_particula_x (double pos_x, double xmin, double tam_bloque_x);
     int pos_particula_y (double pos_y, double ymin, double tam_bloque_y);
@@ -28,13 +28,13 @@ struct Enclosure3D{
 
     /*member functions*/
     /* initialize all the vector arrays in the constructor */
-    explicit Enclosure3D(int np, double iterations, vector<int> num_bloq) {
+    explicit Enclosure3D(int np, double iterations, vector<int> & num_bloq) {
         /*constructor using parameters specified in cmd*/
         Enclosure3D::np = np;
         Enclosure3D::iterations = iterations;
-        Enclosure3D::num_bloques[0] = num_bloq[0];
-        Enclosure3D::num_bloques[1] = num_bloq[1];
-        Enclosure3D::num_bloques[2] = num_bloq[2];
+        Enclosure3D::num_bloques.push_back(num_bloq[0]);
+        Enclosure3D::num_bloques.push_back(num_bloq[1]);
+        Enclosure3D::num_bloques.push_back(num_bloq[2]);
     }
     /* rest of member functions*/
 };

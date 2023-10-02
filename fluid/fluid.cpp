@@ -87,8 +87,8 @@ int main(int argc, char **argv) {
     malla::num_bloques(limite_sup_recinto, limite_inf_recinto, longitud_de_suavizado, num_bloques);
     float aux_float;
     double lectura;
-    struct Enclosure3D malla(np, nts, num_bloques);
     struct Particula particulas(np);
+    struct Enclosure3D malla(np, nts, num_bloques);
     //LECTURA DEL FICHERO
     for (int i = 0; i<np; i++) {
         //SABEMOS QUE SE PUEDE REDUCIR, NO SABEMOS COMO
@@ -126,7 +126,7 @@ int main(int argc, char **argv) {
 
     // TO DO LIST
     //Comprobar el segmentation fault
-    //Mirar la funcion de lectura
+    //Mirar la funcion de lectura - Se puede haacer
     //Comprobar que el numero de particulas leidas son correctas
     //Bucle principal que llame a las funciones de particulas (jueves en principio)
 
