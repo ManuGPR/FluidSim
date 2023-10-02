@@ -6,7 +6,6 @@
 #include "grid.hpp"
 
 //NOTA; quizás se pueden meter vectores en los parámetros para evitar hacer tres funciones por eje
-
 namespace malla {
     int num_bloques (vector<double> lim_sup, vector<double> lim_inf, double h, vector<int> result) {
         result[0] = floor((lim_sup[0] - lim_inf[0]) / h);

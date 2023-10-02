@@ -36,7 +36,6 @@ struct Enclosure3D{
         Enclosure3D::num_bloques[1] = num_bloq[1];
         Enclosure3D::num_bloques[2] = num_bloq[2];
     }
-    ~Enclosure3D() = default;
     /* rest of member functions*/
 };
 
@@ -66,6 +65,5 @@ struct Particula {
                                        acel_x(np),acel_y(np),acel_z(np),
                                        dens(np, 0.0),c_x(np),
                                        c_y(np), c_z(np){};
-    ~Particula() = default;
 };
 #endif //ARQUITECTURA_GRID_HPP
