@@ -72,6 +72,10 @@ int main(int argc, char **argv) {
     file_in.read(reinterpret_cast<char*> (&np), sizeof(int));
     //Comprobación del np
     np_chek = entry::check_np(np);
+    if (np_chek == -5){
+        cerr << "Numero de particulas incorrrecto";
+        return -5;
+    }
 
     double masa = (DENSIDAD_DE_FLUIDO) / (pow(ppm, 3));
     double longitud_de_suavizado = (RADIO / ppm);
