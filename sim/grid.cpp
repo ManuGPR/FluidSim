@@ -2,7 +2,6 @@
 // Created by marina on 27/09/23.
 //
 
-#include <cmath>
 #include "grid.hpp"
 
 //NOTA; quizás se pueden meter vectores en los parámetros para evitar hacer tres funciones por eje
@@ -14,7 +13,7 @@ namespace malla {
         return 0;
     }
 
-    int tam_bloques (vector<double> lim_sup, vector<double> lim_inf, vector<int> num_bloques, vector<double> result){
+    int tam_bloques (vector<double> lim_sup, vector<double> lim_inf, vector<int> num_bloques, vector<double> & result){
         result[0] = (lim_sup[0] - lim_inf[0]) / num_bloques[0];
         result[1] = (lim_sup[1] - lim_inf[1]) / num_bloques[1];
         result[2] = (lim_sup[2] - lim_inf[2]) / num_bloques[2];
@@ -29,5 +28,11 @@ namespace malla {
     }
     int pos_particula_z(double pos_z, double zmin, double tam_bloque_z) {
         return floor((pos_z - zmin) / tam_bloque_z);
+    }
+
+    double lectura (ifstream & fichero) {
+        float aux_float;
+        fichero.read(reinterpret_cast<char*> (&aux_float), sizeof(float));
+        return static_cast<double>(aux_float);
     }
 }

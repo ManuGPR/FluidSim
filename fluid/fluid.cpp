@@ -35,105 +35,61 @@ int main(int argc, char **argv) {
     //ppm = particulas por metro, np = numero de particulas
     float ppm_float;
     double ppm;
-    int np, np_chek;
+    int np;
 
-    //Checkeo de argumentos de entrada
-    if (entry::check_args(argc) == -1) {
-        std:: cerr << "Invalid number of arguments: " << argc;
-        return -1;
-    }
+    if (entry::check_args(argc) == -1) {return -1;} //Checkeo de lor argumentos
 
-    nts = entry::check_nts(argv[1]);
-    if (nts == -1){
-        cerr << "Time steps must be numeric.";
-        return -1;
-    }
+    nts = entry::check_nts(argv[1]); //Checkeo de nts
+    if (nts < 0) {return nts;}
 
-    else if (nts == -2) {
-        cerr << "Invalid number of time steps.";
-        return -2;
-    }
+    if (entry::check_inputfile(argv[2]) == -3) {return -3;} //Checkeo fichero entrada
+    if (entry::check_outputfile(argv[3]) == -4) {return -4;} //Checkeo fichero salida
 
-    if (entry::check_inputfile(argv[2]) == -3) {
-        cerr << "Cannot open " << argv[2] << " for reading" << endl;
-        return -3;
-    }
-
-    if (entry::check_outputfile(argv[3]) == -4) {
-        cerr << "Cannot open " << argv[3] << "for writing" << endl;
-        return -4;
-    }
-
-
+    //Apertura del fichero y cabecera
     file_in.open(argv[2], ios::binary);
-
     file_in.read(reinterpret_cast<char*> (&ppm_float), sizeof(float));
     ppm = static_cast<double>(ppm_float);
     file_in.read(reinterpret_cast<char*> (&np), sizeof(int));
-    //Comprobación del np
-    np_chek = entry::check_np(np);
-    if (np_chek == -5){
-        cerr << "Numero de particulas incorrrecto";
-        return -5;
-    }
 
+    //Comprobación del np
+    if (entry::check_np(np) != 0){return -5;}
+
+    //Cálculos de m y h
     double masa = (DENSIDAD_DE_FLUIDO) / (pow(ppm, 3));
     double longitud_de_suavizado = (RADIO / ppm);
 
-    /* if (entry::check_np_h(argv[2]) == -5){
-     *  std::cerr << "Invalid number of particles:" << np;
-     *  return -5;
-     *  }
-     *
+    /*
      * if entry::check_np_equal(argv[2]) == -5){
      *  std::cerr << "Number of particles mismatch. Header:" << np ", Found:" << nps;
      *  return -5;
      *  }
      */
+    //Calculo del numero de bloques
     vector<int> num_bloques(3);
     malla::num_bloques(limite_sup_recinto, limite_inf_recinto, longitud_de_suavizado, num_bloques);
-    float aux_float;
-    double lectura;
+
+    //Inicialización de los objetos
     struct Particula particulas(np);
     struct Enclosure3D malla(np, nts, num_bloques);
-    //LECTURA DEL FICHERO
+
+    //LECTURA DEL FICHERO (Mover esta lectura a una función file_read en el fichero de ficheros)
     for (int i = 0; i<np; i++) {
         //SABEMOS QUE SE PUEDE REDUCIR, NO SABEMOS COMO
-        file_in.read(reinterpret_cast<char*> (&aux_float), sizeof(float));
-        lectura = static_cast<double>(aux_float);
-        particulas.pos_x[i] = lectura;
-        file_in.read(reinterpret_cast<char*> (&aux_float), sizeof(float));
-        lectura = static_cast<double>(aux_float);
-        particulas.pos_y[i] = lectura;
-        file_in.read(reinterpret_cast<char*> (&aux_float), sizeof(float));
-        lectura = static_cast<double>(aux_float);
-        particulas.pos_z[i] = lectura;
-        file_in.read(reinterpret_cast<char*> (&aux_float), sizeof(float));
-        lectura = static_cast<double>(aux_float);
-        particulas.hv_x[i] = lectura;
-        file_in.read(reinterpret_cast<char*> (&aux_float), sizeof(float));
-        lectura = static_cast<double>(aux_float);
-        particulas.hv_y[i] = lectura;
-        file_in.read(reinterpret_cast<char*> (&aux_float), sizeof(float));
-        lectura = static_cast<double>(aux_float);
-        particulas.hv_z[i] = lectura;
-        file_in.read(reinterpret_cast<char*> (&aux_float), sizeof(float));
-        lectura = static_cast<double>(aux_float);
-        particulas.vel_x[i] = lectura;
-        file_in.read(reinterpret_cast<char*> (&aux_float), sizeof(float));
-        lectura = static_cast<double>(aux_float);
-        particulas.vel_y[i] = lectura;
-        file_in.read(reinterpret_cast<char*> (&aux_float), sizeof(float));
-        lectura = static_cast<double>(aux_float);
-        particulas.vel_z[i] = lectura;
+        particulas.pos_x[i] = malla::lectura(file_in);
+        particulas.pos_y[i] = malla::lectura(file_in);
+        particulas.pos_z[i] = malla::lectura(file_in);
+        particulas.hv_x[i] =  malla::lectura(file_in);
+        particulas.hv_y[i] =  malla::lectura(file_in);
+        particulas.hv_z[i] =  malla::lectura(file_in);
+        particulas.vel_x[i] = malla::lectura(file_in);
+        particulas.vel_y[i] = malla::lectura(file_in);
+        particulas.vel_z[i] = malla::lectura(file_in);
         particulas.acel_x[i] = aceleracion_externa[0];
         particulas.acel_y[i] = aceleracion_externa[1];
         particulas.acel_z[i]= aceleracion_externa[2];
     }
 
     // TO DO LIST
-    //Comprobar el segmentation fault
-    //Mirar la funcion de lectura - Se puede haacer
     //Comprobar que el numero de particulas leidas son correctas
     //Bucle principal que llame a las funciones de particulas (jueves en principio)
 

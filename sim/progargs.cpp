@@ -11,6 +11,7 @@ using namespace std;
 namespace entry {
     int check_args(int n_args) {
         if (n_args != 4){
+            cerr << "Invalid number of arguments " << n_args << endl;
             return -1;
         }
         return 0;
@@ -18,10 +19,12 @@ namespace entry {
 
     int check_nts(char *nts) {
         if (isdigit(nts[0]) == 0) {
+            cerr << "Time steps must be numeric." << endl;
             return -1;
         }
         int number_nts = stoi(nts);
         if (number_nts <= 0){
+            cerr << "Invalid number of time steps." << endl;
             return -2;
         }
         return number_nts;
@@ -30,6 +33,7 @@ namespace entry {
     int check_inputfile(char* input) {
         ifstream fichero(input, ios::binary);
         if (!fichero) {
+            cerr << "Cannot open " << input << " for reading" << endl;
             return -3;
         }
         fichero.close();
@@ -39,7 +43,7 @@ namespace entry {
     int check_outputfile(char *output) {
         ofstream fichero(output, ios::binary);
         if (!fichero) {
-            std:: cerr << "Cannot open final.fld for writing";
+            std:: cerr << "Cannot open " << output << " for writing";
             return -4;
         }
         fichero.close();
