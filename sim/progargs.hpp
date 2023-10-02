@@ -10,6 +10,7 @@ namespace entry {
     int check_nts(char* nts);
     int check_inputfile(char* input);
     int check_outputfile(char* output);
+    int check_np(int np);
 
 }
 

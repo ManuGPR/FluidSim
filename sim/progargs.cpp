@@ -45,4 +45,20 @@ namespace entry {
         fichero.close();
         return 0;
     }
+
+    int check_np(int np){
+        if (isdigit(np) == 0) {
+            std::cerr << "Not a digit";// No se si hay que contemplar el este error
+            return -5;// No se que se devuelve (El 0 y los negativos te los da como verdaderos  solo los naturales)
+        }
+        if (np == 0){
+            std:: cerr << "El numero de particulas es 0";
+            return -5;
+        }
+        else if (np < 0){
+            std:: cerr << "El numero de particulas es negativo";
+            return -5;
+        }
+        return  0; // No se si devolver el numero de particulas
+    }
 }

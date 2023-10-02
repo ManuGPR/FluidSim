@@ -1,4 +1,4 @@
-# Install script for directory: /home/manu/CLionProjects/AC3
+# Install script for directory: /home/marina/Documentos/Arquitectura
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
@@ -50,5 +50,5 @@ endif()
 
 string(REPLACE ";" "\n" CMAKE_INSTALL_MANIFEST_CONTENT
        "${CMAKE_INSTALL_MANIFEST_FILES}")
-file(WRITE "/home/manu/CLionProjects/AC3/cmake-build-release/${CMAKE_INSTALL_MANIFEST}"
+file(WRITE "/home/marina/Documentos/Arquitectura/cmake-build-release/${CMAKE_INSTALL_MANIFEST}"
      "${CMAKE_INSTALL_MANIFEST_CONTENT}")

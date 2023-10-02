@@ -35,7 +35,7 @@ int main(int argc, char **argv) {
     //ppm = particulas por metro, np = numero de particulas
     float ppm_float;
     double ppm;
-    int np;
+    int np, np_chek;
 
     //Checkeo de argumentos de entrada
     if (entry::check_args(argc) == -1) {
@@ -64,11 +64,14 @@ int main(int argc, char **argv) {
         return -4;
     }
 
+
     file_in.open(argv[2], ios::binary);
 
     file_in.read(reinterpret_cast<char*> (&ppm_float), sizeof(float));
     ppm = static_cast<double>(ppm_float);
     file_in.read(reinterpret_cast<char*> (&np), sizeof(int));
+    //Comprobación del np
+    np_chek = entry::check_np(np);
 
     double masa = (DENSIDAD_DE_FLUIDO) / (pow(ppm, 3));
     double longitud_de_suavizado = (RADIO / ppm);
