@@ -9,8 +9,7 @@
 #include "../sim/progargs.hpp"
 #include "../sim/grid.hpp"
 
-//CONSTANTES ESCALARES DE SIMULACIÓN
-
+//CONSTANTES ESCALARES DE SIMULACIÓN (hay que poner const no define)
 #define RADIO 1.695
 #define DENSIDAD_DE_FLUIDO 1000
 #define PRECISION_DE_RIGIDEZ 3.0
@@ -20,28 +19,27 @@
 #define TAMANO_PARTICULAS 0.0002
 #define PASO_TIEMPO 0.001
 
+//CONSTANTES VECTORIALES DE LA SIMULACIÓN
+
 using namespace std;
 
 int main(int argc, char **argv) {
-    // Constantes vectoriales de la simulación
+    // Constantes vectoriales de la simulación (hay que sacarlas)
     const vector<double> aceleracion_externa = {0.0, -9.8, 0.0};
     const vector<double> limite_sup_recinto = {0.065, 0.1, 0.065};
     const vector<double> limite_inf_recinto = {-0.065, -0.08, -0.065};
-    //Variables de la simulación
-    //nts = number of time steps, file_in = fichero de entrada, file_out = fichero de salida
-    int nts;
-    ifstream file_in;
-    ofstream file_out;
-    //ppm = particulas por metro, np = numero de particulas
-    float ppm_float;
-    double ppm;
-    int np;
 
+    //Variables de fluid
+    int nts, np; //nts = numero de pasos de tiempo, np = numero de particulas
+    float ppm_float; //ppm_float = variable auxiliar para convertir ppm a double
+    double ppm; //ppm = partículas por metro
+    ifstream file_in; //file_in = fichero de entrada
+    ofstream file_out; //file_out = fichero de salida
+
+    //Funciones de checkeo (Podríamos hacer una función check general, que llame a estas para ahorrar líneas)
     if (entry::check_args(argc) == -1) {return -1;} //Checkeo de lor argumentos
-
     nts = entry::check_nts(argv[1]); //Checkeo de nts
     if (nts < 0) {return nts;}
-
     if (entry::check_inputfile(argv[2]) == -3) {return -3;} //Checkeo fichero entrada
     if (entry::check_outputfile(argv[3]) == -4) {return -4;} //Checkeo fichero salida
 
@@ -58,12 +56,6 @@ int main(int argc, char **argv) {
     double masa = (DENSIDAD_DE_FLUIDO) / (pow(ppm, 3));
     double longitud_de_suavizado = (RADIO / ppm);
 
-    /*
-     * if entry::check_np_equal(argv[2]) == -5){
-     *  std::cerr << "Number of particles mismatch. Header:" << np ", Found:" << nps;
-     *  return -5;
-     *  }
-     */
     //Calculo del numero de bloques
     vector<int> num_bloques(3);
     malla::num_bloques(limite_sup_recinto, limite_inf_recinto, longitud_de_suavizado, num_bloques);
@@ -74,23 +66,26 @@ int main(int argc, char **argv) {
 
     //LECTURA DEL FICHERO (Mover esta lectura a una función file_read en el fichero de ficheros)
     for (int i = 0; i<np; i++) {
-        //SABEMOS QUE SE PUEDE REDUCIR, NO SABEMOS COMO
-        particulas.pos_x[i] = malla::lectura(file_in);
-        particulas.pos_y[i] = malla::lectura(file_in);
-        particulas.pos_z[i] = malla::lectura(file_in);
-        particulas.hv_x[i] =  malla::lectura(file_in);
-        particulas.hv_y[i] =  malla::lectura(file_in);
-        particulas.hv_z[i] =  malla::lectura(file_in);
-        particulas.vel_x[i] = malla::lectura(file_in);
-        particulas.vel_y[i] = malla::lectura(file_in);
-        particulas.vel_z[i] = malla::lectura(file_in);
+        //hay que hacer el checkeo de np (variable que vaya sumando, comprobar al final o poner un if con un break)
+        particulas.pos_x[i] = malla::lectura_float_to_double(file_in);
+        particulas.pos_y[i] = malla::lectura_float_to_double(file_in);
+        particulas.pos_z[i] = malla::lectura_float_to_double(file_in);
+        particulas.hv_x[i] =  malla::lectura_float_to_double(file_in);
+        particulas.hv_y[i] =  malla::lectura_float_to_double(file_in);
+        particulas.hv_z[i] =  malla::lectura_float_to_double(file_in);
+        particulas.vel_x[i] = malla::lectura_float_to_double(file_in);
+        particulas.vel_y[i] = malla::lectura_float_to_double(file_in);
+        particulas.vel_z[i] = malla::lectura_float_to_double(file_in);
         particulas.acel_x[i] = aceleracion_externa[0];
         particulas.acel_y[i] = aceleracion_externa[1];
         particulas.acel_z[i]= aceleracion_externa[2];
     }
 
-    // TO DO LIST
-    //Comprobar que el numero de particulas leidas son correctas
-    //Bucle principal que llame a las funciones de particulas (jueves en principio)
+    /*
+     * if entry::check_np_equal(argv[2]) == -5){
+     *  std::cerr << "Number of particles mismatch. Header:" << np ", Found:" << nps;
+     *  return -5;
+     *  }
+     */
 
 }
