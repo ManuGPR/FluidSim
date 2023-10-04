@@ -16,12 +16,12 @@ namespace fisica {
     int trans_densidad(struct Particula part, int id_p, double h, double m);
     int trans_acele(struct Particula part, vector<int> id_p, double h, double m);
     int mov_part(struct Particula part, int id_p);
-    int col_x(vector<double> particula, vector<double> malla);
-    int col_y(vector<double> particula, vector<double> malla);
-    int col_z(vector<double> particula, vector<double> malla);
-    int int_x(vector<double> particula, vector<double> malla);
-    int int_y(vector<double> particula, vector<double> malla);
-    int int_z(vector<double> particula, vector<double> malla);
+    int col_x(struct Particula part, vector<int> num_bloques, int id_p);
+    int col_y(struct Particula part, vector<int> num_bloques, int id_p);
+    int col_z(struct Particula part, vector<int> num_bloques, int id_p);
+    int int_x(struct Particula part, vector<int> num_bloques, int id_p);
+    int int_y(struct Particula part, vector<int> num_bloques, int id_p);
+    int int_z(struct Particula part, vector<int> num_bloques, int id_p);
 }
 
 #endif //AC3_CALCULOS_HPP

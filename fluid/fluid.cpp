@@ -10,14 +10,14 @@
 #include "../sim/grid.hpp"
 
 //CONSTANTES ESCALARES DE SIMULACIÓN (hay que poner const no define)
-#define RADIO 1.695
-#define DENSIDAD_DE_FLUIDO 1000
-#define PRECISION_DE_RIGIDEZ 3.0
-#define S_C 30000
-#define D_V 128.0
-#define VISCOSIDAD 0.4
-#define TAMANO_PARTICULAS 0.0002
-#define PASO_TIEMPO 0.001
+const double RADIO = 1.695;
+const int DENSIDAD_DE_FLUIDO = 1000;
+const double PRECISION_DE_RIGIDEZ = 3.0;
+const int S_C = 30000;
+const double D_V = 128.0;
+const double VISCOSIDAD = 0.4;
+const double TAMANO_PARTICULAS = 0.0002;
+const double PASO_TIEMPO = 0.001;
 
 //CONSTANTES VECTORIALES DE LA SIMULACIÓN
 
