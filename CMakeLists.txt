@@ -13,4 +13,6 @@ add_executable(AC3
     fluid/fluid.cpp
     sim/calculos.cpp
     sim/calculos.hpp
+    sim/file.cpp
+    sim/file.hpp
 )

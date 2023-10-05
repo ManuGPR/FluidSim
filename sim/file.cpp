@@ -30,8 +30,9 @@ namespace ficheros {
         fichero.read(reinterpret_cast<char *> (&aux_float), sizeof(float));
         return static_cast<double>(aux_float);
     }
-    int lectura_file(ifstream & file_in, int np, struct Particula &particulas){
-        for (int i = 0; i<np; i++) {
+    int lectura_file(ifstream & file_in, int np, struct Particula & particulas){
+        int np_real = 0;
+        while (file_in){
             //hay que hacer el checkeo de np (variable que vaya sumando, comprobar al final o poner un if con un break)
             particulas.pos_x[np_real] = ficheros::lectura_float_to_double(file_in);
             particulas.pos_y[np_real] = lectura_float_to_double(file_in);
@@ -53,9 +54,7 @@ namespace ficheros {
         }
     }
 
-    int escritura_fichero(char* name_out, struct Particula &particulas, double ppm, int np) {
-        ofstream file_out;
-        file_out.open(name_out, ios::binary);
+    int escritura_salida(ofstream& file_out, struct Particula & particulas, double ppm, int np) {
         file_out.write(double_to_str(ppm), sizeof(float));
         file_out.write(int_to_str(np), sizeof(float));
         for (int i = 0; i < np; i++) {

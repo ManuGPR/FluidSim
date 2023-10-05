@@ -47,8 +47,6 @@ namespace fisica {
     }    
 
     int trans_acele(struct Particula part, vector<int> id_p, double h, double m) {
-        //Evitar ij == ji
-        //particla i== id_p[0] y part j == id_p[1]
         double distancia, diferencia, op_1, op_2, op_3, acl_x, acl_y, acl_z;
         diferencia = sqrt(pow(part.pos_x[id_p[0]] - part.pos_x[id_p[1]], 2.0)
                           + pow(part.pos_y[id_p[0]] - part.pos_z[id_p[1]], 2.0)
@@ -60,7 +58,6 @@ namespace fisica {
         op_1 = ((15 * m) / (PI * pow(h, 6.0))) * (pow((h - distancia), 2.0) / diferencia)
                * (part.dens[id_p[0]] + part.dens[id_p[1]] - DENSIDAD_DE_FLUIDO);
         op_2 = (45 / (PI * pow(h, 6.0))) * VISCOSIDAD * m;
-
         op_3 = part.dens[id_p[0]]* part.dens[id_p[1]];
         acl_x = ((part.pos_x[id_p[0]] - part.pos_x[id_p[1]]) * op_1 + (part.vel_x[id_p[0]]
                 -  part.vel_x[id_p[1]])* op_2 / op_3);

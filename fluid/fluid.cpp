@@ -6,6 +6,7 @@
 #include <fstream>
 #include <vector>
 #include <cmath>
+#include <span>
 #include "../sim/progargs.hpp"
 #include "../sim/grid.hpp"
 #include "../sim/file.hpp"
@@ -22,8 +23,8 @@ const double PASO_TIEMPO = 0.001;
 
 //CONSTANTES VECTORIALES DE LA SIMULACIÓN
 //const vector<double> acel_ex = {0.0, -9.8, 0.0};
-const vector<double> limite_sup_recinto = {0.065, 0.1, 0.065};
-const vector<double> limite_inf_recinto = {-0.065, -0.08, -0.065};
+//const vector<double> limite_sup_recinto = {0.065, 0.1, 0.065};
+//const vector<double> limite_inf_recinto = {-0.065, -0.08, -0.065};
 
 const char* input_file = "in.fld";
 const char* output_file = "out.fld";
@@ -31,24 +32,16 @@ const char* output_file = "out.fld";
 using namespace std;
 
 int main(int argc, char **argv) {
+    span args{argv, static_cast<size_t>(argc)};
     int nts,np; //nts = numero de pasos de tiempo, np = numero de particulas
-    double ppm,np_d; //ppm = partículas por metro
+    double ppm; //ppm = partículas por metro
     ifstream file_in; //file_in = fichero de entrada
     ofstream file_out; //file_out = fichero de salida
-
-    //Funcion de checkeo maestra de parametros
-    nts = entry::check_param(argc, argv);
+    nts = entry::check_param(argc, argv); //Función de checkeo maestra
     if (nts < 0) {return nts;}
-
-    //Apertura del fichero y cabecera
-    file_in.open(argv[2], ios::binary);
-    np_d, ppm  = ficheros::lectura_cabecera(file_in);
-    np = static_cast<int>(np_d);
-
-
-
-    //Cálculos de m y h
-    double masa = (DENSIDAD_DE_FLUIDO) / (pow(ppm, 3));
+    file_in.open(argv[2], ios::binary);//Apertura del fichero y cabecera
+    tie(np, ppm)  = ficheros::lectura_cabecera(file_in);
+    double masa = (DENSIDAD_DE_FLUIDO) / (pow(ppm, 3)); //Cálculos de m y h
     double longitud_de_suavizado = (RADIO / ppm);
 
     //Calculo del numero de bloques
