@@ -49,6 +49,16 @@ namespace entry {
         return 0;
     }
 
+    int check_param(int argc, char **argv){
+        int nts;
+        if (entry::check_args(argc) == -1) {return -1;} //Checkeo de lor argumentos
+        nts = entry::check_nts(argv[1]); //Checkeo de nts
+        if (nts < 0) {return nts;}
+        if (entry::check_inputfile(argv[2]) == -3) {return -3;} //Checkeo fichero entrada
+        if (entry::check_outputfile(argv[3]) == -4) {return -4;} //Checkeo fichero salida
+        return nts;
+    }
+
     int check_np(int np){
         if (isdigit(np) == 0) {
             if (np == 0) {

@@ -21,7 +21,7 @@ const double TAMANO_PARTICULAS = 0.0002;
 const double PASO_TIEMPO = 0.001;
 
 //CONSTANTES VECTORIALES DE LA SIMULACIÓN
-const vector<double> aceleracion_externa = {0.0, -9.8, 0.0};
+const vector<double> aceleracion_ex = {0.0, -9.8, 0.0};
 const vector<double> limite_sup_recinto = {0.065, 0.1, 0.065};
 const vector<double> limite_inf_recinto = {-0.065, -0.08, -0.065};
 
@@ -36,7 +36,9 @@ int main(int argc, char **argv) {
     ifstream file_in; //file_in = fichero de entrada
     ofstream file_out; //file_out = fichero de salida
 
-//Funciones de checkeo (Podríamos hacer una función check general, que llame a estas para ahorrar líneas)
+    //Funcion de checkeo maestra de parametros
+    nts = entry::check_param(argc, argv);
+    if (nts < 0) {return nts;}
 
     //Apertura del fichero y cabecera
     file_in.open(argv[2], ios::binary);

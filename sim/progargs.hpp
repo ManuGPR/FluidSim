@@ -13,6 +13,7 @@ namespace entry {
     int check_inputfile(char* input);
     int check_outputfile(char* output);
     int check_np(int np);
+    int check_param(int argc, char **argv);
 
 }
 

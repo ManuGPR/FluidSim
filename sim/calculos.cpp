@@ -15,12 +15,13 @@ using namespace std;
 namespace fisica {
     const vector<double> limite_sup_recinto = {0.065, 0.1, 0.065};
     const vector<double> limite_inf_recinto = {-0.065, -0.08, -0.065};
+    const vector<double> aceleracion_externa = {0.0, -9.8, 0.0};
     
     //vector de aceleracion se inicia en la aceleracion externa
-    int inicia_aceleracion(struct Particula part, int id_p, vector<double> aceleracion) {
-        part.acel_x[id_p] = aceleracion[0];
-        part.acel_y[id_p]  = aceleracion[1];
-        part.acel_z[id_p] = aceleracion[2];
+    int inicia_aceleracion(struct Particula part, int id_p) {
+        part.acel_x[id_p] = aceleracion_externa[0];
+        part.acel_y[id_p]  = aceleracion_externa[1];
+        part.acel_z[id_p] = aceleracion_externa[2];
         return 0;
     }
 
