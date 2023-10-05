@@ -43,10 +43,36 @@ namespace ficheros {
         }
     }
 
-    int escritura_fichero(char* file_out, struct Particula &particulas, double ppm, int np) {
-        ofstream
-        file_out.write(static_cast<float>(ppm), sizeof(float));
-        file_out.write(np, sizeof(float));
+    int escritura_fichero(char* name_out, struct Particula &particulas, double ppm, int np) {
+        ofstream file_out;
+        file_out.open(name_out, ios::binary);
+        file_out.write(double_to_str(ppm), sizeof(float));
+        file_out.write(int_to_str(np), sizeof(float));
+        for (int i = 0; i < np; i++) {
+            file_out.write(double_to_str(particulas.pos_x[i]), sizeof(float));
+            file_out.write(double_to_str(particulas.pos_y[i]), sizeof(float));
+            file_out.write(double_to_str(particulas.pos_z[i]), sizeof(float));
+            file_out.write(double_to_str(particulas.hv_x[i]), sizeof(float));
+            file_out.write(double_to_str(particulas.hv_y[i]), sizeof(float));
+            file_out.write(double_to_str(particulas.hv_z[i]), sizeof(float));
+            file_out.write(double_to_str(particulas.vel_x[i]), sizeof(float));
+            file_out.write(double_to_str(particulas.vel_y[i]), sizeof(float));
+            file_out.write(double_to_str(particulas.vel_z[i]), sizeof(float));
+        }
         return 0;
+    }
+
+    const char* int_to_str(int parameter) {
+        string aux_srt = to_string(parameter);
+        const char* value = aux_srt.c_str();
+        return value;
+    }
+
+    const char* double_to_str(double parameter) {
+        float aux;
+        aux = static_cast<float>(parameter);
+        string aux_str = to_string(aux);
+        const char* value = aux_str.c_str();
+        return value;
     }
 }

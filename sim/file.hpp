@@ -3,6 +3,7 @@
 //
 
 #include <fstream>
+#include <string.h>
 #include "progargs.hpp"
 #include "grid.hpp"
 
@@ -21,6 +22,10 @@ namespace ficheros {
     int lectura_file (ifstream & file_in, struct Particula particulas);
     //Función que se encarga de la escritura del fichero de salida
     int escritura_salida(ofstream & file_out, struct Particula particulas);
+    //Función que castea un entero a un char*
+    const char* int_to_str(int parameter);
+    //Función que castea un doble a un char*
+    const char* double_to_str(double parameter);
 }
 
 
