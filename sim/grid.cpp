@@ -41,12 +41,4 @@ namespace malla {
          * param1: posición vectorial de z, param2: límite inferior en el eje z, param3: tamaño de los bloques de z*/
         return floor((pos_z - zmin) / tam_bloque_z);
     }
-
-    double lectura_float_to_double (ifstream & fichero) {
-        /*Función que se encarga de leer un float del fichero y devolver un double
-         * param1: fichero del que se lee*/
-        float aux_float;
-        fichero.read(reinterpret_cast<char*> (&aux_float), sizeof(float));
-        return static_cast<double>(aux_float);
-    }
 }

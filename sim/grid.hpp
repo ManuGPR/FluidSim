@@ -23,8 +23,7 @@ namespace malla {
     int pos_particula_x (double pos_x, double xmin, double tam_bloque_x);
     int pos_particula_y (double pos_y, double ymin, double tam_bloque_y);
     int pos_particula_z (double pos_z, double zmin, double tam_bloque_z);
-    //Función que se encarga de leer un objeto del fichero, hacer el cast a double y lo devuelve
-    double lectura_float_to_double (ifstream & fichero); //Meter esta función en un fichero con funciones de lectura
+
 }
 
 struct Enclosure3D{
