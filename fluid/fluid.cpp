@@ -21,7 +21,7 @@ const double TAMANO_PARTICULAS = 0.0002;
 const double PASO_TIEMPO = 0.001;
 
 //CONSTANTES VECTORIALES DE LA SIMULACIÓN
-const vector<double> aceleracion_ex = {0.0, -9.8, 0.0};
+//const vector<double> acel_ex = {0.0, -9.8, 0.0};
 const vector<double> limite_sup_recinto = {0.065, 0.1, 0.065};
 const vector<double> limite_inf_recinto = {-0.065, -0.08, -0.065};
 
