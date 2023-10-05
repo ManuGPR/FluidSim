@@ -10,6 +10,8 @@
 #include "../sim/progargs.hpp"
 #include "../sim/grid.hpp"
 #include "../sim/file.hpp"
+#include "../sim/block.hpp"
+#include "../sim/calculos.hpp"
 
 //CONSTANTES ESCALARES DE SIMULACIÓN (hay que poner const no define)
 const double RADIO = 1.695;
@@ -43,13 +45,11 @@ int main(int argc, char **argv) {
     tie(np, ppm)  = ficheros::lectura_cabecera(file_in);
     double masa = (DENSIDAD_DE_FLUIDO) / (pow(ppm, 3)); //Cálculos de m y h
     double longitud_de_suavizado = (RADIO / ppm);
-
-    //Calculo del numero de bloques
-    vector<int> num_bloques(3);
-    malla::num_bloques(limite_sup_recinto, limite_inf_recinto, longitud_de_suavizado, num_bloques);
-
-    //Inicialización de los objetos
-    struct Particula particulas(np);
+    vector<int> num_bloques(3); //Calculo del numero de bloques
+    vector<double> tam_bloques(3); //Calculo del tamaño de los bloques
+    bloque::num_bloques(limite_sup_recinto, limite_inf_recinto, longitud_de_suavizado, num_bloques);
+    bloque::tam_bloques(limite_sup_recinto, limite_inf_recinto, num_bloques, tam_bloques);
+    struct Particula particulas(np); //Inicialización de los objetos
     struct Enclosure3D malla(np, nts, num_bloques);
     ficheros::lectura_file(file_in, np, particulas); //Lectura del fichero
     //double nts_d = static_cast<double>(nts), iterations_d = nts_d/PASO_TIEMPO;
