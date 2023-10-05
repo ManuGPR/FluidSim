@@ -68,13 +68,22 @@ namespace fisica {
                 -  part.vel_y[id_p[1]])* op_2 / (part.dens[id_p[0]]* part.dens[id_p[1]]));
         acl_z = ((part.pos_z[id_p[0]] - part.pos_z[id_p[1]]) * op_1 + (part.vel_z[id_p[0]]
                 -  part.vel_z[id_p[1]])* op_2 / (part.dens[id_p[0]]* part.dens[id_p[1]]));
+        for (int i=0; i < 2; i++) {
+            part.acel_x[id_p[i]] = part.acel_x[id_p[i]] + acl_x;
+            part.acel_y[id_p[i]] = part.acel_y[id_p[i]] + acl_y;
+            part.acel_z[id_p[i]] = part.acel_z[id_p[i]] + acl_z;
+        }
+        return 0;
+    }
 
-        part.acel_x[id_p[0]] =  part.acel_x[id_p[0]] + acl_x;
-        part.acel_y[id_p[0]] =  part.acel_y[id_p[0]] + acl_y;
-        part.acel_z[id_p[0]] =  part.acel_z[id_p[0]] + acl_z;
-        part.acel_x[id_p[1]] =  part.acel_x[id_p[1]] + acl_x;
-        part.acel_y[id_p[1]] =  part.acel_y[id_p[1]] + acl_y;
-        part.acel_z[id_p[1]] =  part.acel_z[id_p[1]] + acl_z;
+    int col_mov(struct Particula part, vector<int> num_bloques, int id_p){
+        col_x(part, num_bloques, id_p);
+        col_y(part, num_bloques, id_p);
+        col_z(part, num_bloques, id_p);
+        mov_part(part, id_p);
+        int_x(part, num_bloques, id_p);
+        int_y(part, num_bloques, id_p);
+        int_z(part, num_bloques, id_p);
         return 0;
     }
 
@@ -94,18 +103,18 @@ namespace fisica {
     }
 
     int col_x(struct Particula part, vector<int> num_bloques, int id_p){
-        if (part.c_x[id_p] == 0 || part.c_x[id_p] == num_bloques[0] - 1) {
+        if (part.loc_x[id_p] == 0 || part.loc_x[id_p] == num_bloques[0] - 1) {
             double nueva_x;
             nueva_x = part.pos_x[id_p] + part.hv_x[id_p] * PASO_TIEMPO;
             double dist_x = part.dens[id_p]; 
-            if (part.c_x[id_p] == 0) {
+            if (part.loc_x[id_p] == 0) {
                 dist_x -= (nueva_x - limite_inf_recinto[0]);
             } 
             else {
                 dist_x -= limite_sup_recinto[0] - nueva_x;
             }
             if (dist_x > pow(10, -10)) {
-                if (part.c_x[id_p] == 0) {
+                if (part.loc_x[id_p] == 0) {
                     part.acel_x[id_p] += S_C * dist_x - D_V * part.vel_x[id_p];
                 }
                 else {
@@ -117,18 +126,18 @@ namespace fisica {
     }
 
     int col_y(struct Particula part, vector<int> num_bloques, int id_p){
-        if (part.c_y[id_p] == 0 || part.c_y[id_p] == num_bloques[1] - 1) {
+        if (part.loc_y[id_p] == 0 || part.loc_y[id_p] == num_bloques[1] - 1) {
             double nueva_y;
             nueva_y = part.pos_y[id_p] + part.hv_y[id_p] * PASO_TIEMPO;
             double dist_y = part.dens[id_p];
-            if (part.c_y[id_p] == 0) {
+            if (part.loc_y[id_p] == 0) {
                 dist_y -= (nueva_y - limite_inf_recinto[1]);
             }
             else {
                 dist_y -= limite_sup_recinto[1] - nueva_y;
             }
             if (dist_y > pow(10, -10)) {
-                if (part.c_y[id_p] == 0) {
+                if (part.loc_y[id_p] == 0) {
                     part.acel_y[id_p] += S_C * dist_y - D_V * part.vel_y[id_p];
                 }
                 else {
@@ -140,18 +149,18 @@ namespace fisica {
     }
 
     int col_z(struct Particula part, vector<int> num_bloques, int id_p){
-        if (part.c_z[id_p] == 0 || part.c_z[id_p] == num_bloques[2] - 1) {
+        if (part.loc_z[id_p] == 0 || part.loc_z[id_p] == num_bloques[2] - 1) {
             double nueva_z;
             nueva_z = part.pos_z[id_p] + part.hv_z[id_p] * PASO_TIEMPO;
             double dist_z = part.dens[id_p];
-            if (part.c_z[id_p] == 0) {
+            if (part.loc_z[id_p] == 0) {
                 dist_z -= (nueva_z - limite_inf_recinto[2]);
             }
             else {
                 dist_z -= limite_sup_recinto[2] - nueva_z;
             }
             if (dist_z > pow(10, -10)) {
-                if (part.c_z[id_p] == 0) {
+                if (part.loc_z[id_p] == 0) {
                     part.acel_z[id_p] += S_C * dist_z - D_V * part.vel_z[id_p];
                 }
                 else {
@@ -163,16 +172,16 @@ namespace fisica {
     }
 
     int int_x(struct Particula part, vector<int> num_bloques, int id_p){
-        if (part.c_x[id_p] == 0 || part.c_x[id_p] == num_bloques[0] - 1) {
+        if (part.loc_x[id_p] == 0 || part.loc_x[id_p] == num_bloques[0] - 1) {
             double dist_x;
-            if (part.c_x[id_p] == 0) {
+            if (part.loc_x[id_p] == 0) {
                 dist_x = part.pos_x[id_p] - limite_inf_recinto[0];
             }
             else {
                 dist_x = limite_sup_recinto[0] - part.pos_x[id_p];
             }
             if (dist_x < 0) {
-                if (part.c_x[id_p] == 0) {
+                if (part.loc_x[id_p] == 0) {
                     part.pos_x[id_p] = limite_inf_recinto[0] - dist_x;
                 }
                 else {
@@ -186,16 +195,16 @@ namespace fisica {
     }
 
     int int_y(struct Particula part, vector<int> num_bloques, int id_p){
-        if (part.c_y[id_p] == 0 || part.c_y[id_p] == num_bloques[1] - 1) {
+        if (part.loc_y[id_p] == 0 || part.loc_y[id_p] == num_bloques[1] - 1) {
             double dist_y;
-            if (part.c_y[id_p] == 0) {
+            if (part.loc_y[id_p] == 0) {
                 dist_y = part.pos_y[id_p] - limite_inf_recinto[1];
             }
             else {
                 dist_y = limite_sup_recinto[1] - part.pos_y[id_p];
             }
             if (dist_y < 0) {
-                if (part.c_y[id_p] == 0) {
+                if (part.loc_y[id_p] == 0) {
                     part.pos_y[id_p] = limite_inf_recinto[1] - dist_y;
                 }
                 else {
@@ -208,20 +217,18 @@ namespace fisica {
         return 0;
     }
 
-    int int_z(struct Particula part, vector<int> num_bloques, int id_p){
-        if (part.c_z[id_p] == 0 || part.c_z[id_p] == num_bloques[2] - 1) {
+    int int_z(struct Particula part, vector<int> num_bloques, int id_p) {
+        if (part.loc_z[id_p] == 0 || part.loc_z[id_p] == num_bloques[2] - 1) {
             double dist_z;
-            if (part.c_z[id_p] == 0) {
+            if (part.loc_z[id_p] == 0) {
                 dist_z = part.pos_z[id_p] - limite_inf_recinto[2];
-            }
-            else {
+            } else {
                 dist_z = limite_sup_recinto[2] - part.pos_z[id_p];
             }
             if (dist_z < 0) {
-                if (part.c_z[id_p] == 0) {
+                if (part.loc_z[id_p] == 0) {
                     part.pos_z[id_p] = limite_inf_recinto[2] - dist_z;
-                }
-                else {
+                } else {
                     part.pos_z[id_p] = limite_sup_recinto[2] + dist_z;
                 }
                 part.vel_z[id_p] = -part.vel_z[id_p];

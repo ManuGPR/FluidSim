@@ -25,6 +25,7 @@ namespace fisica {
     int int_x(struct Particula part, vector<int> num_bloques, int id_p);
     int int_y(struct Particula part, vector<int> num_bloques, int id_p);
     int int_z(struct Particula part, vector<int> num_bloques, int id_p);
+    int col_mov(struct Particula part, vector<int> num_bloques, int id_p);
 }
 
 #endif //AC3_CALCULOS_HPP
