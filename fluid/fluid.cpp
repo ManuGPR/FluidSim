@@ -61,6 +61,7 @@ int main(int argc, char **argv) {
 
     //LECTURA DEL FICHERO (Mover esta lectura a una función file_read en el fichero de ficheros)
 
+    ficheros::lectura_file(file_in, np, particulas);
 
     /*
      * if entry::check_np_equal(argv[2]) == -5){

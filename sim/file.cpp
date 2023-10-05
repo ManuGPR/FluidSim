@@ -4,6 +4,10 @@
 
 #include "file.hpp"
 
+const vector<double> aceleracion_externa = {0.0, -9.8, 0.0};
+
+using namespace std;
+
 namespace ficheros {
     double  lectura_cabecera(ifstream & file_in){
         double ppm;
@@ -25,18 +29,18 @@ namespace ficheros {
         fichero.read(reinterpret_cast<char *> (&aux_float), sizeof(float));
         return static_cast<double>(aux_float);
     }
-    int lectura_file(ifstream & fichero, struct Particula &particulas){
+    int lectura_file(ifstream & file_in, int np, struct Particula &particulas){
         for (int i = 0; i<np; i++) {
             //hay que hacer el checkeo de np (variable que vaya sumando, comprobar al final o poner un if con un break)
-            particulas.pos_x[i] = ficheros::lectura_float_to_double(fichero);
-            particulas.pos_y[i] = lectura_float_to_double(fichero);
-            particulas.pos_z[i] = lectura_float_to_double(fichero);
-            particulas.hv_x[i] =  lectura_float_to_double(fichero);
-            particulas.hv_y[i] =  lectura_float_to_double(fichero);
-            particulas.hv_z[i] =  lectura_float_to_double(fichero);
-            particulas.vel_x[i] = lectura_float_to_double(fichero);
-            particulas.vel_y[i] = lectura_float_to_double(fichero);
-            particulas.vel_z[i] = lectura_float_to_double(fichero);
+            particulas.pos_x[i] = ficheros::lectura_float_to_double(file_in);
+            particulas.pos_y[i] = lectura_float_to_double(file_in);
+            particulas.pos_z[i] = lectura_float_to_double(file_in);
+            particulas.hv_x[i] =  lectura_float_to_double(file_in);
+            particulas.hv_y[i] =  lectura_float_to_double(file_in);
+            particulas.hv_z[i] =  lectura_float_to_double(file_in);
+            particulas.vel_x[i] = lectura_float_to_double(file_in);
+            particulas.vel_y[i] = lectura_float_to_double(file_in);
+            particulas.vel_z[i] = lectura_float_to_double(file_in);
             particulas.acel_x[i] = aceleracion_externa[0];
             particulas.acel_y[i] = aceleracion_externa[1];
             particulas.acel_z[i]= aceleracion_externa[2];

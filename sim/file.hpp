@@ -19,7 +19,7 @@ namespace ficheros {
     //Función que se encarga de leer un objeto del fichero, hacer el cast a double y lo devuelve
     double lectura_float_to_double (ifstream & fichero); //Meter esta función en un fichero con funciones de lectura
     //Función que se encarga de leer el fichero
-    int lectura_file (ifstream & file_in, struct Particula particulas);
+    int lectura_file (ifstream & file_in, int np, struct Particula particulas);
     //Función que se encarga de la escritura del fichero de salida
     int escritura_salida(ofstream & file_out, struct Particula particulas);
     //Función que castea un entero a un char*
