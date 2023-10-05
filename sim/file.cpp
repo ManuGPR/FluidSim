@@ -50,8 +50,9 @@ namespace ficheros {
             particulas.acel_z[np_real]= aceleracion_externa[2];
             np_real ++;
         }
+        std::cout << np_real << " " << np << std::endl;
         if (np_real != np){
-            cerr << " Number of particles mismatch. Header: " << np <<", Found:" << np_real;
+            cerr << " Number of particles mismatch. Header: " << np <<", Found:" << np_real << std::endl;
             return -5;
         }
     }
