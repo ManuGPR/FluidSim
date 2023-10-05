@@ -1,11 +1,7 @@
 //
 // Created by marina on 30/09/23.
 //
-#include <vector>
 #include "calculos.hpp"
-#include <numbers>
-#include <cmath>
-#include "grid.hpp"
 
 #define DENSIDAD_DE_FLUIDO 1000
 #define VISCOSIDAD 0.4

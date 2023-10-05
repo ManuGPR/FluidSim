@@ -1,6 +1,8 @@
 //
 // Created by marina on 27/09/23.
 //
+#include <iostream>
+#include <fstream>
 
 #ifndef ARQUITECTURA_PROGARGS_HPP
 #define ARQUITECTURA_PROGARGS_HPP

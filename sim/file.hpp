@@ -14,7 +14,7 @@ using namespace std;
 
 namespace ficheros {
     //Función que se encarga de leer la cabecera
-    int lectura_cabecera(ifstream & file_in);
+    double lectura_cabecera(ifstream & file_in);
     //Función que se encarga de leer un objeto del fichero, hacer el cast a double y lo devuelve
     double lectura_float_to_double (ifstream & fichero); //Meter esta función en un fichero con funciones de lectura
     //Función que se encarga de leer el fichero

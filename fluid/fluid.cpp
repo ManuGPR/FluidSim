@@ -31,9 +31,8 @@ const char* output_file = "out.fld";
 using namespace std;
 
 int main(int argc, char **argv) {
-    int nts = stoi(argv[1]), np = 0; //nts = numero de pasos de tiempo, np = numero de particulas
-    float ppm_float; //ppm_float = variable auxiliar para convertir ppm a double
-    double ppm; //ppm = partículas por metro
+    int nts,np; //nts = numero de pasos de tiempo, np = numero de particulas
+    double ppm,np_d; //ppm = partículas por metro
     ifstream file_in; //file_in = fichero de entrada
     ofstream file_out; //file_out = fichero de salida
 
@@ -41,11 +40,8 @@ int main(int argc, char **argv) {
 
     //Apertura del fichero y cabecera
     file_in.open(argv[2], ios::binary);
-
-
-    auto datos =ficheros::lectura_cabecera(file_in);
-
-    np, ppm = datos.fi
+    np_d, ppm  = ficheros::lectura_cabecera(file_in);
+    np = static_cast<int>(np_d);
 
 
 

@@ -3,7 +3,10 @@
 //
 
 #include <vector>
+#include <numbers>
+#include <cmath>
 #include "grid.hpp"
+
 
 #ifndef AC3_CALCULOS_HPP
 #define AC3_CALCULOS_HPP

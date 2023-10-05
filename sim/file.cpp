@@ -5,19 +5,17 @@
 #include "file.hpp"
 
 namespace ficheros {
-    pair <int, double> lectura_cabecera(ifstream & file_in){
+    double  lectura_cabecera(ifstream & file_in){
         double ppm;
         int np;
         float ppm_float;
-        pair <int, double> datos;
         file_in.read(reinterpret_cast<char *> (&ppm_float), sizeof(float));
         ppm = static_cast<double>(ppm_float);
         file_in.read(reinterpret_cast<char *> (&np), sizeof(int));
         //Comprobación del np
-        if (entry::check_np(np) != 0){return -5;}
-        datos.first = np;
-        datos.second = ppm;
-        return datos;
+        if (entry::check_np(np) != 0){return -5.0;}
+        np = static_cast<double>(np);
+        return np, ppm;
     }
 
     double lectura_float_to_double (ifstream & fichero) {
