@@ -23,8 +23,9 @@ namespace bloque {
     int pos_particula_y (double pos_y, double ymin, double tam_bloque_y);
     int pos_particula_z (double pos_z, double zmin, double tam_bloque_z);
     //Función que localiza todas las partículas
-    int loc_particula (struct Particula particula, int np, vector<double> lim_inferior, vector<double> tam_bloque);
+    int loc_particula (struct Particula &particula, int np, vector<double> lim_inferior, vector<double> tam_bloque);
     //int repos_particula()
+    int particula_contigua(const struct Particula & part, int id_i, int id_j);
 }
 
 #endif //ARQUITECTURA_BLOCK_HPP

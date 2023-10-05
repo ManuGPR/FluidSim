@@ -17,7 +17,6 @@ const vector<double> acel_ex = {0.0, -9.8, 0.0};
 //NameSpace que tiene funciones sobre la malla
 namespace malla {
 
-
 }
 
 struct Enclosure3D{

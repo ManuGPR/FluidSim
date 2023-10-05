@@ -54,13 +54,16 @@ int main(int argc, char **argv) {
     ficheros::lectura_file(file_in, np, particulas); //Lectura del fichero
     //double nts_d = static_cast<double>(nts), iterations_d = nts_d/PASO_TIEMPO;
     //int iterations = static_cast<int>(iterations_d);
-    for (int t = 0; t == nts; t++){
+    for (int t = 0; t < nts; t++){
+        cout << t << endl;
         bloque::loc_particula(particulas,np,limite_inf_recinto,tam_bloques); //actualizacion
-        for(int i = 0; i == np; i++) {
-            for (int j = i + 1; j == np; j++) {
-                vector<int> part;
-                part = {i, j};
-                fisica::fuerza_acel(particulas, part, longitud_de_suavizado, masa);
+        for(int i = 0; i < np; i++) {
+            for (int j = i + 1; j < np; j++) {
+                if (bloque::particula_contigua(particulas, i, j) == 1) {
+                    vector<int> part;
+                    part = {i, j};
+                    fisica::fuerza_acel(particulas, part, longitud_de_suavizado, masa);
+                }
             }
             fisica::col_mov(particulas, num_bloques, i);
         }

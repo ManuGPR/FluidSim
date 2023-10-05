@@ -17,13 +17,13 @@ namespace fisica {
     const vector<double> limite_inf_recinto = {-0.065, -0.08, -0.065};
     const vector<double> aceleracion_externa = {0.0, -9.8, 0.0};
 
-    int fuerza_acel(struct Particula part, vector<int> id_p,double h, double m){
+    int fuerza_acel(struct Particula & part, vector<int> id_p,double h, double m){
         incremento_densidades(part, id_p, h,  m);
         trans_acele(part, id_p,  h,  m);
     }
 
 
-    int incremento_densidades(struct Particula part, vector<int> id_p, double h, double m){
+    int incremento_densidades(struct Particula & part, vector<int> id_p, double h, double m){
         //particla i== id_p[0] y part j == id_p[1]
         double diferencia;
         diferencia = sqrt(pow(part.pos_x[id_p[0]]- part.pos_x[id_p[1]], 2.0)
@@ -41,12 +41,12 @@ namespace fisica {
         return 0;
     }
 
-    int trans_densidad(struct Particula part, int id_p, double h, double m) {
+    int trans_densidad(struct Particula & part, int id_p, double h, double m) {
         part.dens[id_p]= (part.dens[id_p] + pow(h, 6.0))* 315 * m / (64 * PI * pow(h, 9.0));
         return 0;
     }    
 
-    int trans_acele(struct Particula part, vector<int> id_p, double h, double m) {
+    int trans_acele(struct Particula & part, vector<int> id_p, double h, double m) {
         double distancia, diferencia, op_1, op_2, op_3, acl_x, acl_y, acl_z;
         diferencia = sqrt(pow(part.pos_x[id_p[0]] - part.pos_x[id_p[1]], 2.0)
                           + pow(part.pos_y[id_p[0]] - part.pos_z[id_p[1]], 2.0)
@@ -73,7 +73,7 @@ namespace fisica {
         return 0;
     }
 
-    int col_mov(struct Particula part, vector<int> num_bloques, int id_p){
+    int col_mov(struct Particula & part, vector<int> num_bloques, int id_p){
         col_x(part, num_bloques, id_p);
         col_y(part, num_bloques, id_p);
         col_z(part, num_bloques, id_p);
@@ -84,7 +84,7 @@ namespace fisica {
         return 0;
     }
 
-    int mov_part(struct Particula part, int id_p){
+    int mov_part(struct Particula & part, int id_p){
         part.pos_x[id_p] = part.pos_x[id_p] + part.hv_x[id_p] * PASO_TIEMPO + part.acel_x[id_p] * pow(PASO_TIEMPO,2.0);
         part.pos_y[id_p] = part.pos_y[id_p] + part.hv_y[id_p] * PASO_TIEMPO + part.acel_x[id_p] * pow(PASO_TIEMPO,2.0);
         part.pos_z[id_p] = part.pos_z[id_p] + part.hv_z[id_p] * PASO_TIEMPO + part.acel_x[id_p] * pow(PASO_TIEMPO,2.0);
@@ -99,7 +99,7 @@ namespace fisica {
         return 0;
     }
 
-    int col_x(struct Particula part, vector<int> num_bloques, int id_p){
+    int col_x(struct Particula & part, vector<int> num_bloques, int id_p){
         if (part.loc_x[id_p] == 0 || part.loc_x[id_p] == num_bloques[0] - 1) {
             double nueva_x;
             nueva_x = part.pos_x[id_p] + part.hv_x[id_p] * PASO_TIEMPO;
@@ -122,7 +122,7 @@ namespace fisica {
         return 0;
     }
 
-    int col_y(struct Particula part, vector<int> num_bloques, int id_p){
+    int col_y(struct Particula & part, vector<int> num_bloques, int id_p){
         if (part.loc_y[id_p] == 0 || part.loc_y[id_p] == num_bloques[1] - 1) {
             double nueva_y;
             nueva_y = part.pos_y[id_p] + part.hv_y[id_p] * PASO_TIEMPO;
@@ -145,7 +145,7 @@ namespace fisica {
         return 0;
     }
 
-    int col_z(struct Particula part, vector<int> num_bloques, int id_p){
+    int col_z(struct Particula & part, vector<int> num_bloques, int id_p){
         if (part.loc_z[id_p] == 0 || part.loc_z[id_p] == num_bloques[2] - 1) {
             double nueva_z;
             nueva_z = part.pos_z[id_p] + part.hv_z[id_p] * PASO_TIEMPO;
@@ -168,7 +168,7 @@ namespace fisica {
         return 0;
     }
 
-    int int_x(struct Particula part, vector<int> num_bloques, int id_p){
+    int int_x(struct Particula & part, vector<int> num_bloques, int id_p){
         if (part.loc_x[id_p] == 0 || part.loc_x[id_p] == num_bloques[0] - 1) {
             double dist_x;
             if (part.loc_x[id_p] == 0) {
@@ -191,7 +191,7 @@ namespace fisica {
         return 0;
     }
 
-    int int_y(struct Particula part, vector<int> num_bloques, int id_p){
+    int int_y(struct Particula & part, vector<int> num_bloques, int id_p){
         if (part.loc_y[id_p] == 0 || part.loc_y[id_p] == num_bloques[1] - 1) {
             double dist_y;
             if (part.loc_y[id_p] == 0) {
@@ -214,7 +214,7 @@ namespace fisica {
         return 0;
     }
 
-    int int_z(struct Particula part, vector<int> num_bloques, int id_p) {
+    int int_z(struct Particula & part, vector<int> num_bloques, int id_p) {
         if (part.loc_z[id_p] == 0 || part.loc_z[id_p] == num_bloques[2] - 1) {
             double dist_z;
             if (part.loc_z[id_p] == 0) {

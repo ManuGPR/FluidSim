@@ -24,7 +24,7 @@ namespace ficheros {
     //Función que se encarga de leer el fichero
     int lectura_file (ifstream & file_in, int np, struct Particula & particulas);
     //Función que se encarga de la escritura del fichero de salida
-    int escritura_salida(ofstream & file_out, struct Particula & particulas, double ppm, int np);
+    int escritura_salida(ofstream & file_out, const struct Particula & particulas, double ppm, int np);
     //Función que castea un entero a un char*
     const char* int_to_str(int parameter);
     //Función que castea un doble a un char*

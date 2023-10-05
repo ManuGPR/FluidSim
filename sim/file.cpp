@@ -20,6 +20,7 @@ namespace ficheros {
         //Comprobación del np
         if (entry::check_np(np) != 0){return tuple(-5, -5.0);}
         np = static_cast<double>(np);
+        cout << np << " " << ppm << endl;
         return tuple(np, ppm);
     }
 
@@ -32,7 +33,8 @@ namespace ficheros {
     }
     int lectura_file(ifstream & file_in, int np, struct Particula & particulas){
         int np_real = 0;
-        while (file_in){
+        for (int i = 0; i < np; i++){
+            std::cout << i << std::endl;
             //hay que hacer el checkeo de np (variable que vaya sumando, comprobar al final o poner un if con un break)
             particulas.pos_x[np_real] = ficheros::lectura_float_to_double(file_in);
             particulas.pos_y[np_real] = lectura_float_to_double(file_in);
@@ -54,7 +56,7 @@ namespace ficheros {
         }
     }
 
-    int escritura_salida(ofstream& file_out, struct Particula & particulas, double ppm, int np) {
+    int escritura_salida(ofstream& file_out, const struct Particula & particulas, double ppm, int np) {
         file_out.write(double_to_str(ppm), sizeof(float));
         file_out.write(int_to_str(np), sizeof(float));
         for (int i = 0; i < np; i++) {

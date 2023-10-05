@@ -41,12 +41,22 @@ namespace bloque {
         return floor((pos_z - zmin) / tam_bloque_z);
     }
 
-    int loc_particula(struct Particula particulas, int np, vector<double> lim_inferior, vector<double> tam_bloque) {
+    int loc_particula(struct Particula &particulas, int np, vector<double> lim_inferior, vector<double> tam_bloque) {
         for (int i = 0; i < np; i++) {
             particulas.loc_x[i] = pos_particula_x(particulas.pos_x[i], lim_inferior[0], tam_bloque[0]);
             particulas.loc_y[i] = pos_particula_y(particulas.pos_y[i], lim_inferior[1], tam_bloque[1]);
             particulas.loc_z[i] = pos_particula_z(particulas.pos_z[i], lim_inferior[2], tam_bloque[2]);
         }
         return 0;
+    }
+
+    int particula_contigua(const struct Particula & part, int id_i, int id_j){
+        int suma_x = abs(part.loc_x[id_i] - part.loc_x[id_j]);
+        if (suma_x > 1){return 0;}
+        int suma_y = abs(part.loc_y[id_i] - part.loc_y[id_j]);
+        if (suma_y > 1){return 0;}
+        int suma_z = abs(part.loc_z[id_i] - part.loc_z[id_j]);
+        if (suma_z > 1){return 0;}
+        return 1;
     }
 }
