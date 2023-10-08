@@ -16,9 +16,10 @@ namespace fisica {
         return 0;
     }
 
-    int fuerza_acel(struct Particula & part, vector<int> id_p,double h, double m){
-        incremento_densidades(part, id_p, h,  m);
+    /*int fuerza_acel(struct Particula & part, vector<int> id_p,double h, double m){
+        incremento_densidades(part, id_p, h);
         trans_acele(part, id_p,  h,  m);
+        return 0;
     }
     */
 
