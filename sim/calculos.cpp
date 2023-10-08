@@ -2,8 +2,6 @@
 // Created by marina on 30/09/23.
 //
 #include "calculos.hpp"
-#include "constants.hpp"
-
 
 using namespace std;
 
@@ -54,12 +52,12 @@ namespace fisica {
     int trans_acele(struct Particula & part, vector<int> id_p, double h, double m) {
         double distancia, diferencia, operando_1,denominador, acl_x, acl_y, acl_z;
         diferencia = sqrt(pow(part.pos_x[id_p[0]] - part.pos_x[id_p[1]], 2.0)
-                          + pow(part.pos_y[id_p[0]] - part.pos_z[id_p[1]], 2.0)
+                          + pow(part.pos_y[id_p[0]] - part.pos_y[id_p[1]], 2.0)
                           + pow(part.pos_z[id_p[0]] - part.pos_z[id_p[1]], 2.0));
         if (pow(diferencia, 2.0) <= pow(h, 2.0)) {
             return 0;
         }
-        distancia = sqrt(max(diferencia, 1e-12));
+        distancia = sqrt(max(pow(diferencia,2.0), 1e-12));
         operando_1 = op_3 * (pow((h - distancia), 2.0) / distancia)
                      * (part.dens[id_p[0]] + part.dens[id_p[1]] - 2 * DENSIDAD_DE_FLUIDO);
         denominador = part.dens[id_p[0]]* part.dens[id_p[1]];
@@ -87,11 +85,18 @@ namespace fisica {
 
         return 0;
     }
+    int interacion(struct Particula & part, vector<int> num_bloques, int id_p){
+        int_x(part, num_bloques, id_p);
+        int_y(part, num_bloques, id_p);
+        int_z(part, num_bloques, id_p);
+        return 0;
+    }
+
 
     int mov_part(struct Particula & part, int id_p){
         part.pos_x[id_p] = part.pos_x[id_p] + part.hv_x[id_p] * PASO_TIEMPO + part.acel_x[id_p] * pow(PASO_TIEMPO,2.0);
-        part.pos_y[id_p] = part.pos_y[id_p] + part.hv_y[id_p] * PASO_TIEMPO + part.acel_x[id_p] * pow(PASO_TIEMPO,2.0);
-        part.pos_z[id_p] = part.pos_z[id_p] + part.hv_z[id_p] * PASO_TIEMPO + part.acel_x[id_p] * pow(PASO_TIEMPO,2.0);
+        part.pos_y[id_p] = part.pos_y[id_p] + part.hv_y[id_p] * PASO_TIEMPO + part.acel_y[id_p] * pow(PASO_TIEMPO,2.0);
+        part.pos_z[id_p] = part.pos_z[id_p] + part.hv_z[id_p] * PASO_TIEMPO + part.acel_z[id_p] * pow(PASO_TIEMPO,2.0);
 
         part.vel_x[id_p] = part.hv_x[id_p] + (part.acel_x[id_p] * PASO_TIEMPO)/2;
         part.vel_y[id_p] = part.hv_y[id_p] + (part.acel_y[id_p] * PASO_TIEMPO)/2;

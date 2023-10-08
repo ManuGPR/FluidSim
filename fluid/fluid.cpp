@@ -53,6 +53,15 @@ int main(int argc, char **argv) {
                     fisica::incremento_densidades(particulas, part, longitud_de_suavizado, nuevas_densidades);
                 }
             }
+            particulas.dens[i] = fisica::trans_densidad(nuevas_densidades[i]);
+        }
+        for(int i = 0; i < np; i++) {
+            for (int j = i + 1; j < np; j++) {
+                if (bloque::particula_contigua(particulas, i, j) == 1) {
+                    vector<int> part = {i, j};
+                    fisica::trans_acele(particulas, part, longitud_de_suavizado, masa);
+                }
+            }
             fisica::col_mov(particulas, num_bloques, i);
         }
 
@@ -61,7 +70,9 @@ int main(int argc, char **argv) {
             fisica::interacion(particulas, num_bloques, i);
         }
     }
-    file_out.open(output_file, ios::binary);
+
+    //output_file("file_out", ios::binary);
+    file_out.open("out.fld", ios::binary);
     ficheros::escritura_salida(file_out, particulas, ppm, np);
 
     /*ifstream fichero_comp;

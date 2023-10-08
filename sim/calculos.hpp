@@ -6,6 +6,7 @@
 #include <numbers>
 #include <cmath>
 #include "grid.hpp"
+#include "constants.hpp"
 
 
 #ifndef AC3_CALCULOS_HPP
