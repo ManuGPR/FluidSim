@@ -23,13 +23,5 @@ const std::vector<double> acel_ex = {0.0, -9.8, 0.0};
 const std::vector<double> limite_sup_recinto = {0.065, 0.1, 0.065};
 const std::vector<double> limite_inf_recinto = {-0.065, -0.08, -0.065};
 
-double op_1;
-double op_2;
-double op_3;
-double op_4;
-
-namespace constantes {
-    int calcular_operandos(double m, double h);
-}
 
 #endif //AC3_CONSTANTS_HPP

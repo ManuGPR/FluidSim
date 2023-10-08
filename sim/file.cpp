@@ -30,6 +30,7 @@ namespace ficheros {
         fichero.read(reinterpret_cast<char *> (&aux_float), sizeof(float));
         return static_cast<double>(aux_float);
     }
+
     int lectura_file(ifstream & file_in, int np, struct Particula & particulas){
         int np_real = 0;
         for (int i = 0; i < np; i++){
@@ -52,33 +53,59 @@ namespace ficheros {
             cerr << " Number of particles mismatch. Header: " << np <<", Found:" << np_real << endl;
             return -5;
         }
+        return 0;
     }
 
     int escritura_salida(ofstream& file_out, const struct Particula & particulas, double ppm, int np) {
-        file_out.write(to_str(ppm), sizeof(float));
+        auto aux = static_cast<float>(ppm);
+        //cout << "Salida nuestra \n";
+        //cout << aux << " " << np << endl;
+        file_out.write(to_str(aux), sizeof(float));
         file_out.write(to_str(np), sizeof(float));
         for (int i = 0; i < np; i++) {
-            file_out.write(to_str(particulas.pos_x[i]), sizeof(float));
-            file_out.write(to_str(particulas.pos_y[i]), sizeof(float));
-            file_out.write(to_str(particulas.pos_z[i]), sizeof(float));
-            file_out.write(to_str(particulas.hv_x[i]), sizeof(float));
-            file_out.write(to_str(particulas.hv_y[i]), sizeof(float));
-            file_out.write(to_str(particulas.hv_z[i]), sizeof(float));
-            file_out.write(to_str(particulas.vel_x[i]), sizeof(float));
-            file_out.write(to_str(particulas.vel_y[i]), sizeof(float));
-            file_out.write(to_str(particulas.vel_z[i]), sizeof(float));
+            aux = static_cast<float>(particulas.pos_x[i]);
+            //cout << aux << " ";
+            file_out.write(to_str(aux), sizeof(float));
+            aux = static_cast<float>(particulas.pos_y[i]);
+            //cout << aux << " ";
+
+            file_out.write(to_str((aux)), sizeof(float));
+            aux = static_cast<float>(particulas.pos_z[i]);
+            //cout << aux << " ";
+
+            file_out.write(to_str(aux), sizeof(float));
+            aux = static_cast<float>(particulas.hv_x[i]);
+            //cout << aux << " ";
+            file_out.write(to_str(aux), sizeof(float));
+            aux = static_cast<float>(particulas.hv_y[i]);
+            //cout << aux << " ";
+
+            file_out.write(to_str(aux), sizeof(float));
+            aux = static_cast<float>(particulas.hv_z[i]);
+            //cout << aux << " ";
+
+            file_out.write(to_str(aux), sizeof(float));
+            aux = static_cast<float>(particulas.vel_x[i]);
+            //cout << aux << " ";
+            file_out.write(to_str(aux), sizeof(float));
+            aux = static_cast<float>(particulas.vel_y[i]);
+            //cout << aux << " ";
+            file_out.write(to_str(aux), sizeof(float));
+            aux = static_cast<float>(particulas.vel_z[i]);
+            //cout << aux << " ";
+            //cout << particulas.loc_x[i] << "\n";
+            file_out.write(to_str(aux), sizeof(float));
         }
         return 0;
     }
 
-    const char* to_str(int parameter) {
-        const char *value = reinterpret_cast<char*>(&parameter);
+    const char* to_str(int & parameter) {
+        const char *value = reinterpret_cast<const char*>(&parameter);
         return value;
     }
 
-    const char* to_str(double parameter) {
-        float aux = static_cast<float>(parameter);
-        const char* value = reinterpret_cast<char *>(&aux);
+    const char* to_str(float & parameter) {
+        const char *value = reinterpret_cast<const char *>(&parameter);
         return value;
     }
 }

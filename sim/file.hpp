@@ -25,9 +25,9 @@ namespace ficheros {
     //Función que se encarga de la escritura del fichero de salida
     int escritura_salida(ofstream & file_out, const struct Particula & particulas, double ppm, int np);
     //Función que castea un entero a un char*
-    const char* to_str(int parameter);
+    const char* to_str(int & parameter);
     //Función que castea un doble a un char*
-    const char* to_str(double parameter);
+    const char* to_str(float & parameter);
 }
 
 

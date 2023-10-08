@@ -7,15 +7,24 @@
 
 using namespace std;
 
+double op_1, op_2, op_3, op_4;
+
 namespace fisica {
+    int calcular_operandos(double m, double h) {
+        op_1 = 315 * m / (64 * PI * pow(h, 9.0));
+        op_2 = pow(h, 6) * op_1;
+        op_3 = (15 * m) / (PI * pow(h, 6.0));
+        op_4 = (45 / (PI * pow(h, 6.0))) * VISCOSIDAD * m;
+        return 0;
+    }
 
     int fuerza_acel(struct Particula & part, vector<int> id_p,double h, double m){
         incremento_densidades(part, id_p, h,  m);
         trans_acele(part, id_p,  h,  m);
     }
+    */
 
-
-    int incremento_densidades(struct Particula & part, vector<int> id_p, double h, double m){
+    int incremento_densidades(struct Particula & part, vector<int> id_p, double h, vector<double> & nuevas_densidades){
         //particla i== id_p[0] y part j == id_p[1]
         double diferencia;
         diferencia = sqrt(pow(part.pos_x[id_p[0]]- part.pos_x[id_p[1]], 2.0)
@@ -25,17 +34,21 @@ namespace fisica {
         if (pow(diferencia,2.0)  >= pow(h,2.0)) {
             return 0;
         }
-        double incremento = pow(pow(h,2.0) - pow(abs(part.dens[id_p[0]]-part.dens[id_p[1]]),2.0),3.0);
-        part.dens[id_p[0]] = part.dens[id_p[0]] + incremento;
-        part.dens[id_p[1]] = part.dens[id_p[1]] + incremento;
-        trans_densidad(part, id_p[0], h, m);
-        trans_densidad(part, id_p[1], h, m);
+        double incremento = pow(pow(h,2.0) - pow(diferencia,2.0),3.0);
+        if (abs(id_p[0] - id_p[1]) == 1) {
+            nuevas_densidades[0] = part.dens[id_p[0]] + incremento;
+            nuevas_densidades[1] = part.dens[id_p[1]] + incremento;
+        }
+        else {
+            nuevas_densidades[0] = nuevas_densidades[0] + incremento;
+            nuevas_densidades[1] = nuevas_densidades[1] + incremento;
+        }
         return 0;
     }
 
-    int trans_densidad(struct Particula & part, int id_p, double h, double m) {
-        part.dens[id_p] = part.dens[id_p] * op_1 + op_2;
-        return 0;
+    double trans_densidad(double incremento) {
+        cout << incremento << "\n";
+        return incremento * op_1 + op_2;
     }
 
     int trans_acele(struct Particula & part, vector<int> id_p, double h, double m) {
@@ -50,17 +63,18 @@ namespace fisica {
         operando_1 = op_3 * (pow((h - distancia), 2.0) / distancia)
                      * (part.dens[id_p[0]] + part.dens[id_p[1]] - 2 * DENSIDAD_DE_FLUIDO);
         denominador = part.dens[id_p[0]]* part.dens[id_p[1]];
-        acl_x = ((part.pos_x[id_p[0]] - part.pos_x[id_p[1]]) * operando_1 + (part.vel_x[id_p[0]]
-                                                                             -  part.vel_x[id_p[1]])* op_4 / denominador);
-        acl_y = ((part.pos_y[id_p[0]] - part.pos_y[id_p[1]]) * operando_1 + (part.vel_y[id_p[0]]
-                                                                             -  part.vel_y[id_p[1]])* op_4/ denominador);
-        acl_z = ((part.pos_z[id_p[0]] - part.pos_z[id_p[1]]) * operando_1  + (part.vel_z[id_p[0]]
-                                                                              -  part.vel_z[id_p[1]])* op_4 / denominador);
-        for (int i=0; i < 2; i++) {
-            part.acel_x[id_p[i]] = part.acel_x[id_p[i]] + acl_x;
-            part.acel_y[id_p[i]] = part.acel_y[id_p[i]] + acl_y;
-            part.acel_z[id_p[i]] = part.acel_z[id_p[i]] + acl_z;
-        }
+        acl_x = (((part.pos_x[id_p[0]] - part.pos_x[id_p[1]]) * operando_1 + (part.vel_x[id_p[1]]
+                                                                             -  part.vel_x[id_p[0]])* op_4 )/ denominador);
+        acl_y = (((part.pos_y[id_p[0]] - part.pos_y[id_p[1]]) * operando_1 + (part.vel_y[id_p[1]]
+                                                                             -  part.vel_y[id_p[0]])* op_4)/ denominador);
+        acl_z = (((part.pos_z[id_p[0]] - part.pos_z[id_p[1]]) * operando_1  + (part.vel_z[id_p[1]]
+                                                                              -  part.vel_z[id_p[0]])* op_4) / denominador);
+        part.acel_x[id_p[0]] = part.acel_x[id_p[0]] + acl_x;
+        part.acel_y[id_p[0]] = part.acel_y[id_p[0]] + acl_y;
+        part.acel_z[id_p[0]] = part.acel_z[id_p[0]] + acl_z;
+        part.acel_x[id_p[1]] = part.acel_x[id_p[1]] - acl_x;
+        part.acel_y[id_p[1]] = part.acel_y[id_p[1]] - acl_y;
+        part.acel_z[id_p[1]] = part.acel_z[id_p[1]] - acl_z;
         return 0;
     }
 
@@ -69,9 +83,8 @@ namespace fisica {
         col_y(part, num_bloques, id_p);
         col_z(part, num_bloques, id_p);
         mov_part(part, id_p);
-        int_x(part, num_bloques, id_p);
-        int_y(part, num_bloques, id_p);
-        int_z(part, num_bloques, id_p);
+
+
         return 0;
     }
 
