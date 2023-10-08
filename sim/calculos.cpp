@@ -2,20 +2,12 @@
 // Created by marina on 30/09/23.
 //
 #include "calculos.hpp"
+#include "constants.hpp"
 
-#define DENSIDAD_DE_FLUIDO 1000
-#define VISCOSIDAD 0.4
-#define PASO_TIEMPO 0.001
-#define PI 3.14
-#define S_C 30000
-#define D_V 128.0
 
 using namespace std;
 
 namespace fisica {
-    const vector<double> limite_sup_recinto = {0.065, 0.1, 0.065};
-    const vector<double> limite_inf_recinto = {-0.065, -0.08, -0.065};
-    const vector<double> aceleracion_externa = {0.0, -9.8, 0.0};
 
     int fuerza_acel(struct Particula & part, vector<int> id_p,double h, double m){
         incremento_densidades(part, id_p, h,  m);
@@ -42,12 +34,12 @@ namespace fisica {
     }
 
     int trans_densidad(struct Particula & part, int id_p, double h, double m) {
-        part.dens[id_p]= (part.dens[id_p] + pow(h, 6.0))* 315 * m / (64 * PI * pow(h, 9.0));
+        part.dens[id_p] = part.dens[id_p] * op_1 + op_2;
         return 0;
-    }    
+    }
 
     int trans_acele(struct Particula & part, vector<int> id_p, double h, double m) {
-        double distancia, diferencia, op_1, op_2, op_3, acl_x, acl_y, acl_z;
+        double distancia, diferencia, operando_1,denominador, acl_x, acl_y, acl_z;
         diferencia = sqrt(pow(part.pos_x[id_p[0]] - part.pos_x[id_p[1]], 2.0)
                           + pow(part.pos_y[id_p[0]] - part.pos_z[id_p[1]], 2.0)
                           + pow(part.pos_z[id_p[0]] - part.pos_z[id_p[1]], 2.0));
@@ -55,16 +47,15 @@ namespace fisica {
             return 0;
         }
         distancia = sqrt(max(diferencia, 1e-12));
-        op_1 = ((15 * m) / (PI * pow(h, 6.0))) * (pow((h - distancia), 2.0) / diferencia)
-               * (part.dens[id_p[0]] + part.dens[id_p[1]] - DENSIDAD_DE_FLUIDO);
-        op_2 = (45 / (PI * pow(h, 6.0))) * VISCOSIDAD * m;
-        op_3 = part.dens[id_p[0]]* part.dens[id_p[1]];
-        acl_x = ((part.pos_x[id_p[0]] - part.pos_x[id_p[1]]) * op_1 + (part.vel_x[id_p[0]]
-                -  part.vel_x[id_p[1]])* op_2 / op_3);
-        acl_y = ((part.pos_y[id_p[0]] - part.pos_y[id_p[1]]) * op_1 + (part.vel_y[id_p[0]]
-                -  part.vel_y[id_p[1]])* op_2 / (part.dens[id_p[0]]* part.dens[id_p[1]]));
-        acl_z = ((part.pos_z[id_p[0]] - part.pos_z[id_p[1]]) * op_1 + (part.vel_z[id_p[0]]
-                -  part.vel_z[id_p[1]])* op_2 / (part.dens[id_p[0]]* part.dens[id_p[1]]));
+        operando_1 = op_3 * (pow((h - distancia), 2.0) / distancia)
+                     * (part.dens[id_p[0]] + part.dens[id_p[1]] - 2 * DENSIDAD_DE_FLUIDO);
+        denominador = part.dens[id_p[0]]* part.dens[id_p[1]];
+        acl_x = ((part.pos_x[id_p[0]] - part.pos_x[id_p[1]]) * operando_1 + (part.vel_x[id_p[0]]
+                                                                             -  part.vel_x[id_p[1]])* op_4 / denominador);
+        acl_y = ((part.pos_y[id_p[0]] - part.pos_y[id_p[1]]) * operando_1 + (part.vel_y[id_p[0]]
+                                                                             -  part.vel_y[id_p[1]])* op_4/ denominador);
+        acl_z = ((part.pos_z[id_p[0]] - part.pos_z[id_p[1]]) * operando_1  + (part.vel_z[id_p[0]]
+                                                                              -  part.vel_z[id_p[1]])* op_4 / denominador);
         for (int i=0; i < 2; i++) {
             part.acel_x[id_p[i]] = part.acel_x[id_p[i]] + acl_x;
             part.acel_y[id_p[i]] = part.acel_y[id_p[i]] + acl_y;
@@ -103,10 +94,10 @@ namespace fisica {
         if (part.loc_x[id_p] == 0 || part.loc_x[id_p] == num_bloques[0] - 1) {
             double nueva_x;
             nueva_x = part.pos_x[id_p] + part.hv_x[id_p] * PASO_TIEMPO;
-            double dist_x = part.dens[id_p]; 
+            double dist_x = part.dens[id_p];
             if (part.loc_x[id_p] == 0) {
                 dist_x -= (nueva_x - limite_inf_recinto[0]);
-            } 
+            }
             else {
                 dist_x -= limite_sup_recinto[0] - nueva_x;
             }

@@ -7,12 +7,12 @@
 #include <iomanip>
 #include <fstream>
 #include <cmath>
+#include "constants.hpp"
 
 #ifndef ARQUITECTURA_GRID_HPP
 #define ARQUITECTURA_GRID_HPP
 
 using namespace std;
-const vector<double> acel_ex = {0.0, -9.8, 0.0};
 
 //NameSpace que tiene funciones sobre la malla
 namespace malla {
@@ -59,10 +59,10 @@ struct Particula {
     vector<int> loc_z;
     /*class methods*/
     explicit Particula(int np) : pos_x(np), pos_y(np), pos_z(np),
-                                       hv_x(np), hv_y(np), hv_z(np),
-                                       vel_x(np), vel_y(np), vel_z(np),acel_x(np, acel_ex[0]),
-                                       acel_y(np, acel_ex[1]),acel_z(np, acel_ex[2]),
-                                       dens(np, 0.0),
-                                       loc_x(np), loc_y(np), loc_z(np){};
+                                 hv_x(np), hv_y(np), hv_z(np),
+                                 vel_x(np), vel_y(np), vel_z(np),acel_x(np, acel_ex[0]),
+                                 acel_y(np, acel_ex[1]),acel_z(np, acel_ex[2]),
+                                 dens(np, 0.0),
+                                 loc_x(np), loc_y(np), loc_z(np){};
 };
 #endif //ARQUITECTURA_GRID_HPP

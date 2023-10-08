@@ -8,12 +8,11 @@
 #include "progargs.hpp"
 #include "grid.hpp"
 #include "block.hpp"
+#include "constants.hpp"
 
 
 #ifndef AC3_FILE_HPP
 #define AC3_FILE_HPP
-const vector<double> limite_sup_recinto = {0.065, 0.1, 0.065};
-const vector<double> limite_inf_recinto = {-0.065, -0.08, -0.065};
 using namespace std;
 
 namespace ficheros {
@@ -26,9 +25,9 @@ namespace ficheros {
     //Función que se encarga de la escritura del fichero de salida
     int escritura_salida(ofstream & file_out, const struct Particula & particulas, double ppm, int np);
     //Función que castea un entero a un char*
-    const char* int_to_str(int parameter);
+    const char* to_str(int parameter);
     //Función que castea un doble a un char*
-    const char* double_to_str(double parameter);
+    const char* to_str(double parameter);
 }
 
 

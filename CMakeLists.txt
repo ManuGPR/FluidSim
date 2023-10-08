@@ -15,4 +15,6 @@ add_executable(AC3
     sim/calculos.hpp
     sim/file.cpp
     sim/file.hpp
+    sim/constants.hpp
+    sim/constants.cpp
 )
