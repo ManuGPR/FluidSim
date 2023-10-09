@@ -34,27 +34,26 @@ int main(int argc, char **argv) {
     bloque::num_bloques(limite_sup_recinto, limite_inf_recinto, longitud_de_suavizado, num_bloques);
     bloque::tam_bloques(limite_sup_recinto, limite_inf_recinto, num_bloques, tam_bloques);
 
-    cout << longitud_de_suavizado <<"\n";
-    cout << masa << "\n";
-    cout << num_bloques[0] << " " << tam_bloques[0] << "\n";
     struct Particula particulas(np); //Inicialización de los objetos
     struct Enclosure3D malla(np, nts, num_bloques);
     ficheros::lectura_file(file_in, np, particulas); //Lectura del fichero
     //double nts_d = static_cast<double>(nts), iterations_d = nts_d/PASO_TIEMPO;
     //int iterations = static_cast<int>(iterations_d);
-    vector <double> nuevas_densidades(np);
-    for (int t = 0; t < nts; t++) {
 
-        bloque::loc_particula(particulas, np, limite_inf_recinto, tam_bloques); //actualizacion
+    for (int t = 0; t < nts; t++) {
+        bloque::loc_particula(particulas, np, num_bloques, tam_bloques); //actualizacion
         for (int i = 0; i < np; i++) {
             for (int j = i + 1; j < np; j++) {
                 if (bloque::particula_contigua(particulas, i, j) == 1) {
                     vector<int> part = {i, j};
-                    fisica::incremento_densidades(particulas, part, longitud_de_suavizado, nuevas_densidades);
+                    fisica::incremento_densidades(particulas, part, longitud_de_suavizado);
                 }
             }
-            particulas.dens[i] = fisica::trans_densidad(nuevas_densidades[i]);
+            cout << particulas.dens[i] << " ";
+            particulas.dens[i] = fisica::trans_densidad(particulas.dens[i]);
+            cout << particulas.dens[i] << "\n";
         }
+
         for(int i = 0; i < np; i++) {
             for (int j = i + 1; j < np; j++) {
                 if (bloque::particula_contigua(particulas, i, j) == 1) {
@@ -62,10 +61,12 @@ int main(int argc, char **argv) {
                     fisica::trans_acele(particulas, part, longitud_de_suavizado, masa);
                 }
             }
+        }
+
+        for (int i = 0; i < np; i++){
             fisica::col_mov(particulas, num_bloques, i);
         }
 
-        bloque::loc_particula(particulas, np, limite_inf_recinto, tam_bloques);
         for (int i = 0; i < np; i++) {
             fisica::interacion(particulas, num_bloques, i);
         }

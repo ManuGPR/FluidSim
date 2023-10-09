@@ -17,7 +17,7 @@ using namespace std;
 namespace fisica {
     int calcular_operandos(double m, double h);
     int fuerza_acel(struct Particula & part,vector<int> id_p,double h, double m);
-    int incremento_densidades(struct Particula & part, vector<int> id_p, double h, vector <double> & nuevas_densidades);
+    int incremento_densidades(struct Particula & part, vector<int> id_p, double h);
     double trans_densidad(double incremento);
     int trans_acele(struct Particula & part, vector<int> id_p, double h, double m);
     int mov_part(struct Particula & part, int id_p);

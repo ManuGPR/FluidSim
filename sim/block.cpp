@@ -41,11 +41,36 @@ namespace bloque {
         return floor((pos_z - zmin) / tam_bloque_z);
     }
 
-    int loc_particula(struct Particula &particulas, int np, vector<double> lim_inferior, vector<double> tam_bloque) {
+    int loc_particula(struct Particula &particulas, int np, vector<int> num_bloques, vector<double> tam_bloque) {
+        //CAMBIAR A TRES FUNCIONES DE RELOCALIZACIÓN
         for (int i = 0; i < np; i++) {
-            particulas.loc_x[i] = pos_particula_x(particulas.pos_x[i], lim_inferior[0], tam_bloque[0]);
-            particulas.loc_y[i] = pos_particula_y(particulas.pos_y[i], lim_inferior[1], tam_bloque[1]);
-            particulas.loc_z[i] = pos_particula_z(particulas.pos_z[i], lim_inferior[2], tam_bloque[2]);
+            particulas.loc_x[i] = pos_particula_x(particulas.pos_x[i], limite_inf_recinto[0], tam_bloque[0]);
+            if (particulas.loc_x[i] < 0) {
+                particulas.loc_x[i] = 0;
+                particulas.pos_x[i] = limite_inf_recinto[0];
+            }
+            else if (particulas.loc_x[i] >= num_bloques[0]) {
+                particulas.loc_x[i] = num_bloques[0] - 1;
+                particulas.pos_x[i] = limite_sup_recinto[0];
+            }
+            particulas.loc_y[i] = pos_particula_y(particulas.pos_y[i], limite_inf_recinto[1], tam_bloque[1]);
+            if (particulas.loc_y[i] < 0) {
+                particulas.loc_y[i] = 0;
+                particulas.pos_y[i] = limite_inf_recinto[0];
+            }
+            else if (particulas.loc_y[i] >= num_bloques[1]) {
+                particulas.loc_y[i] = num_bloques[1] - 1;
+                particulas.pos_y[i] = limite_sup_recinto[1];
+            }
+            particulas.loc_z[i] = pos_particula_z(particulas.pos_z[i], limite_inf_recinto[2], tam_bloque[2]);
+            if (particulas.loc_z[i] < 0) {
+                particulas.loc_z[i] = 0;
+                particulas.pos_z[i] = limite_inf_recinto[2];
+            }
+            else if (particulas.loc_z[i] >= num_bloques[2]) {
+                particulas.loc_z[i] = num_bloques[2] - 1;
+                particulas.pos_z[i] = limite_sup_recinto[2];
+            }
         }
         return 0;
     }

@@ -47,6 +47,7 @@ namespace ficheros {
             particulas.acel_x[np_real] = acel_ex[0];
             particulas.acel_y[np_real] = acel_ex[1];
             particulas.acel_z[np_real]= acel_ex[2];
+            //cout << particulas.pos_x[np_real] << "\n";
             np_real ++;
         }
         if (np_real != np){
@@ -64,36 +65,33 @@ namespace ficheros {
         file_out.write(to_str(np), sizeof(float));
         for (int i = 0; i < np; i++) {
             aux = static_cast<float>(particulas.pos_x[i]);
-            //cout << aux << " ";
+            cout << aux << " ";
             file_out.write(to_str(aux), sizeof(float));
             aux = static_cast<float>(particulas.pos_y[i]);
-            //cout << aux << " ";
-
+            cout << aux << " ";
             file_out.write(to_str((aux)), sizeof(float));
             aux = static_cast<float>(particulas.pos_z[i]);
-            //cout << aux << " ";
-
+            cout << aux << " ";
             file_out.write(to_str(aux), sizeof(float));
             aux = static_cast<float>(particulas.hv_x[i]);
-            //cout << aux << " ";
+            cout << aux << " ";
             file_out.write(to_str(aux), sizeof(float));
             aux = static_cast<float>(particulas.hv_y[i]);
-            //cout << aux << " ";
-
+            cout << aux << " ";
             file_out.write(to_str(aux), sizeof(float));
             aux = static_cast<float>(particulas.hv_z[i]);
-            //cout << aux << " ";
-
+            cout << aux << " ";
             file_out.write(to_str(aux), sizeof(float));
             aux = static_cast<float>(particulas.vel_x[i]);
-            //cout << aux << " ";
+            cout << aux << " ";
             file_out.write(to_str(aux), sizeof(float));
             aux = static_cast<float>(particulas.vel_y[i]);
-            //cout << aux << " ";
+            cout << aux << " ";
             file_out.write(to_str(aux), sizeof(float));
             aux = static_cast<float>(particulas.vel_z[i]);
-            //cout << aux << " ";
-            //cout << particulas.loc_x[i] << "\n";
+            cout << aux << " ";
+            cout << particulas.loc_x[i] << " ";
+            cout << "\n";
             file_out.write(to_str(aux), sizeof(float));
         }
         return 0;

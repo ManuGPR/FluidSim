@@ -11,7 +11,7 @@
 
 constexpr double RADIO = 1.695;
 constexpr int DENSIDAD_DE_FLUIDO = 1000;
-constexpr double PRECISION_DE_RIGIDEZ = 3.0;
+constexpr double PRESION_DE_RIGIDEZ = 3.0;
 constexpr int S_C = 30000;
 constexpr double D_V = 128.0;
 constexpr double VISCOSIDAD = 0.4;
