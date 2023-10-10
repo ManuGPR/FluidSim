@@ -49,9 +49,7 @@ int main(int argc, char **argv) {
                     fisica::incremento_densidades(particulas, part, longitud_de_suavizado);
                 }
             }
-            cout << particulas.dens[i] << " ";
             particulas.dens[i] = fisica::trans_densidad(particulas.dens[i]);
-            cout << particulas.dens[i] << "\n";
         }
 
         for(int i = 0; i < np; i++) {
@@ -75,8 +73,7 @@ int main(int argc, char **argv) {
     //output_file("file_out", ios::binary);
     file_out.open("out.fld", ios::binary);
     ficheros::escritura_salida(file_out, particulas, ppm, np);
-
-    /*ifstream fichero_comp;
+    ifstream fichero_comp;
     fichero_comp.open("small-1.fld", ios::binary);
     cout << "Fichero de comprobación" << "\n";
     float cabecera_1;
@@ -94,5 +91,5 @@ int main(int argc, char **argv) {
         if (i % 9 == 0) {
             cout << "\n";
         }
-    }*/
+    }
 }

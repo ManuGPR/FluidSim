@@ -9,9 +9,9 @@ double op_1, op_2, op_3, op_4;
 
 namespace fisica {
     int calcular_operandos(double m, double h) {
-        op_1 = (315 * m) / (64 * PI * pow(h, 9.0));
+        op_1 = ((315 * m) / (64 * PI * pow(h, 9.0)));
         op_2 = pow(h, 6) * op_1;
-        op_3 = (15 * m) / (PI * pow(h, 6.0));
+        op_3 = (15 / (PI * pow(h, 6.0)))*((3*m*PRESION_DE_RIGIDEZ)/2);
         op_4 = (45 / (PI * pow(h, 6.0))) * VISCOSIDAD * m;
         return 0;
     }
@@ -101,7 +101,7 @@ namespace fisica {
     }
 
     int col_x(struct Particula & part, vector<int> num_bloques, int id_p){
-        if (part.loc_x[id_p] == 0 || part.loc_x[id_p] == num_bloques[0] - 1) {
+        if ((part.loc_x[id_p] == 0) || (part.loc_x[id_p] == (num_bloques[0] - 1))) {
             double nueva_x = part.pos_x[id_p] + part.hv_x[id_p] * PASO_TIEMPO;
             double dist_x = TAMANO_PARTICULAS;
             if (part.loc_x[id_p] == 0) {
@@ -115,7 +115,7 @@ namespace fisica {
                     part.acel_x[id_p] = part.acel_x[id_p] + S_C * dist_x - D_V * part.vel_x[id_p];
                 }
                 else {
-                    part.acel_x[id_p] = part.acel_y[id_p] - S_C * dist_x + D_V * part.vel_x[id_p];
+                    part.acel_x[id_p] = part.acel_x[id_p] - S_C * dist_x + D_V * part.vel_x[id_p];
                 }
             }
         }
@@ -123,7 +123,7 @@ namespace fisica {
     }
 
     int col_y(struct Particula & part, vector<int> num_bloques, int id_p){
-        if (part.loc_y[id_p] == 0 || part.loc_y[id_p] == num_bloques[1] - 1) {
+        if ((part.loc_y[id_p] == 0) || (part.loc_y[id_p] == (num_bloques[1] - 1))) {
             double nueva_y = part.pos_y[id_p] + part.hv_y[id_p] * PASO_TIEMPO;
             double dist_y = TAMANO_PARTICULAS;
             if (part.loc_y[id_p] == 0) {
@@ -145,7 +145,7 @@ namespace fisica {
     }
 
     int col_z(struct Particula & part, vector<int> num_bloques, int id_p){
-        if (part.loc_z[id_p] == 0 || part.loc_z[id_p] == num_bloques[2] - 1) {
+        if ((part.loc_z[id_p] == 0) || (part.loc_z[id_p] == (num_bloques[2] - 1))) {
             double nueva_z = part.pos_z[id_p] + part.hv_z[id_p] * PASO_TIEMPO;
             double dist_z = TAMANO_PARTICULAS;
             if (part.loc_z[id_p] == 0) {
@@ -167,7 +167,7 @@ namespace fisica {
     }
 
     int int_x(struct Particula & part, vector<int> num_bloques, int id_p){
-        if (part.loc_x[id_p] == 0 || part.loc_x[id_p] == num_bloques[0] - 1) {
+        if ((part.loc_x[id_p] == 0) || (part.loc_x[id_p] == (num_bloques[0] - 1))) {
             double dist_x;
             if (part.loc_x[id_p] == 0) {
                 dist_x = part.pos_x[id_p] - limite_inf_recinto[0];
@@ -190,7 +190,7 @@ namespace fisica {
     }
 
     int int_y(struct Particula & part, vector<int> num_bloques, int id_p){
-        if (part.loc_y[id_p] == 0 || part.loc_y[id_p] == num_bloques[1] - 1) {
+        if ((part.loc_y[id_p] == 0) || (part.loc_y[id_p] == (num_bloques[1] - 1))) {
             double dist_y;
             if (part.loc_y[id_p] == 0) {
                 dist_y = part.pos_y[id_p] - limite_inf_recinto[1];
@@ -213,7 +213,7 @@ namespace fisica {
     }
 
     int int_z(struct Particula & part, vector<int> num_bloques, int id_p) {
-        if (part.loc_z[id_p] == 0 || part.loc_z[id_p] == num_bloques[2] - 1) {
+        if ((part.loc_z[id_p] == 0) || (part.loc_z[id_p] == (num_bloques[2] - 1))) {
             double dist_z;
             if (part.loc_z[id_p] == 0) {
                 dist_z = part.pos_z[id_p] - limite_inf_recinto[2];
