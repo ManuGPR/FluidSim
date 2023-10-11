@@ -42,18 +42,20 @@ int main(int argc, char **argv) {
         bloque::loc_particula(particulas, np, num_bloques, tam_bloques); //actualizacion
         for(int i=0; i< np; i++) { fisica::inicializar_dens_acelera(particulas, i);}
         for (int i = 0; i < np; i++) {
-          for (int j = i + 1; j < np; j++) {
+          for (int j = i; j < np; j++) {
               if (bloque::particula_contigua(particulas, i, j) == 1) {
+                cout << "Partícula i = " << i << " Partícula j = " << j << "\n";
                   vector<int> part = {i, j};
                   fisica::incremento_densidades(particulas, part, longitud_de_suavizado);
               }
           }
+          return 0;
           //particulas.dens[i] = fisica::trans_densidad(particulas.dens[i]);
         }
 
-        for (int i = 0; i < np; i++) {
+        /*for (int i = 0; i < np; i++) {
             cout <<"Dens = " << i << " " << particulas.dens[i] << "\n";
-        }
+        }*/
         return 0;
 
         for(int i = 0; i < np; i++) {
