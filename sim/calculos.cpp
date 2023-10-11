@@ -5,7 +5,7 @@
 
 using namespace std;
 
-double op_1, op_2, op_3, op_4;
+double op_1, op_2, op_3, op_4, h_c;
 
 namespace fisica {
     int calcular_operandos(double m, double h) {
@@ -13,6 +13,7 @@ namespace fisica {
         op_2 = pow(h, 6) * op_1;
         op_3 = (15 / (PI * pow(h, 6.0)))*((3*m*PRESION_DE_RIGIDEZ)/2);
         op_4 = (45 / (PI * pow(h, 6.0))) * VISCOSIDAD * m;
+        h_c = h*h;
         return 0;
     }
 
@@ -182,8 +183,8 @@ namespace fisica {
                 else {
                     part.pos_x[id_p] = limite_sup_recinto[0] + dist_x;
                 }
-                part.vel_x[id_p] = -part.vel_x[id_p];
-                part.hv_x[id_p] = -part.hv_x[id_p];
+                part.vel_x[id_p] = -1*part.vel_x[id_p];
+                part.hv_x[id_p] = -1*part.hv_x[id_p];
             }
         }
         return 0;
@@ -205,8 +206,8 @@ namespace fisica {
                 else {
                     part.pos_y[id_p] = limite_sup_recinto[1] + dist_y;
                 }
-                part.vel_y[id_p] = -part.vel_y[id_p];
-                part.hv_y[id_p] = -part.hv_y[id_p];
+                part.vel_y[id_p] = -1*part.vel_y[id_p];
+                part.hv_y[id_p] = -1*part.hv_y[id_p];
             }
         }
         return 0;
@@ -226,8 +227,8 @@ namespace fisica {
                 } else {
                     part.pos_z[id_p] = limite_sup_recinto[2] + dist_z;
                 }
-                part.vel_z[id_p] = -part.vel_z[id_p];
-                part.hv_z[id_p] = -part.hv_z[id_p];
+                part.vel_z[id_p] = -1*part.vel_z[id_p];
+                part.hv_z[id_p] = -1*part.hv_z[id_p];
             }
         }
         return 0;

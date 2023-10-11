@@ -13,7 +13,6 @@ namespace ficheros {
         double ppm;
         int np;
         float ppm_float;
-        tuple <int,double> datos;
         file_in.read(reinterpret_cast<char *> (&ppm_float), sizeof(float));
         ppm = static_cast<double>(ppm_float);
         file_in.read(reinterpret_cast<char *> (&np), sizeof(int));

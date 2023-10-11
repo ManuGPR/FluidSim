@@ -19,15 +19,15 @@ using namespace std;
 int main(int argc, char **argv) {
     span args{argv, static_cast<size_t>(argc)};
     int nts, np; //nts = numero de pasos de tiempo, np = numero de particulas
-    double ppm; //ppm = partículas por metro
+    double ppm = 0.0; //ppm = partículas por metro
     ifstream file_in; //file_in = fichero de entrada
     ofstream file_out; //file_out = fichero de salida
     nts = entry::check_param(argc, argv); //Función de checkeo maestra
     if (nts < 0) { return nts; }
     file_in.open(argv[2], ios::binary);//Apertura del fichero y cabecera
     tie(np, ppm) = ficheros::lectura_cabecera(file_in);
-    double masa = (DENSIDAD_DE_FLUIDO) / (pow(ppm, 3)); //Cálculos de m y h
-    double longitud_de_suavizado = (RADIO / ppm);
+    const double masa = (DENSIDAD_DE_FLUIDO) / (pow(ppm, 3)); //Cálculos de m y h
+    const double longitud_de_suavizado = (RADIO / ppm);
     fisica::calcular_operandos(masa, longitud_de_suavizado);
     vector<int> num_bloques(3); //Calculo del numero de bloques
     vector<double> tam_bloques(3); //Calculo del tamaño de los bloques
@@ -35,12 +35,10 @@ int main(int argc, char **argv) {
     bloque::tam_bloques(limite_sup_recinto, limite_inf_recinto, num_bloques, tam_bloques);
 
     struct Particula particulas(np); //Inicialización de los objetos
-    struct Enclosure3D malla(np, nts, num_bloques);
+    const struct Enclosure3D malla(np, nts, num_bloques);
     ficheros::lectura_file(file_in, np, particulas); //Lectura del fichero
-    //double nts_d = static_cast<double>(nts), iterations_d = nts_d/PASO_TIEMPO;
-    //int iterations = static_cast<int>(iterations_d);
 
-    for (int t = 0; t < nts; t++) {
+    for (int time = 0; time < nts; time++) {
         bloque::loc_particula(particulas, np, num_bloques, tam_bloques); //actualizacion
         for(int i=0; i< np; i++) { fisica::inicializar_dens_acelera(particulas, i);}
         for (int i = 0; i < np; i++) {
@@ -52,6 +50,11 @@ int main(int argc, char **argv) {
           }
           //particulas.dens[i] = fisica::trans_densidad(particulas.dens[i]);
         }
+
+        for (int i = 0; i < np; i++) {
+            cout <<"Dens = " << i << " " << particulas.dens[i] << "\n";
+        }
+        return 0;
 
         for(int i = 0; i < np; i++) {
             for (int j = i + 1 ; j < np; j++) {
@@ -74,23 +77,40 @@ int main(int argc, char **argv) {
     //output_file("file_out", ios::binary);
     file_out.open("out.fld", ios::binary);
     ficheros::escritura_salida(file_out, particulas, ppm, np);
-    ifstream fichero_comp;
-    fichero_comp.open("small-1.fld", ios::binary);
-    cout << "Fichero de comprobación" << "\n";
-    float cabecera_1;
-    int cabecera_2;
-    fichero_comp.read(reinterpret_cast<char *> (&cabecera_1), sizeof(float));
-    fichero_comp.read(reinterpret_cast<char *> (&cabecera_2), sizeof(int));
+    /*ifstream fichero_comp;
+    ofstream fichero_comp_salida("salida.txt");
 
-    cout << cabecera_1 << " " << cabecera_2 << "\n";
-
-
-    for (int i = 1; i <= np*9; i++){
-        float aux;
-        fichero_comp.read(reinterpret_cast<char *> (&aux), sizeof(float));
-        cout << aux << " ";
-        if (i % 9 == 0) {
-            cout << "\n";
+    fichero_comp.open("densinc-base-1.trz", ios::binary);
+    int cabecera = 0;
+    fichero_comp.read(reinterpret_cast<char *> (&cabecera), sizeof(int));
+    fichero_comp_salida << cabecera << "\n";
+    int num_bloque = 0;
+    while(!fichero_comp.eof()){
+        long int num_p;
+        fichero_comp.read(reinterpret_cast<char*> (&num_p), sizeof(long int));
+        fichero_comp_salida << num_bloque << " " << num_p <<"\n";
+        for (int j = 0; j < num_p; j++){
+          long int id;
+          fichero_comp.read(reinterpret_cast<char *>(&id), sizeof(long int));
+          fichero_comp_salida << id << " ";
+          double aux;
+          for (int k = 0; k < 3; k++) {
+                fichero_comp.read(reinterpret_cast<char *>(&aux), sizeof(double));
+                fichero_comp_salida << aux << " ";
+                fichero_comp.read(reinterpret_cast<char *>(&aux), sizeof(double));
+                fichero_comp_salida << aux << " ";
+                fichero_comp.read(reinterpret_cast<char *>(&aux), sizeof(double));
+                fichero_comp_salida << aux << " ";
+          }
+          fichero_comp.read(reinterpret_cast<char*> (&aux), sizeof(double));
+          fichero_comp_salida << aux << " ";
+          for (int k = 0; k < 3; k++){
+                fichero_comp.read(reinterpret_cast<char*> (&aux), sizeof(double));
+                fichero_comp_salida << aux << " ";
+          }
+          fichero_comp_salida <<"\n";
         }
-    }
+        num_bloque ++;
+        fichero_comp_salida << "\n";
+    }*/
 }

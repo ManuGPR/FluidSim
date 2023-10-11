@@ -15,8 +15,8 @@ constexpr double PRESION_DE_RIGIDEZ = 3.0;
 constexpr int S_C = 30000;
 constexpr double D_V = 128.0;
 constexpr double VISCOSIDAD = 0.4;
-constexpr double TAMANO_PARTICULAS = 0.0002;
-constexpr double PASO_TIEMPO = 0.001;
+constexpr double TAMANO_PARTICULAS = 2e-4;
+constexpr double PASO_TIEMPO = 1e-3;
 constexpr double PI = std::numbers::pi;
 
 const std::vector<double> acel_ex = {0.0, -9.8, 0.0};
