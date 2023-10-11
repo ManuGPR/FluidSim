@@ -16,24 +16,26 @@ namespace fisica {
         return 0;
     }
 
-    /*int fuerza_acel(struct Particula & part, vector<int> id_p,double h, double m){
-        incremento_densidades(part, id_p, h);
-        trans_acele(part, id_p,  h,  m);
+    int inicializar_dens_acelera(struct Particula & part, int id_p){
+        part.acel_x[id_p] = acel_ex[0];
+        part.acel_y[id_p] = acel_ex[1];
+        part.acel_z[id_p] = acel_ex[2];
+        part.dens[id_p] = 0.0;
         return 0;
     }
-    */
 
-    int incremento_densidades(struct Particula & part, vector<int> id_p, double h){
-        //particla i== id_p[0] y part j == id_p[1]
-        double diferencia;
-        diferencia = sqrt(pow(part.pos_x[id_p[0]]- part.pos_x[id_p[1]], 2.0)
-                          + pow(part.pos_y[id_p[0]]- part.pos_y[id_p[1]], 2.0)
-                          + pow(part.pos_z[id_p[0]]- part.pos_z[id_p[1]], 2.0));
-
-        if (pow(diferencia,2.0)  >= pow(h,2.0)) {
-            return 0;
+    int incremento_densidades(struct Particula & part, vector<int> id_p, double h) {
+        // particula i== id_p[0] y particula j == id_p[1]
+        double diferencia, incremento;
+        diferencia = pow(part.pos_x[id_p[0]] - part.pos_x[id_p[1]], 2.0) +
+                          pow(part.pos_y[id_p[0]] - part.pos_y[id_p[1]], 2.0) +
+                          pow(part.pos_z[id_p[0]] - part.pos_z[id_p[1]], 2.0);
+        if (diferencia >= h_c) {
+          incremento = 0;
         }
-        double incremento = pow(pow(h,2.0) - pow(diferencia,2.0),3.0);
+        else {
+          incremento = pow((h_c - diferencia), 3.0);
+        }
         part.dens[id_p[0]] += incremento;
         part.dens[id_p[1]] += incremento;
         return 0;
@@ -48,7 +50,7 @@ namespace fisica {
         diferencia = pow(sqrt(pow(part.pos_x[id_p[0]] - part.pos_x[id_p[1]], 2.0)
                           + pow(part.pos_y[id_p[0]] - part.pos_y[id_p[1]], 2.0)
                           + pow(part.pos_z[id_p[0]] - part.pos_z[id_p[1]], 2.0)), 2.0);
-        if (diferencia > pow(h, 2)) {return 0;}
+        if (diferencia >= pow(h, 2)) {return 0;}
         distancia = sqrt(max(diferencia, 1e-12));
         operando_1 = op_3 * (pow((h - distancia), 2.0) / distancia) *
                     (part.dens[id_p[0]] + part.dens[id_p[1]]- 2 * DENSIDAD_DE_FLUIDO);

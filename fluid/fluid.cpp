@@ -42,18 +42,19 @@ int main(int argc, char **argv) {
 
     for (int t = 0; t < nts; t++) {
         bloque::loc_particula(particulas, np, num_bloques, tam_bloques); //actualizacion
+        for(int i=0; i< np; i++) { fisica::inicializar_dens_acelera(particulas, i);}
         for (int i = 0; i < np; i++) {
-            for (int j = i + 1; j < np; j++) {
-                if (bloque::particula_contigua(particulas, i, j) == 1) {
-                    vector<int> part = {i, j};
-                    fisica::incremento_densidades(particulas, part, longitud_de_suavizado);
-                }
-            }
-            particulas.dens[i] = fisica::trans_densidad(particulas.dens[i]);
+          for (int j = i + 1; j < np; j++) {
+              if (bloque::particula_contigua(particulas, i, j) == 1) {
+                  vector<int> part = {i, j};
+                  fisica::incremento_densidades(particulas, part, longitud_de_suavizado);
+              }
+          }
+          //particulas.dens[i] = fisica::trans_densidad(particulas.dens[i]);
         }
 
         for(int i = 0; i < np; i++) {
-            for (int j = i + 1; j < np; j++) {
+            for (int j = i + 1 ; j < np; j++) {
                 if (bloque::particula_contigua(particulas, i, j) == 1) {
                     vector<int> part = {i, j};
                     fisica::trans_acele(particulas, part, longitud_de_suavizado, masa);

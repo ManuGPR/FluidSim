@@ -59,8 +59,8 @@ namespace ficheros {
 
     int escritura_salida(ofstream& file_out, const struct Particula & particulas, double ppm, int np) {
         auto aux = static_cast<float>(ppm);
-        //cout << "Salida nuestra \n";
-        //cout << aux << " " << np << endl;
+        cout << "Salida nuestra \n";
+        cout << aux << " " << np << endl;
         file_out.write(to_str(aux), sizeof(float));
         file_out.write(to_str(np), sizeof(float));
         for (int i = 0; i < np; i++) {
