@@ -61,9 +61,8 @@ struct Particula {
     explicit Particula(int np) : pos_x(np, 0.0), pos_y(np, 0.0), pos_z(np, 0.0),
                                  hv_x(np, 0.0), hv_y(np, 0.0), hv_z(np, 0.0),
                                  vel_x(np, 0.0), vel_y(np, 0.0), vel_z(np, 0.0),
-                                 acel_x(np, acel_ex[0]),
-                                 acel_y(np, acel_ex[1]),acel_z(np, acel_ex[2]),
-                                 dens(np, 0.0),
+                                 acel_x(np, acel_ex[0]), acel_y(np, acel_ex[1]),
+                                 acel_z(np, acel_ex[2]), dens(np, 0.0),
                                  loc_x(np, 0), loc_y(np, 0), loc_z(np, 0){};
 };
 #endif //ARQUITECTURA_GRID_HPP

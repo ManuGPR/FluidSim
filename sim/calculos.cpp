@@ -48,12 +48,10 @@ namespace fisica {
         diferencia = pow(sqrt(pow(part.pos_x[id_p[0]] - part.pos_x[id_p[1]], 2.0)
                           + pow(part.pos_y[id_p[0]] - part.pos_y[id_p[1]], 2.0)
                           + pow(part.pos_z[id_p[0]] - part.pos_z[id_p[1]], 2.0)), 2.0);
-        if (diferencia > pow(h, 2)) {
-            return 0;
-        }
+        if (diferencia > pow(h, 2)) {return 0;}
         distancia = sqrt(max(diferencia, 1e-12));
         operando_1 = op_3 * (pow((h - distancia), 2.0) / distancia) *
-                     (part.dens[id_p[0]] + part.dens[id_p[1]] - 2 * DENSIDAD_DE_FLUIDO);
+                    (part.dens[id_p[0]] + part.dens[id_p[1]]- 2 * DENSIDAD_DE_FLUIDO);
         denominador = part.dens[id_p[0]]* part.dens[id_p[1]];
         acl_x = (((part.pos_x[id_p[0]] - part.pos_x[id_p[1]]) * operando_1 + (part.vel_x[id_p[1]]
                                                                              -  part.vel_x[id_p[0]])* op_4 )/ denominador);
@@ -105,12 +103,12 @@ namespace fisica {
             double nueva_x = part.pos_x[id_p] + part.hv_x[id_p] * PASO_TIEMPO;
             double dist_x = TAMANO_PARTICULAS;
             if (part.loc_x[id_p] == 0) {
-                dist_x -= (nueva_x - limite_inf_recinto[0]);
+                dist_x = dist_x - (nueva_x - limite_inf_recinto[0]);
             }
             else {
-                dist_x -= (limite_sup_recinto[0] - nueva_x);
+                dist_x = dist_x - (limite_sup_recinto[0] - nueva_x);
             }
-            if (dist_x > pow(10, -10)) {
+            if (dist_x > 1e-10) {
                 if (part.loc_x[id_p] == 0) {
                     part.acel_x[id_p] = part.acel_x[id_p] + S_C * dist_x - D_V * part.vel_x[id_p];
                 }
@@ -127,12 +125,12 @@ namespace fisica {
             double nueva_y = part.pos_y[id_p] + part.hv_y[id_p] * PASO_TIEMPO;
             double dist_y = TAMANO_PARTICULAS;
             if (part.loc_y[id_p] == 0) {
-                dist_y -= (nueva_y - limite_inf_recinto[1]);
+                dist_y = dist_y - (nueva_y - limite_inf_recinto[1]);
             }
             else {
-                dist_y -= (limite_sup_recinto[1] - nueva_y);
+                dist_y = dist_y - (limite_sup_recinto[1] - nueva_y);
             }
-            if (dist_y > pow(10, -10)) {
+            if (dist_y > 1e-10) {
                 if (part.loc_y[id_p] == 0) {
                     part.acel_y[id_p] = part.acel_y[id_p] + S_C * dist_y - D_V * part.vel_y[id_p];
                 }
@@ -149,12 +147,12 @@ namespace fisica {
             double nueva_z = part.pos_z[id_p] + part.hv_z[id_p] * PASO_TIEMPO;
             double dist_z = TAMANO_PARTICULAS;
             if (part.loc_z[id_p] == 0) {
-                dist_z -= (nueva_z - limite_inf_recinto[2]);
+                dist_z = dist_z - (nueva_z - limite_inf_recinto[2]);
             }
             else {
-                dist_z -= (limite_sup_recinto[2] - nueva_z);
+                dist_z = dist_z - (limite_sup_recinto[2] - nueva_z);
             }
-            if (dist_z > pow(10, -10)) {
+            if (dist_z > 1e-10) {
                 if (part.loc_z[id_p] == 0) {
                     part.acel_z[id_p] = part.acel_z[id_p] + S_C * dist_z - D_V * part.vel_z[id_p];
                 }

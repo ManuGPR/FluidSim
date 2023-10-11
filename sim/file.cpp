@@ -47,7 +47,7 @@ namespace ficheros {
             particulas.acel_x[np_real] = acel_ex[0];
             particulas.acel_y[np_real] = acel_ex[1];
             particulas.acel_z[np_real]= acel_ex[2];
-            //cout << particulas.pos_x[np_real] << "\n";
+            //cout << particulas.hv_x[np_real] << "\n";
             np_real ++;
         }
         if (np_real != np){
