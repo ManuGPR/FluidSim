@@ -50,8 +50,9 @@ namespace fisica {
         double distancia, diferencia, operando_1,denominador, acl_x, acl_y, acl_z;
         diferencia = pow(sqrt(pow(part.pos_x[id_p[0]] - part.pos_x[id_p[1]], 2.0)
                           + pow(part.pos_y[id_p[0]] - part.pos_y[id_p[1]], 2.0)
-                          + pow(part.pos_z[id_p[0]] - part.pos_z[id_p[1]], 2.0)), 2.0);
-        if (diferencia >= pow(h, 2)) {return 0;}
+                          + pow(part.pos_z[id_p[0]] - part.pos_z[id_p[1]], 2.0);
+
+        if (diferencia >= h_c) {return 0;}
         distancia = sqrt(max(diferencia, 1e-12));
         operando_1 = op_3 * (pow((h - distancia), 2.0) / distancia) *
                     (part.dens[id_p[0]] + part.dens[id_p[1]]- 2 * DENSIDAD_DE_FLUIDO);
