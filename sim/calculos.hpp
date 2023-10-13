@@ -20,7 +20,7 @@ namespace fisica {
     int inicializar_dens_acelera(struct Particula & part, int id_p);
     int incremento_densidades(struct Particula & part, vector<int> id_p, double h);
     double trans_densidad(double incremento);
-    int trans_acele(struct Particula & part, vector<int> id_p, double h, double m);
+    int trans_acele(struct Particula & part, vector<int> id_p, double h);
     int mov_part(struct Particula & part, int id_p);
     int col_x(struct Particula & part, vector<int> num_bloques, int id_p);
     int col_y(struct Particula & part, vector<int> num_bloques, int id_p);

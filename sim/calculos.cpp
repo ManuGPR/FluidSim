@@ -47,7 +47,7 @@ namespace fisica {
         return incremento * op_1 + op_2;
     }
 
-    int trans_acele(struct Particula & part, vector<int> id_p, double h, double m) {
+    int trans_acele(struct Particula & part, vector<int> id_p, double h) {
         double distancia, diferencia, operando_1,denominador, acl_x, acl_y, acl_z;
         diferencia = pow(part.pos_x[id_p[0]] - part.pos_x[id_p[1]], 2.0)  + pow(part.pos_y[id_p[0]] - part.pos_y[id_p[1]], 2.0)
                      + pow(part.pos_z[id_p[0]] - part.pos_z[id_p[1]], 2.0);
