@@ -55,7 +55,6 @@ int main(int argc, char **argv) {
         /*for (int i = 0; i < np; i++) {
             cout <<"Dens = " << i << " " << particulas.dens[i] << "\n";
         }*/
-        return 0;
 
         for(int i = 0; i < np; i++) {
             for (int j = i + 1; j < np; j++) {
@@ -67,11 +66,12 @@ int main(int argc, char **argv) {
             }
             return 0;
         }
+        return 0;
         for (int i = 0; i < np; i++) {
             cout << "ID = " << i << " Acel x = " << particulas.acel_x[i] << " Acel y = " << particulas.acel_y[i] << " Acel z = " << particulas.acel_z[i] << "\n";
         }
 
-        return 0;
+
 
         return 0;
         for (int i = 0; i < np; i++) {
