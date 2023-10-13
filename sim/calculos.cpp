@@ -69,16 +69,17 @@ namespace fisica {
         double posy = (part.pos_y[id_p[0]] - part.pos_y[id_p[1]]);
         double posz = (part.pos_z[id_p[0]] - part.pos_z[id_p[1]]);
 
+        double o_1x = posx  * operando_1;
+        double o_1y = posy * operando_1;
+        double o_1z = posz  * operando_1;
+
+        cout <<" delta accel num 1 = (" << o_1x << ", " << o_1y << ", "  << o_1z << ")\n";
+
         cout <<" pos= (" << posx << ", " << posy << ", "  << posz << ")\n";
 
         cout << " constant1= " << op_3 <<"\n";
 
-        cout << " dist = " << ((h - distancia) * (h - distancia)) / distancia<< "\n";
-
-        double o_1x = posx  * operando_1;
-        double o_1y = posy * operando_1;
-        double o_1z = posz  * operando_1;
-        cout <<" delta accel num 1 = (" << o_1x << ", " << o_1y << ", "  << o_1z << ")\n";
+        cout << " (h-dist)^2 / dist= " << ((h - distancia) * (h - distancia)) / distancia<< "\n";
 
         cout <<" densit1 = " << part.dens[id_p[0]] <<"\n";
         cout <<" densit2 = " << part.dens[id_p[1]] <<"\n";
