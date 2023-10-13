@@ -67,30 +67,13 @@ namespace fisica {
         double o_1y = posy * operando_1;
         double o_1z = posz  * operando_1;
 
-        cout <<" delta accel num 1 = (" << o_1x << ", " << o_1y << ", "  << o_1z << ")\n";
-
-        cout <<" pos= (" << posx << ", " << posy << ", "  << posz << ")\n";
-
-        cout << " constant1= " << op_3 <<"\n";
-
-        cout << " (h-dist)^2 / dist= " << ((h - distancia) * (h - distancia)) / distancia<< "\n";
-
-        cout <<" densit1 = " << part.dens[id_p[0]] <<"\n";
-        cout <<" densit2 = " << part.dens[id_p[1]] <<"\n";
-        cout << " density global = " <<  DENSIDAD_DE_FLUIDO <<"\n";
-
         double o_2x = o_1x + (part.vel_x[id_p[1]] -  part.vel_x[id_p[0]]) * op_4;
         double o_2y = o_1y + (part.vel_y[id_p[1]] -  part.vel_y[id_p[0]])* op_4;
         double o_2z = o_1z + (part.vel_z[id_p[1]] -  part.vel_z[id_p[0]])* op_4;
 
-        cout << " delta accel num 1 + num 2 = (" << o_2x << ", " << o_2y << ", " << o_2z << ")\n";
-
         acl_x = o_2x / denominador;
         acl_y = o_2y / denominador;
         acl_z = o_2z / denominador;
-
-        cout << " delta accel after div = (" << acl_x << ", " << acl_y << ", " << acl_z <<")\n";
-        cout << "denominador = " << denominador << "\n";
 
         part.acel_x[id_p[0]] += acl_x;
         part.acel_y[id_p[0]] += acl_y;
@@ -99,17 +82,13 @@ namespace fisica {
         part.acel_y[id_p[1]] -= acl_y;
         part.acel_z[id_p[1]] -= acl_z;
         return 0;
-
-        //acl_x = (((part.pos_x[id_p[0]] - part.pos_x[id_p[1]])  * operando_1 + (part.vel_x[id_p[1]] -  part.vel_x[id_p[0]])* op_4 )/ denominador);
-        //acl_y = (((part.pos_y[id_p[0]] - part.pos_y[id_p[1]]) * operando_1 + (part.vel_y[id_p[1]] -  part.vel_y[id_p[0]])* op_4)/ denominador);
-        //acl_z = (((part.pos_z[id_p[0]] - part.pos_z[id_p[1]]) * operando_1  + (part.vel_z[id_p[1]] -  part.vel_z[id_p[0]])* op_4) / denominador);
     }
 
     int col_mov(struct Particula & part, vector<int> num_bloques, int id_p){
         col_x(part, num_bloques, id_p);
         col_y(part, num_bloques, id_p);
         col_z(part, num_bloques, id_p);
-        mov_part(part, id_p);
+        //mov_part(part, id_p);
         return 0;
     }
     int interacion(struct Particula & part, vector<int> num_bloques, int id_p){

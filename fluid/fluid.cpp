@@ -44,7 +44,6 @@ int main(int argc, char **argv) {
         for (int i = 0; i < np; i++) {
           for (int j = i + 1; j < np; j++) {
               if (bloque::particula_contigua(particulas, i, j) == 1) {
-                //cout << "Partícula i = " << i << " Partícula j = " << j << "\n";
                   vector<int> part = {i, j};
                   fisica::incremento_densidades(particulas, part, longitud_de_suavizado);
               }
@@ -52,16 +51,11 @@ int main(int argc, char **argv) {
           particulas.dens[i] = fisica::trans_densidad(particulas.dens[i]);
         }
 
-        /*for (int i = 0; i < np; i++) {
-            cout <<"Dens = " << i << " " << particulas.dens[i] << "\n";
-        }*/
-
         for(int i = 0; i < np; i++) {
             for (int j = i + 1; j < np; j++) {
                 if (bloque::particula_contigua(particulas, i, j) == 1) {
                     vector<int> part = {i, j};
                     fisica::trans_acele(particulas, part, longitud_de_suavizado, masa);
-
                 }
             }
         }
@@ -70,6 +64,11 @@ int main(int argc, char **argv) {
             fisica::col_mov(particulas, num_bloques, i);
         }
 
+        for (int i = 0; i < np; i++) {
+            cout <<"Acl = " << i << " " << particulas.acel_x[i] << ", " << particulas.acel_y[i] << ", " << particulas.acel_z[i] << "\n";
+        }
+
+        return 0;
         for (int i = 0; i < np; i++) {
             fisica::interacion(particulas, num_bloques, i);
         }
@@ -82,7 +81,7 @@ int main(int argc, char **argv) {
     ifstream fichero_comp;
     ofstream fichero_comp_salida("salida.txt");
 
-    fichero_comp.open("acctransf-base-1.trz", ios::binary);
+    fichero_comp.open("partcol-base-1.trz", ios::binary);
     int cabecera = 0;
     fichero_comp.read(reinterpret_cast<char *> (&cabecera), sizeof(int));
     fichero_comp_salida << cabecera << "\n";
