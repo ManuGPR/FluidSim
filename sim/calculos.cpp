@@ -82,9 +82,9 @@ namespace fisica {
         cout <<" densit2 = " << part.dens[id_p[1]] <<"\n";
         cout << " density global = " <<  DENSIDAD_DE_FLUIDO <<"\n";
 
-        double o_2x = o_1x + (part.vel_x[id_p[0]] -  part.vel_x[id_p[1]])* op_4;
-        double o_2y = o_1y + (part.vel_y[id_p[0]] -  part.vel_y[id_p[1]])* op_4;
-        double o_2z = o_1z + (part.vel_z[id_p[0]] -  part.vel_z[id_p[1]])* op_4;
+        double o_2x = o_1x + (part.vel_x[id_p[1]] -  part.vel_x[id_p[0]]) * op_4;
+        double o_2y = o_1y + (part.vel_y[id_p[1]] -  part.vel_y[id_p[0]])* op_4;
+        double o_2z = o_1z + (part.vel_z[id_p[1]] -  part.vel_z[id_p[0]])* op_4;
 
         cout << " delta accel num 1 + num 2 = (" << o_2x << ", " << o_2y << ", " << o_2z << ")\n";
 
@@ -93,6 +93,7 @@ namespace fisica {
         acl_z = o_2z / denominador;
 
         cout << " delta accel after div = (" << acl_x << ", " << acl_y << ", " << acl_z <<")\n";
+        cout << "denominador = " << denominador << "\n";
 
         part.acel_x[id_p[0]] += acl_x;
         part.acel_y[id_p[0]] += acl_y;
