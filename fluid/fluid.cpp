@@ -52,9 +52,13 @@ int main(int argc, char **argv) {
           particulas.dens[i] = fisica::trans_densidad(particulas.dens[i]);
         }
 
+        /*for (int i = 0; i < np; i++) {
+            cout <<"Dens = " << i << " " << particulas.dens[i] << "\n";
+        }*/
+        return 0;
 
         for(int i = 0; i < np; i++) {
-            for (int j = i + 1 ; j < np; j++) {
+            for (int j = i + 1; j < np; j++) {
                 if (bloque::particula_contigua(particulas, i, j) == 1) {
                     vector<int> part = {i, j};
                     fisica::trans_acele(particulas, part, longitud_de_suavizado, masa);
@@ -63,6 +67,11 @@ int main(int argc, char **argv) {
             }
             return 0;
         }
+        for (int i = 0; i < np; i++) {
+            cout << "ID = " << i << " Acel x = " << particulas.acel_x[i] << " Acel y = " << particulas.acel_y[i] << " Acel z = " << particulas.acel_z[i] << "\n";
+        }
+
+        return 0;
 
         return 0;
         for (int i = 0; i < np; i++) {
