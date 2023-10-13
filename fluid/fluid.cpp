@@ -64,20 +64,7 @@ int main(int argc, char **argv) {
 
                 }
             }
-            return 0;
         }
-        return 0;
-        for (int i = 0; i < np; i++) {
-            cout << "ID = " << i << " Acel x = " << particulas.acel_x[i] << " Acel y = " << particulas.acel_y[i] << " Acel z = " << particulas.acel_z[i] << "\n";
-        }
-
-
-
-        return 0;
-        for (int i = 0; i < np; i++) {
-            cout <<"Acl = " << i << " " << particulas.acel_x[i] << ", " << particulas.acel_y[i] << ", " << particulas.acel_z[i] << "\n";
-        }
-        return 0;
 
         for (int i = 0; i < np; i++){
             fisica::col_mov(particulas, num_bloques, i);
@@ -89,7 +76,7 @@ int main(int argc, char **argv) {
     }
 
     //output_file("file_out", ios::binary);
-    /*
+
     file_out.open("out.fld", ios::binary);
     ficheros::escritura_salida(file_out, particulas, ppm, np);
     ifstream fichero_comp;
@@ -128,5 +115,5 @@ int main(int argc, char **argv) {
         num_bloque ++;
         fichero_comp_salida << "\n";
 
-    }*/
+    }
 }

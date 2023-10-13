@@ -54,10 +54,7 @@ namespace fisica {
 
         if (diferencia >= h_c) {return 0;}
 
-        cout << "Transfer acc id=" << id_p[0] << " <->  " << id_p[1]<< "\n" ;
-
         distancia = sqrt(max(diferencia, 1e-12));
-        cout << " distance = " << distancia << "\n";
 
         operando_1 = op_3 * (pow((h - distancia), 2.0)  / distancia) *(part.dens[id_p[0]] + part.dens[id_p[1]] - 2 * DENSIDAD_DE_FLUIDO);
         denominador = part.dens[id_p[0]]* part.dens[id_p[1]];
