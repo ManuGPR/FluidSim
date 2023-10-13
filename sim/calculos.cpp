@@ -11,7 +11,8 @@ namespace fisica {
     int calcular_operandos(double m, double h) {
         op_1 = ((315 * m) / (64 * PI * pow(h, 9.0)));
         op_2 = pow(h, 6) * op_1;
-        op_3 = (15 / (PI * pow(h, 6.0)))*((3*m*PRESION_DE_RIGIDEZ)/2);
+        //op_3 = (15 * m )/(PI * pow(h,6.0) );
+        op_3 = (15 * m *3 * PRESION_DE_RIGIDEZ)/(PI * pow(h,6.0)*2 );
         op_4 = (45 / (PI * pow(h, 6.0))) * VISCOSIDAD * m;
         h_c = h*h;
         return 0;
@@ -47,28 +48,65 @@ namespace fisica {
     }
 
     int trans_acele(struct Particula & part, vector<int> id_p, double h, double m) {
+        //cout << "masa = " << m << "\n";
+        //cout << "h = " << h << "\n";
+
         double distancia, diferencia, operando_1,denominador, acl_x, acl_y, acl_z;
-        diferencia = pow(sqrt(pow(part.pos_x[id_p[0]] - part.pos_x[id_p[1]], 2.0)
-                          + pow(part.pos_y[id_p[0]] - part.pos_y[id_p[1]], 2.0)
-                          + pow(part.pos_z[id_p[0]] - part.pos_z[id_p[1]], 2.0)), 2.0);
-        if (diferencia >= pow(h, 2)) {return 0;}
+        diferencia = pow(part.pos_x[id_p[0]] - part.pos_x[id_p[1]], 2.0)  + pow(part.pos_y[id_p[0]] - part.pos_y[id_p[1]], 2.0)
+                     + pow(part.pos_z[id_p[0]] - part.pos_z[id_p[1]], 2.0);
+
+        if (diferencia >= h_c) {return 0;}
+
+        cout << "Transfer acc id=" << id_p[0] << " <->  " << id_p[1]<< "\n" ;
+
         distancia = sqrt(max(diferencia, 1e-12));
-        operando_1 = op_3 * (pow((h - distancia), 2.0) / distancia) *
-                    (part.dens[id_p[0]] + part.dens[id_p[1]]- 2 * DENSIDAD_DE_FLUIDO);
+        cout << " distance = " << distancia << "\n";
+
+        operando_1 = op_3 * (pow((h - distancia), 2.0)  / distancia) *(part.dens[id_p[0]] + part.dens[id_p[1]] - 2 * DENSIDAD_DE_FLUIDO);
         denominador = part.dens[id_p[0]]* part.dens[id_p[1]];
-        acl_x = (((part.pos_x[id_p[0]] - part.pos_x[id_p[1]]) * operando_1 + (part.vel_x[id_p[1]]
-                                                                             -  part.vel_x[id_p[0]])* op_4 )/ denominador);
-        acl_y = (((part.pos_y[id_p[0]] - part.pos_y[id_p[1]]) * operando_1 + (part.vel_y[id_p[1]]
-                                                                             -  part.vel_y[id_p[0]])* op_4)/ denominador);
-        acl_z = (((part.pos_z[id_p[0]] - part.pos_z[id_p[1]]) * operando_1  + (part.vel_z[id_p[1]]
-                                                                              -  part.vel_z[id_p[0]])* op_4) / denominador);
-        part.acel_x[id_p[0]] = part.acel_x[id_p[0]] + acl_x;
-        part.acel_y[id_p[0]] = part.acel_y[id_p[0]] + acl_y;
-        part.acel_z[id_p[0]] = part.acel_z[id_p[0]] + acl_z;
-        part.acel_x[id_p[1]] = part.acel_x[id_p[1]] - acl_x;
-        part.acel_y[id_p[1]] = part.acel_y[id_p[1]] - acl_y;
-        part.acel_z[id_p[1]] = part.acel_z[id_p[1]] - acl_z;
+
+        double posx = (part.pos_x[id_p[0]] - part.pos_x[id_p[1]]);
+        double posy = (part.pos_y[id_p[0]] - part.pos_y[id_p[1]]);
+        double posz = (part.pos_z[id_p[0]] - part.pos_z[id_p[1]]);
+
+        cout <<" pos= (" << posx << ", " << posy << ", "  << posz << ")\n";
+
+        cout << " constant1= " << op_3 <<"\n";
+
+        cout << " dist = " << ((h - distancia) * (h - distancia)) / distancia<< "\n";
+
+        double o_1x = posx  * operando_1;
+        double o_1y = posy * operando_1;
+        double o_1z = posz  * operando_1;
+        cout <<" delta accel num 1 = (" << o_1x << ", " << o_1y << ", "  << o_1z << ")\n";
+
+        cout <<" densit1 = " << part.dens[id_p[0]] <<"\n";
+        cout <<" densit2 = " << part.dens[id_p[1]] <<"\n";
+        cout << " density global = " <<  DENSIDAD_DE_FLUIDO <<"\n";
+
+        double o_2x = o_1x + (part.vel_x[id_p[0]] -  part.vel_x[id_p[1]])* op_4;
+        double o_2y = o_1y + (part.vel_y[id_p[0]] -  part.vel_y[id_p[1]])* op_4;
+        double o_2z = o_1z + (part.vel_z[id_p[0]] -  part.vel_z[id_p[1]])* op_4;
+
+        cout << " delta accel num 1 + num 2 = (" << o_2x << ", " << o_2y << ", " << o_2z << ")\n";
+
+        acl_x = o_2x / denominador;
+        acl_y = o_2y / denominador;
+        acl_z = o_2z / denominador;
+
+        cout << " delta accel after div = (" << acl_x << ", " << acl_y << ", " << acl_z <<")\n";
+
+        part.acel_x[id_p[0]] += acl_x;
+        part.acel_y[id_p[0]] += acl_y;
+        part.acel_z[id_p[0]] += acl_z;
+        part.acel_x[id_p[1]] -= acl_x;
+        part.acel_y[id_p[1]] -= acl_y;
+        part.acel_z[id_p[1]] -= acl_z;
         return 0;
+
+        //acl_x = (((part.pos_x[id_p[0]] - part.pos_x[id_p[1]])  * operando_1 + (part.vel_x[id_p[1]] -  part.vel_x[id_p[0]])* op_4 )/ denominador);
+        //acl_y = (((part.pos_y[id_p[0]] - part.pos_y[id_p[1]]) * operando_1 + (part.vel_y[id_p[1]] -  part.vel_y[id_p[0]])* op_4)/ denominador);
+        //acl_z = (((part.pos_z[id_p[0]] - part.pos_z[id_p[1]]) * operando_1  + (part.vel_z[id_p[1]] -  part.vel_z[id_p[0]])* op_4) / denominador);
     }
 
     int col_mov(struct Particula & part, vector<int> num_bloques, int id_p){

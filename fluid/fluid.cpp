@@ -42,30 +42,33 @@ int main(int argc, char **argv) {
         bloque::loc_particula(particulas, np, num_bloques, tam_bloques); //actualizacion
         for(int i=0; i< np; i++) { fisica::inicializar_dens_acelera(particulas, i);}
         for (int i = 0; i < np; i++) {
-          for (int j = i; j < np; j++) {
+          for (int j = i + 1; j < np; j++) {
               if (bloque::particula_contigua(particulas, i, j) == 1) {
-                cout << "Partícula i = " << i << " Partícula j = " << j << "\n";
+                //cout << "Partícula i = " << i << " Partícula j = " << j << "\n";
                   vector<int> part = {i, j};
                   fisica::incremento_densidades(particulas, part, longitud_de_suavizado);
               }
           }
-          return 0;
-          //particulas.dens[i] = fisica::trans_densidad(particulas.dens[i]);
+          particulas.dens[i] = fisica::trans_densidad(particulas.dens[i]);
         }
 
-        /*for (int i = 0; i < np; i++) {
-            cout <<"Dens = " << i << " " << particulas.dens[i] << "\n";
-        }*/
-        return 0;
 
         for(int i = 0; i < np; i++) {
             for (int j = i + 1 ; j < np; j++) {
                 if (bloque::particula_contigua(particulas, i, j) == 1) {
                     vector<int> part = {i, j};
                     fisica::trans_acele(particulas, part, longitud_de_suavizado, masa);
+
                 }
             }
+            return 0;
         }
+
+        return 0;
+        for (int i = 0; i < np; i++) {
+            cout <<"Acl = " << i << " " << particulas.acel_x[i] << ", " << particulas.acel_y[i] << ", " << particulas.acel_z[i] << "\n";
+        }
+        return 0;
 
         for (int i = 0; i < np; i++){
             fisica::col_mov(particulas, num_bloques, i);
@@ -77,12 +80,13 @@ int main(int argc, char **argv) {
     }
 
     //output_file("file_out", ios::binary);
+    /*
     file_out.open("out.fld", ios::binary);
     ficheros::escritura_salida(file_out, particulas, ppm, np);
-    /*ifstream fichero_comp;
+    ifstream fichero_comp;
     ofstream fichero_comp_salida("salida.txt");
 
-    fichero_comp.open("densinc-base-1.trz", ios::binary);
+    fichero_comp.open("acctransf-base-1.trz", ios::binary);
     int cabecera = 0;
     fichero_comp.read(reinterpret_cast<char *> (&cabecera), sizeof(int));
     fichero_comp_salida << cabecera << "\n";
@@ -114,5 +118,6 @@ int main(int argc, char **argv) {
         }
         num_bloque ++;
         fichero_comp_salida << "\n";
+
     }*/
 }
