@@ -111,6 +111,7 @@ int main(int argc, char **argv) {
     ifstream fichero_comp;
     ofstream fichero_comp_salida("salida.txt");
 
+
     fichero_comp.open("boundint-base-1.trz", ios::binary);
     int cabecera = 0;
     fichero_comp.read(reinterpret_cast<char *> (&cabecera), sizeof(int));
