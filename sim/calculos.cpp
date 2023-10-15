@@ -11,7 +11,6 @@ namespace fisica {
     int calcular_operandos(double m, double h) {
         op_1 = ((315 * m) / (64 * PI * pow(h, 9.0)));
         op_2 = pow(h, 6) * op_1;
-        //op_3 = (15 * m )/(PI * pow(h,6.0) );
         op_3 = (15 * m *3 * PRESION_DE_RIGIDEZ)/(PI * pow(h,6.0)*2 );
         op_4 = (45 / (PI * pow(h, 6.0))) * VISCOSIDAD * m;
         h_c = h*h;
@@ -88,7 +87,7 @@ namespace fisica {
         col_x(part, num_bloques, id_p);
         col_y(part, num_bloques, id_p);
         col_z(part, num_bloques, id_p);
-        //mov_part(part, id_p);
+        mov_part(part, id_p);
         return 0;
     }
     int interacion(struct Particula & part, vector<int> num_bloques, int id_p){
@@ -126,10 +125,10 @@ namespace fisica {
             }
             if (dist_x > 1e-10) {
                 if (part.loc_x[id_p] == 0) {
-                    part.acel_x[id_p] = part.acel_x[id_p] + S_C * dist_x - D_V * part.vel_x[id_p];
+                    part.acel_x[id_p] = part.acel_x[id_p] + (S_C * dist_x - D_V * part.vel_x[id_p]);
                 }
                 else {
-                    part.acel_x[id_p] = part.acel_x[id_p] - S_C * dist_x + D_V * part.vel_x[id_p];
+                    part.acel_x[id_p] = part.acel_x[id_p] - (S_C * dist_x + D_V * part.vel_x[id_p]);
                 }
             }
         }
@@ -247,54 +246,5 @@ namespace fisica {
         return 0;
     }
 
-    /*
-   vector<double> densidad;
-   vector<double> aceleracion;
-   vector<double> posicionx;
-   vector<double> posiciony;
-    */
-    /*
-    void incremento_densidades(double h,int  np){
-        for (int i = 0; i == np; i++) {
-            for(int j = 0; j == np; i++){
-                if (i < j){// Evitar ij == ji
-                    if (abs(densidad[i]-densidad[j])^2  < h^2){
-                        densidad[i] = densidad[i] + h^2- abs(densidad[i]-densidad[j])^3;
-                        densidad[j] = densidad[j] + h^2- abs(densidad[i]-densidad[j])^3;
-                    }
-                }
-            }
-        }
-    }
-    */
-
-    /*
-    void iniciar_densidad_aceleracion(int np, double g) {
-        for (int i = 0; i == np; i++) {
-            densidad.push_back(0);
-            aceleracion.push_back(g);
-
-        }
-    }
-    */
-
-    /*
-    void trans_acele(int  np, double h){
-        int distancia;
-        int incremento;
-        for (int i = 0; i == np; i++) {
-            for (int j = 0; j == np; i++) {
-                if (i < j) {// Evitar ij == ji
-                    if (abs(densidad[i] - densidad[j]) ^ 2 < h ^ 2) {
-                        distancia = sqrt(max(abs(densidad[i] - densidad[j]) ^ 2, 1e-12));
-                        incremento =
-                        aceleracion[i] = aceleracion[i] +
-
-                    }
-                }
-            }
-        }
-    }
-    */
 
 }

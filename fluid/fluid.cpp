@@ -40,7 +40,17 @@ int main(int argc, char **argv) {
 
     for (int time = 0; time < nts; time++) {
         bloque::loc_particula(particulas, np, num_bloques, tam_bloques); //actualizacion
+        /*
+        for (int i = 0; i < np; i++) {
+          cout <<"Loc = " << i << " " << particulas.loc_x[i] << ", " << particulas.loc_y[i] << ", " << particulas.loc_z[i] << "\n";
+        }
+         */
         for(int i=0; i< np; i++) { fisica::inicializar_dens_acelera(particulas, i);}
+        /*
+        for (int i = 0; i < np; i++) {
+          cout <<"Acl = " << i << " " << particulas.acel_x[i] << ", " << particulas.acel_y[i] << ", " << particulas.acel_z[i] << "\n";
+        }
+         */
         for (int i = 0; i < np; i++) {
           for (int j = i + 1; j < np; j++) {
               if (bloque::particula_contigua(particulas, i, j) == 1) {
@@ -50,6 +60,11 @@ int main(int argc, char **argv) {
           }
           particulas.dens[i] = fisica::trans_densidad(particulas.dens[i]);
         }
+        /*
+        for (int i = 0; i < np; i++) {
+          cout <<"Den = " << i << " " << particulas.dens[i] << "\n";
+        }
+         */
 
         for(int i = 0; i < np; i++) {
             for (int j = i + 1; j < np; j++) {
@@ -59,18 +74,33 @@ int main(int argc, char **argv) {
                 }
             }
         }
+        /*
+        for (int i = 0; i < np; i++) {
+            cout <<"Acl = " << i << " " << particulas.acel_x[i] << ", " << particulas.acel_y[i] << ", " << particulas.acel_z[i] << "\n";
+        }
+         */
 
         for (int i = 0; i < np; i++){
             fisica::col_mov(particulas, num_bloques, i);
         }
-
+        /*
         for (int i = 0; i < np; i++) {
-            cout <<"Acl = " << i << " " << particulas.acel_x[i] << ", " << particulas.acel_y[i] << ", " << particulas.acel_z[i] << "\n";
+            cout <<"pos = " << i << " " << particulas.pos_x[i] << ", " << particulas.pos_y[i] << ", " << particulas.pos_z[i] << "\n";
+            cout <<"vel = " << i << " " << particulas.vel_x[i] << ", " << particulas.vel_y[i] << ", " << particulas.vel_z[i] << "\n";
+            cout <<"hv = " << i << " " << particulas.hv_x[i] << ", " << particulas.hv_y[i] << ", " << particulas.hv_z[i] << "\n";
         }
+         */
 
-        return 0;
+
+
         for (int i = 0; i < np; i++) {
             fisica::interacion(particulas, num_bloques, i);
+        }
+
+        for (int i = 0; i < np; i++) {
+            cout <<"pos = " << i << " " << particulas.pos_x[i] << ", " << particulas.pos_y[i] << ", " << particulas.pos_z[i] << "\n";
+            cout <<"vel = " << i << " " << particulas.vel_x[i] << ", " << particulas.vel_y[i] << ", " << particulas.vel_z[i] << "\n";
+            cout <<"hv = " << i << " " << particulas.hv_x[i] << ", " << particulas.hv_y[i] << ", " << particulas.hv_z[i] << "\n";
         }
     }
 
@@ -81,7 +111,7 @@ int main(int argc, char **argv) {
     ifstream fichero_comp;
     ofstream fichero_comp_salida("salida.txt");
 
-    fichero_comp.open("partcol-base-1.trz", ios::binary);
+    fichero_comp.open("boundint-base-1.trz", ios::binary);
     int cabecera = 0;
     fichero_comp.read(reinterpret_cast<char *> (&cabecera), sizeof(int));
     fichero_comp_salida << cabecera << "\n";
