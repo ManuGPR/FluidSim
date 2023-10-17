@@ -10,22 +10,21 @@ using namespace std;
 
 namespace ficheros {
     tuple <int, double> lectura_cabecera(ifstream & file_in){
-        double ppm;
-        int np;
-        float ppm_float;
+        int nps         = 0;
+        float ppm_float = 0.0;
         file_in.read(reinterpret_cast<char *> (&ppm_float), sizeof(float));
-        ppm = static_cast<double>(ppm_float);
-        file_in.read(reinterpret_cast<char *> (&np), sizeof(int));
-        //Comprobación del np
-        if (entry::check_np(np) != 0){return tuple(-5, -5.0);}
-        np = static_cast<double>(np);
-        return tuple(np, ppm);
+        const double ppm = static_cast<double>(ppm_float);
+        file_in.read(reinterpret_cast<char *> (&nps), sizeof(int));
+        //Comprobación del nps
+        if (entry::check_np(nps) != 0){return tuple(-5, -5.0);}
+        nps = static_cast<double>(nps);
+        return tuple(nps, ppm);
     }
 
     double lectura_float_to_double (ifstream & fichero) {
         /*Función que se encarga de leer un float del fichero y devolver un double
          * param1: fichero del que se lee*/
-        float aux_float;
+        float aux_float = 0.0;
         fichero.read(reinterpret_cast<char *> (&aux_float), sizeof(float));
         return static_cast<double>(aux_float);
     }
@@ -50,7 +49,7 @@ namespace ficheros {
             np_real ++;
         }
         if (np_real != np){
-            cerr << " Number of particles mismatch. Header: " << np <<", Found:" << np_real << endl;
+            cerr << " Number of particles mismatch. Header: " << np <<", Found:" << np_real << "\n";
             return -5;
         }
         return 0;
