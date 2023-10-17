@@ -1,3 +1,0 @@
-/home/marina/Documentos/Arquitectura/cmake-build-release/CMakeFiles/AC3.dir
-/home/marina/Documentos/Arquitectura/cmake-build-release/CMakeFiles/edit_cache.dir
-/home/marina/Documentos/Arquitectura/cmake-build-release/CMakeFiles/rebuild_cache.dir
