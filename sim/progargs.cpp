@@ -85,6 +85,7 @@ namespace entry {
     }
      */
 
+
     int check_param(vector<std::string> const &  arguments){
         if (entry::check_args(arguments) != 0) {return -1;} //Checkeo de lor argumentos
         const int nts = entry::check_nts(arguments); //Checkeo de nts
