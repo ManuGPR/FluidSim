@@ -17,7 +17,7 @@ constexpr double D_V = 128.0;
 constexpr double VISCOSIDAD = 0.4;
 constexpr double TAMANO_PARTICULAS = 2e-4;
 constexpr double PASO_TIEMPO = 1e-3;
-constexpr double PI_CONST           = std::numbers::pi;
+constexpr double PI_CONST = std::numbers::pi;
 
 const std::vector<double> acel_ex = {0.0, -9.8, 0.0};
 const std::vector<double> limite_sup_recinto = {0.065, 0.1, 0.065};

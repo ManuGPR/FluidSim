@@ -22,6 +22,8 @@ namespace bloque {
         result[0] = (lim_sup[0] - lim_inf[0]) / num_bloques[0];
         result[1] = (lim_sup[1] - lim_inf[1]) / num_bloques[1];
         result[2] = (lim_sup[2] - lim_inf[2]) / num_bloques[2];
+
+
         return 0;
     }
 

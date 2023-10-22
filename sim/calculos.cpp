@@ -129,10 +129,10 @@ namespace fisica {
             }
             if (dist_y > 1e-10) {
                 if (part.loc_y[id_p] == 0) {
-                    part.acel_y[id_p] = part.acel_y[id_p] + S_C * dist_y - D_V * part.vel_y[id_p];
+                    part.acel_y[id_p] = part.acel_y[id_p] + (S_C * dist_y - D_V * part.vel_y[id_p]);
                 }
                 else {
-                    part.acel_y[id_p] = part.acel_y[id_p] - S_C * dist_y + D_V * part.vel_y[id_p];
+                    part.acel_y[id_p] = part.acel_y[id_p] - (S_C * dist_y + D_V * part.vel_y[id_p]);
                 }
             }
         }
@@ -151,10 +151,10 @@ namespace fisica {
             }
             if (dist_z > 1e-10) {
                 if (part.loc_z[id_p] == 0) {
-                    part.acel_z[id_p] = part.acel_z[id_p] + S_C * dist_z - D_V * part.vel_z[id_p];
+                    part.acel_z[id_p] = part.acel_z[id_p] + (S_C * dist_z - D_V * part.vel_z[id_p]);
                 }
                 else {
-                    part.acel_z[id_p] = part.acel_z[id_p] - S_C * dist_z + D_V * part.vel_z[id_p];
+                    part.acel_z[id_p] = part.acel_z[id_p] - (S_C * dist_z + D_V * part.vel_z[id_p]);
                 }
             }
         }

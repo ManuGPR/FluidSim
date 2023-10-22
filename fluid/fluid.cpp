@@ -28,15 +28,15 @@ void f(std::vector<std::string> const &  arguments) {
 int main(int argc, char **argv) {
     const span args{argv, static_cast<size_t>(argc)};
     const std::vector<std::string> args_str{args.begin() +1, args.end()};
-    //f(args_str);
-    //return 0;
-    int nps    = 0; //nts = numero de pasos de tiempo, nps = numero de particulas
+    int nps = 0; //nts = numero de pasos de tiempo, nps = numero de particulas
     double ppm = 0.0; //ppm = partículas por metro
     ifstream file_in; //file_in = fichero de entrada
     ofstream file_out; //file_out = fichero de salida
-    const int nts = entry::check_param(argc, argv); //Función de checkeo maestra
-    if (nts < 0) { return nts; }
-    file_in.open(argv[2], ios::binary);//Apertura del fichero y cabecera
+
+    const int nts = entry::check_param(args_str); //Función de checkeo maestra
+    if (nts < 0) {return nts; }
+
+    file_in.open(args_str[1], ios::binary);//Apertura del fichero y cabecera
     tie(nps, ppm) = ficheros::lectura_cabecera(file_in);
     const double masa = (DENSIDAD_DE_FLUIDO) / (pow(ppm, 3)); //Cálculos de m y h
     const double longitud_de_suavizado = (RADIO / ppm);
@@ -45,7 +45,6 @@ int main(int argc, char **argv) {
     vector<double> tam_bloques(3); //Calculo del tamaño de los bloques
     bloque::num_bloques(limite_sup_recinto, limite_inf_recinto, longitud_de_suavizado, num_bloques);
     bloque::tam_bloques(limite_sup_recinto, limite_inf_recinto, num_bloques, tam_bloques);
-
     struct Particula particulas(nps); //Inicialización de los objetos
     const struct Enclosure3D malla(nps, nts, num_bloques);
     ficheros::lectura_file(file_in, nps, particulas); //Lectura del fichero
@@ -87,7 +86,7 @@ int main(int argc, char **argv) {
     ofstream fichero_comp_salida("salida.txt");
 
 
-    fichero_comp.open("boundint-base-1.trz", ios::binary);
+    fichero_comp.open("boundint-base-5.trz", ios::binary);
     int cabecera = 0;
     fichero_comp.read(reinterpret_cast<char *> (&cabecera), sizeof(int));
     fichero_comp_salida << cabecera << "\n";
@@ -121,7 +120,8 @@ int main(int argc, char **argv) {
         fichero_comp_salida << "\n";
 
     }
-     */
+    */
+
 }
 // NOLINTBEGIN
 // NOLINTEND
