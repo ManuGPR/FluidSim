@@ -20,7 +20,7 @@ constexpr double PASO_TIEMPO = 1e-3;
 constexpr double PI_CONST = std::numbers::pi;
 
 constexpr double lim_inf_x = -0.065, lim_sup_x = 0.065;
-constexpr double lim_inf_y = 0.1, lim_sup_y = -0.08;
+constexpr double lim_inf_y = -0.08, lim_sup_y = 0.1;
 constexpr double lim_inf_z = -0.065, lim_sup_z = 0.065;
 constexpr double gravedad_x = 0.0, gravedad_y = -9.8, gravedad_z = 0.0;
 constexpr double cubo = 3.0;
@@ -30,11 +30,7 @@ struct Constantes {
     double h = 0.0;
     double masa = 0.0;
     double nts = 0.0;
-    explicit Constantes(double num_time_steps,double ppm) {
-      h = RADIO / ppm;
-      masa = (DENSIDAD_DE_FLUIDO) / (pow(ppm, cubo));
-      nts = num_time_steps;
-    }
-};
+    explicit Constantes(double num_time_steps,double ppm) : h(RADIO / ppm), masa((DENSIDAD_DE_FLUIDO) / (pow(ppm, cubo))), nts(num_time_steps) {}
+    };
 
 #endif //AC3_CONSTANTS_HPP

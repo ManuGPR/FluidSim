@@ -10,15 +10,15 @@ using namespace std;
 
 namespace ficheros {
   tuple <int, double> lectura_cabecera(ifstream & file_in){
-        const tuple<int, double> bad_return = {-5, 5.0};
+    const tuple<int, double> bad_return = {-5, 5.0};
     int nps = 0;
-    auto ppm = 0.0;
-    file_in.read(reinterpret_cast<char *> (&ppm), sizeof(float));
-    ppm = static_cast<double>(ppm);
+    float ppm_float = 0.0;
+    file_in.read(reinterpret_cast<char *> (&ppm_float), sizeof(float));
+    const double ppm = static_cast<double>(ppm_float);
     file_in.read(reinterpret_cast<char *> (&nps), sizeof(int));
     //Comprobación del nps
     if (entry::check_np(nps) != 0){return bad_return;}
-        const tuple<int, double> good_return = {nps, ppm};
+    const tuple<int, double> good_return = {nps, ppm};
     return good_return;
   }
 
@@ -96,7 +96,7 @@ namespace ficheros {
     return 0;
   }
 
-  int escritura_salida(ofstream& file_out, const struct Particula & particulas, double ppm, int np) {
+  int escritura_salida(ofstream& file_out, const struct Particula & particulas, double & ppm, int np) {
     auto aux = static_cast<float>(ppm);
     file_out.write(to_str(aux), sizeof(float));
     file_out.write(to_str(np), sizeof(float));
@@ -132,29 +132,4 @@ namespace ficheros {
         const char *value = reinterpret_cast<const char *>(&parameter);
     return value;
   }
-
-
-  /*
-   template <typename T>
-  requires(std::is_integral_v<T> or std::is_floating_point_v<T>)
-  char * as_writable_buffer(T & value) {
-      // NOLINTNEXTLINE(cppcoreguidelines-pro-type-reinterpret-cast)
-      return reinterpret_cast<char *>(&value);
-  }
-
-  template <typename T>
-  requires(std::is_integral_v<T> or std::is_floating_point_v<T>)
-  char const * as_buffer(T const & value) {
-      // NOLINTNEXTLINE(cppcoreguidelines-pro-type-reinterpret-cast)
-      return reinterpret_cast<char const *>(&value);
-  }
-
-  template <typename T>
-  requires(std::is_integral_v<T> or std::is_floating_point_v<T>)
-  void write_binary_value(T value, std::ostream & os) {
-      os.write(as_buffer(value), sizeof(value));
-  }
-   */
-
-
 }

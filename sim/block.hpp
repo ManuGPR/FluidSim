@@ -14,18 +14,34 @@
 using namespace std;
 
 namespace bloque {
-  //Funcion que calcula el numero de bloques
-  int num_bloques (struct Enclosure3D & malla, struct Constantes & constantes);
+  int num_bloques (vector<int> &num_bloques, double & h);
   //Funcion que calcula el tamaño de bloques
-  int tam_bloques (struct Enclosure3D & malla);
+  int tam_bloques (vector<double> &tam_bloques,vector<int> &num_bloques);
   //Funciones que calculan las posiciones de las particulas en cada eje
-  int pos_particula_x (double pos_x, double tam_bloque_x);
-  int pos_particula_y (double pos_y, double tam_bloque_y);
-  int pos_particula_z (double pos_z, double tam_bloque_z);
+  int pos_particula_x (double & pos_x, double & tam_bloque_x);
+  int pos_particula_y (double & pos_y, double & tam_bloque_y);
+  int pos_particula_z (double & pos_z, double & tam_bloque_z);
   //Función que localiza todas las partículas
-  int loc_particula (struct Particula &particula, struct Enclosure3D & malla);
+  int loc_particula (struct Particula & particulas, int nps,vector<double> &tam_bloques, vector<int> &num_bloques);
+  int loc_bloque(struct Particula & particulas, vector<struct Bloque> & bloques, int nps, int num_bloques);
   //int repos_particula()
-  int particula_contigua(const struct Particula & part, int id_i, int id_j);
+  int total_bloques(vector<int> & num_bloques);
+  int crear_bloques(vector<struct Bloque> & bloques, int total_bloques, vector<int> & num_bloques);
+  int crear_auxiliar(vector<int> & num_bloques, struct Aux & auxiliar);
+  struct Bloque {
+      /*class attributes*/
+      vector<int> bloque_contiguo;
+      vector<int> lista_particulas;
+  };
+  struct Aux {
+      /*class attributes*/
+      vector<int> pos_x;
+      vector<int> pos_y;
+      vector<int> pos_z;
+      /*class methods*/
+      explicit Aux(int total_bloques) : pos_x(total_bloques), pos_y(total_bloques),
+          pos_z(total_bloques){};
+  };
 }
 
 #endif //ARQUITECTURA_BLOCK_HPP

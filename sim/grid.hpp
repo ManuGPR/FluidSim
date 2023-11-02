@@ -51,12 +51,13 @@ struct Particula {
     vector<int> loc_x;
     vector<int> loc_y;
     vector<int> loc_z;
+    vector<int> bloque;
     /*class methods*/
     explicit Particula(int np) : pos_x(np, 0.0), pos_y(np, 0.0), pos_z(np, 0.0),
         hv_x(np, 0.0), hv_y(np, 0.0), hv_z(np, 0.0),
         vel_x(np, 0.0), vel_y(np, 0.0), vel_z(np, 0.0),
         acel_x(np, gravedad_x), acel_y(np, gravedad_y),
         acel_z(np, gravedad_z), dens(np, 0.0),
-        loc_x(np, 0), loc_y(np, 0), loc_z(np, 0){};
+        loc_x(np, 0), loc_y(np, 0), loc_z(np, 0), bloque(np, 0){};
 };
 #endif //ARQUITECTURA_GRID_HPP

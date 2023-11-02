@@ -17,13 +17,13 @@ namespace entry {
     return 0;
   }
 
-  int check_nts(vector<std::string> const &  arguments) {
-    for (auto digit: arguments[0]) {
+  int check_nts(const string & arguments) {
+    for (auto digit: arguments) {
       if (isdigit(digit) == 0) {
         cerr << "Time steps must be numeric." << '\n';
         return -1;}
     }
-    int const number_nts = stoi(arguments[0]);
+    int const number_nts = stoi(arguments);
     if (number_nts <= 0){
       cerr << "Invalid number of time steps." << '\n';
       return -2;
@@ -45,20 +45,20 @@ namespace entry {
   }
    */
 
-  int check_inputfile(vector<std::string> const &  arguments) {
-    ifstream fichero(arguments[1], ios::binary);
+  int check_inputfile(const string & arguments) {
+    ifstream fichero(arguments, ios::binary);
     if (!fichero) {
-      cerr << "Cannot open " << arguments[1] << " for reading" << '\n';
+      cerr << "Cannot open " << arguments << " for reading" << '\n';
       return -3;
     }
     fichero.close();
     return 0;
   }
 
-  int check_outputfile(vector<std::string> const &  arguments) {
-    ofstream fichero(arguments[2], ios::binary);
+  int check_outputfile(const string & arguments) {
+    ofstream fichero(arguments, ios::binary);
     if (!fichero) {
-      std:: cerr << "Cannot open " << arguments[2] << " for writing";
+      std:: cerr << "Cannot open " << arguments << " for writing";
       return -4;
     }
     fichero.close();
@@ -67,10 +67,10 @@ namespace entry {
 
   [[maybe_unused]] int check_param(vector<std::string> const &  arguments){
     if (entry::check_args(arguments) != 0) {return -1;} //Checkeo de lor argumentos
-        const int nts = entry::check_nts(arguments); //Checkeo de nts
+        const int nts = entry::check_nts(arguments[0]); //Checkeo de nts
     if (nts < 0) {return nts;}
-    if (entry::check_inputfile(arguments) == -3) {return -3;} //Checkeo fichero entrada
-    if (entry::check_outputfile(arguments) == -4) {return -4;} //Checkeo fichero salida
+    if (entry::check_inputfile(arguments[1]) == -3) {return -3;} //Checkeo fichero entrada
+    if (entry::check_outputfile(arguments[2]) == -4) {return -4;} //Checkeo fichero salida
     return nts;
   }
 
