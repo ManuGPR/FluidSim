@@ -26,9 +26,8 @@ struct Enclosure3D{
     int nps = 0.0;
     /*member functions*/
     /* initialize all the vector arrays in the constructor */
-    explicit Enclosure3D(int nps) {
+    explicit Enclosure3D(int nps) : nps(nps) {
       /*constructor using parameters specified in cmd*/
-      Enclosure3D::nps = nps;
     }
 };
 
