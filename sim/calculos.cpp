@@ -48,8 +48,7 @@ namespace fisica {
   }
 
   void trans_acele(struct Particula & part, const vector<int> & id_p, vector<double> & operandos,double & h) {
-
-        const double diferencia = pow(part.pos_x[id_p[0]] - part.pos_x[id_p[1]], 2.0)  + pow(part.pos_y[id_p[0]] - part.pos_y[id_p[1]], 2.0)
+    const double diferencia = pow(part.pos_x[id_p[0]] - part.pos_x[id_p[1]], 2.0)  + pow(part.pos_y[id_p[0]] - part.pos_y[id_p[1]], 2.0)
                               + pow(part.pos_z[id_p[0]] - part.pos_z[id_p[1]], 2.0);
 
     if (diferencia < operandos[4]) {
