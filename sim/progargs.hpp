@@ -10,9 +10,9 @@
 
 namespace entry {
     int check_args(std::vector<std::string> const &  arguments);
-    int check_nts(std::vector<std::string> const &  arguments);
-    int check_inputfile(std::vector<std::string> const &  arguments);
-    int check_outputfile(std::vector<std::string> const &  arguments);
+    int check_nts(const std::string &arguments);
+    int check_inputfile(const std::string &arguments);
+    int check_outputfile(const std::string &arguments);
     int check_np(int np);
     int check_param(std::vector<std::string> const &  arguments);
 

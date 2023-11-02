@@ -25,17 +25,17 @@ namespace bloque {
     return 0;
   }
 
-  int pos_particula_x (double pos_x, double tam_bloque_x) {
+  int pos_particula_x (double & pos_x, double & tam_bloque_x) {
     /*Función encargada de calcular la posición en x de una partícula
          * param1: posicion vectorial de x, param2: limite inferior en el eje x, param3: tamaño de los bloques de x*/
     return floor((pos_x - lim_inf_x) / tam_bloque_x);
   }
-  int pos_particula_y(double pos_y, double tam_bloque_y) {
+  int pos_particula_y(double & pos_y, double & tam_bloque_y) {
     /*Función encargada de calcular la posición en y de una particula
          * param1: posición vectorial de y, param2: límite inferior en el eje y, param3: tamaño de los bloques de y*/
     return floor((pos_y - lim_inf_y) / tam_bloque_y);
   }
-  int pos_particula_z(double pos_z, double tam_bloque_z) {
+  int pos_particula_z(double & pos_z, double & tam_bloque_z) {
     /*Función encargada de calcular la posición en z de una partícula
          * param1: posición vectorial de z, param2: límite inferior en el eje z, param3: tamaño de los bloques de z*/
     return floor((pos_z - lim_inf_z) / tam_bloque_z);

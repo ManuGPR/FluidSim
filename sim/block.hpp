@@ -19,11 +19,11 @@ namespace bloque {
   //Funcion que calcula el tamaño de bloques
   int tam_bloques (vector<double> &tam_bloques,vector<int> &num_bloques);
   //Funciones que calculan las posiciones de las particulas en cada eje
-  int pos_particula_x (double pos_x, double tam_bloque_x);
-  int pos_particula_y (double pos_y, double tam_bloque_y);
-  int pos_particula_z (double pos_z, double tam_bloque_z);
+  int pos_particula_x (double & pos_x, double & tam_bloque_x);
+  int pos_particula_y (double & pos_y, double & tam_bloque_y);
+  int pos_particula_z (double & pos_z, double & tam_bloque_z);
   //Función que localiza todas las partículas
-  int loc_particula (struct Particula &particula, struct Enclosure3D & malla);
+  int loc_particula (struct Particula & particulas, int nps,vector<double> &tam_bloques, vector<int> &num_bloques);
   //int repos_particula()
   int particula_contigua(const struct Particula & part, int id_i, int id_j);
 }

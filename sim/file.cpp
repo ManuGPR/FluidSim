@@ -107,7 +107,7 @@ namespace ficheros {
     return 0;
   }
 
-  int escritura_salida(ofstream& file_out, const struct Particula & particulas, double ppm, int np) {
+  int escritura_salida(ofstream& file_out, const struct Particula & particulas, double & ppm, int np) {
     auto aux = static_cast<float>(ppm);
     file_out.write(to_str(aux), sizeof(float));
     file_out.write(to_str(np), sizeof(float));

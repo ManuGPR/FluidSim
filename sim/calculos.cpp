@@ -34,15 +34,15 @@ namespace fisica {
     // particula i== id_p[0] y particula j == id_p[1]
         const int cub = 3;
     double incremento = 0;
-        const double diferencia = pow(part.pos_x[id_p[0]] - part.pos_x[id_p[1]], 2.0) +
-                              pow(part.pos_y[id_p[0]] - part.pos_y[id_p[1]], 2.0) +
-                              pow(part.pos_z[id_p[0]] - part.pos_z[id_p[1]], 2.0);
+        const double diferencia = pow(part.pos_x[id_i] - part.pos_x[id_j], 2.0) +
+                              pow(part.pos_y[id_i] - part.pos_y[id_j], 2.0) +
+                              pow(part.pos_z[id_i] - part.pos_z[id_j], 2.0);
 
     if (diferencia < operandos) {
       incremento = pow((operandos - diferencia), cub);
     }
-    part.dens[id_p[0]] += incremento;
-    part.dens[id_p[1]] += incremento;
+    part.dens[id_i] += incremento;
+    part.dens[id_j] += incremento;
   }
 
   double trans_densidad(double & incremento, double & operando_1, double & operando_2) {
@@ -72,17 +72,17 @@ namespace fisica {
 
   }
 
-  int col_mov(struct Particula & part, vector<int> const& num_bloques, int id_p){
-    col_x(part, num_bloques, id_p);
-    col_y(part, num_bloques, id_p);
-    col_z(part, num_bloques, id_p);
+  int col_mov(struct Particula & part, vector<int> const & num_bloques, int id_p){
+    col_x(part, num_bloques[0], id_p);
+    col_y(part, num_bloques[1], id_p);
+    col_z(part, num_bloques[2], id_p);
     mov_part(part, id_p);
     return 0;
   }
-  int interaccion(struct Particula & part, vector<int> const&  num_bloques, int id_p){
-    int_x(part, num_bloques, id_p);
-    int_y(part, num_bloques, id_p);
-    int_z(part, num_bloques, id_p);
+  int interaccion(struct Particula & part, vector<int> const & num_bloques, int id_p){
+    int_x(part, num_bloques[0], id_p);
+    int_y(part, num_bloques[1], id_p);
+    int_z(part, num_bloques[2], id_p);
     return 0;
   }
 
@@ -105,7 +105,7 @@ namespace fisica {
 
   int col_x(struct Particula & part, int num_bloques, int id_p){
         const double dist_min = 1e-10;
-    if ((part.loc_x[id_p] == 0) || (part.loc_x[id_p] == (num_bloques[0] - 1))) {
+    if ((part.loc_x[id_p] == 0) || (part.loc_x[id_p] == (num_bloques - 1))) {
             const double nueva_x = part.pos_x[id_p] + part.hv_x[id_p] * PASO_TIEMPO;
       double dist_x = TAMANO_PARTICULAS;
       if (part.loc_x[id_p] == 0) {
@@ -128,7 +128,7 @@ namespace fisica {
 
   int col_y(struct Particula & part, int num_bloques, int id_p){
         const double dist_min = 1e-10;
-    if ((part.loc_y[id_p] == 0) || (part.loc_y[id_p] == (num_bloques[1] - 1))) {
+    if ((part.loc_y[id_p] == 0) || (part.loc_y[id_p] == (num_bloques - 1))) {
             const double nueva_y = part.pos_y[id_p] + part.hv_y[id_p] * PASO_TIEMPO;
       double dist_y = TAMANO_PARTICULAS;
       if (part.loc_y[id_p] == 0) {
@@ -151,7 +151,7 @@ namespace fisica {
 
   int col_z(struct Particula & part, int num_bloques, int id_p){
         const double dist_min = 1e-10;
-    if ((part.loc_z[id_p] == 0) || (part.loc_z[id_p] == (num_bloques[2] - 1))) {
+    if ((part.loc_z[id_p] == 0) || (part.loc_z[id_p] == (num_bloques - 1))) {
             const double nueva_z = part.pos_z[id_p] + part.hv_z[id_p] * PASO_TIEMPO;
       double dist_z = TAMANO_PARTICULAS;
       if (part.loc_z[id_p] == 0) {
@@ -172,9 +172,9 @@ namespace fisica {
     return 0;
   }
 
-  int int_x(struct Particula & part, vector<int> num_bloques, int id_p){
-    if ((part.loc_x[id_p] == 0) || (part.loc_x[id_p] == (num_bloques[0] - 1))) {
-      double dist_x = 0.0;
+  int int_x(struct Particula & part,int num_bloques, int id_p){
+    if ((part.loc_x[id_p] == 0) || (part.loc_x[id_p] == (num_bloques - 1))) {
+      double dist_x = NAN;
       if (part.loc_x[id_p] == 0) {
         dist_x = part.pos_x[id_p] - lim_inf_x;
       }
@@ -218,9 +218,9 @@ namespace fisica {
     return 0;
   }
 
-  int int_z(struct Particula & part, vector<int> num_bloques, int id_p) {
-    if ((part.loc_z[id_p] == 0) || (part.loc_z[id_p] == (num_bloques[2] - 1))) {
-      double dist_z = 0;
+  int int_z(struct Particula & part, int num_bloques, int id_p) {
+    if ((part.loc_z[id_p] == 0) || (part.loc_z[id_p] == (num_bloques - 1))) {
+      double dist_z = NAN;
       if (part.loc_z[id_p] == 0) {
         dist_z = part.pos_z[id_p] - lim_inf_z;
       } else {
