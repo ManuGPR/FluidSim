@@ -30,10 +30,7 @@ struct Constantes {
     double h = 0.0;
     double masa = 0.0;
     double nts = 0.0;
-    explicit Constantes(double num_time_steps,double ppm) {
-      h = RADIO / ppm;
-      masa = (DENSIDAD_DE_FLUIDO) / (pow(ppm, cubo));
-      nts = num_time_steps;
+    explicit Constantes(double num_time_steps,double ppm) : h(RADIO / ppm), masa((DENSIDAD_DE_FLUIDO) / (pow(ppm, cubo))), nts(num_time_steps) {
     }
 };
 

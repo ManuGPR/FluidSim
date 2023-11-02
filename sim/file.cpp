@@ -13,8 +13,10 @@ namespace ficheros {
         const tuple<int, double> bad_return = {-5, 5.0};
     int nps = 0;
     auto ppm = 0.0;
+    // NOLINTNEXTLINE(cppcoreguidelines-pro-type-reinterpret-cast)
     file_in.read(reinterpret_cast<char *> (&ppm), sizeof(float));
     ppm = static_cast<double>(ppm);
+    // NOLINTNEXTLINE(cppcoreguidelines-pro-type-reinterpret-cast)
     file_in.read(reinterpret_cast<char *> (&nps), sizeof(int));
     //Comprobación del nps
     if (entry::check_np(nps) != 0){return bad_return;}
@@ -26,6 +28,7 @@ namespace ficheros {
     /*Función que se encarga de leer un float del fichero y devolver un double
          * param1: fichero del que se lee*/
     float aux_float = 0.0;
+    // NOLINTNEXTLINE(cppcoreguidelines-pro-type-reinterpret-cast)
     fichero.read(reinterpret_cast<char *> (&aux_float), sizeof(float));
     return static_cast<double>(aux_float);
   }
@@ -62,29 +65,37 @@ namespace ficheros {
     ofstream fichero_comp_salida("salida.txt");
     fichero_comp.open("boundint-base-5.trz", ios::binary);
     int cabecera = 0;
+    // NOLINTNEXTLINE(cppcoreguidelines-pro-type-reinterpret-cast)
     fichero_comp.read(reinterpret_cast<char *> (&cabecera), sizeof(int));
     fichero_comp_salida << cabecera << "\n";
     int num_bloque = 0;
     while(!fichero_comp.eof()) {
       long int num_p = 0;
+      // NOLINTNEXTLINE(cppcoreguidelines-pro-type-reinterpret-cast)
       fichero_comp.read(reinterpret_cast<char *>(&num_p), sizeof(long int));
       fichero_comp_salida << num_bloque << " " << num_p << "\n";
       for (int j = 0; j < num_p; j++) {
         long int id = 0;
+        // NOLINTNEXTLINE(cppcoreguidelines-pro-type-reinterpret-cast)
         fichero_comp.read(reinterpret_cast<char *>(&id), sizeof(long int));
         fichero_comp_salida << id << " ";
         double aux = 0.0;
         for (int k = 0; k < 3; k++) {
+          // NOLINTNEXTLINE(cppcoreguidelines-pro-type-reinterpret-cast)
           fichero_comp.read(reinterpret_cast<char *>(&aux), sizeof(double));
           fichero_comp_salida << aux << " ";
+          // NOLINTNEXTLINE(cppcoreguidelines-pro-type-reinterpret-cast)
           fichero_comp.read(reinterpret_cast<char *>(&aux), sizeof(double));
           fichero_comp_salida << aux << " ";
+          // NOLINTNEXTLINE(cppcoreguidelines-pro-type-reinterpret-cast)
           fichero_comp.read(reinterpret_cast<char *>(&aux), sizeof(double));
           fichero_comp_salida << aux << " ";
         }
+        // NOLINTNEXTLINE(cppcoreguidelines-pro-type-reinterpret-cast)
         fichero_comp.read(reinterpret_cast<char *>(&aux), sizeof(double));
         fichero_comp_salida << aux << " ";
         for (int k = 0; k < 3; k++) {
+          // NOLINTNEXTLINE(cppcoreguidelines-pro-type-reinterpret-cast)
           fichero_comp.read(reinterpret_cast<char *>(&aux), sizeof(double));
           fichero_comp_salida << aux << " ";
         }
@@ -124,11 +135,13 @@ namespace ficheros {
   }
 
     const char* to_str(int & parameter) {
+    // NOLINTNEXTLINE(cppcoreguidelines-pro-type-reinterpret-cast)
         const char *value = reinterpret_cast<const char*>(&parameter);
     return value;
   }
 
     const char* to_str(float & parameter) {
+    // NOLINTNEXTLINE(cppcoreguidelines-pro-type-reinterpret-cast)
         const char *value = reinterpret_cast<const char *>(&parameter);
     return value;
   }
