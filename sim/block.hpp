@@ -15,9 +15,9 @@ using namespace std;
 
 namespace bloque {
   //Funcion que calcula el numero de bloques
-  int num_bloques (struct Enclosure3D & malla, struct Constantes & constantes);
+  int num_bloques (vector<int> &num_bloques, double & h);
   //Funcion que calcula el tamaño de bloques
-  int tam_bloques (struct Enclosure3D & malla);
+  int tam_bloques (vector<double> &tam_bloques,vector<int> &num_bloques);
   //Funciones que calculan las posiciones de las particulas en cada eje
   int pos_particula_x (double pos_x, double tam_bloque_x);
   int pos_particula_y (double pos_y, double tam_bloque_y);

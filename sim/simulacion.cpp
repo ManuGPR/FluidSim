@@ -23,9 +23,9 @@ int simulation(const std::vector<std::string> & args_str) {
   tie(nps, ppm) = ficheros::lectura_cabecera(file_in);
   struct Constantes constantes(nts, ppm);
   struct Enclosure3D malla(nps);
-  fisica::calcular_operandos(constantes);
-  bloque::num_bloques(malla, constantes);
-  bloque::tam_bloques(malla);
+  fisica::calcular_operandos(constantes.masa,constantes.h,constantes.operandos);
+  bloque::num_bloques(malla.num_bloques, constantes.h);
+  bloque::tam_bloques(malla.tam_bloques,malla.num_bloques);
   struct Particula particulas(nps); //Inicialización de los objetos
   ficheros::lectura_file(file_in, nps, particulas); //Lectura del fichero
   fisica::main_loop(particulas, malla, constantes);
