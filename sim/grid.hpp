@@ -10,7 +10,7 @@
 #include "constants.hpp"
 
 #ifndef ARQUITECTURA_GRID_HPP
-#define ARQUITECTURA_GRID_HPP
+  #define ARQUITECTURA_GRID_HPP
 
 using namespace std;
 
@@ -21,21 +21,15 @@ namespace malla {
 
 struct Enclosure3D{
     /*class members*/
-    int np;
-    vector<int> num_bloques;
-    double iterations;
-
+    std::vector<int> num_bloques;
+    std::vector<double> tam_bloques;
+    int nps = 0.0;
     /*member functions*/
     /* initialize all the vector arrays in the constructor */
-    explicit Enclosure3D(int np, double iterations, vector<int> & num_bloq) {
-        /*constructor using parameters specified in cmd*/
-        Enclosure3D::np = np;
-        Enclosure3D::iterations = iterations;
-        Enclosure3D::num_bloques.push_back(num_bloq[0]);
-        Enclosure3D::num_bloques.push_back(num_bloq[1]);
-        Enclosure3D::num_bloques.push_back(num_bloq[2]);
+    explicit Enclosure3D(int nps) {
+      /*constructor using parameters specified in cmd*/
+      Enclosure3D::nps = nps;
     }
-    /* rest of member functions*/
 };
 
 
@@ -59,10 +53,10 @@ struct Particula {
     vector<int> loc_z;
     /*class methods*/
     explicit Particula(int np) : pos_x(np, 0.0), pos_y(np, 0.0), pos_z(np, 0.0),
-                                 hv_x(np, 0.0), hv_y(np, 0.0), hv_z(np, 0.0),
-                                 vel_x(np, 0.0), vel_y(np, 0.0), vel_z(np, 0.0),
-                                 acel_x(np, acel_ex[0]), acel_y(np, acel_ex[1]),
-                                 acel_z(np, acel_ex[2]), dens(np, 0.0),
-                                 loc_x(np, 0), loc_y(np, 0), loc_z(np, 0){};
+        hv_x(np, 0.0), hv_y(np, 0.0), hv_z(np, 0.0),
+        vel_x(np, 0.0), vel_y(np, 0.0), vel_z(np, 0.0),
+        acel_x(np, gravedad_x), acel_y(np, gravedad_y),
+        acel_z(np, gravedad_z), dens(np, 0.0),
+        loc_x(np, 0), loc_y(np, 0), loc_z(np, 0){};
 };
 #endif //ARQUITECTURA_GRID_HPP

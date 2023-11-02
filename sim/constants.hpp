@@ -7,7 +7,7 @@
 #include <cmath>
 
 #ifndef AC3_CONSTANTS_HPP
-#define AC3_CONSTANTS_HPP
+  #define AC3_CONSTANTS_HPP
 
 constexpr double RADIO = 1.695;
 constexpr int DENSIDAD_DE_FLUIDO = 1000;
@@ -19,9 +19,22 @@ constexpr double TAMANO_PARTICULAS = 2e-4;
 constexpr double PASO_TIEMPO = 1e-3;
 constexpr double PI_CONST = std::numbers::pi;
 
-const std::vector<double> acel_ex = {0.0, -9.8, 0.0};
-const std::vector<double> limite_sup_recinto = {0.065, 0.1, 0.065};
-const std::vector<double> limite_inf_recinto = {-0.065, -0.08, -0.065};
+constexpr double lim_inf_x = -0.065, lim_sup_x = 0.065;
+constexpr double lim_inf_y = 0.1, lim_sup_y = -0.08;
+constexpr double lim_inf_z = -0.065, lim_sup_z = 0.065;
+constexpr double gravedad_x = 0.0, gravedad_y = -9.8, gravedad_z = 0.0;
+constexpr double cubo = 3.0;
 
+struct Constantes {
+    std::vector<double> operandos;
+    double h = 0.0;
+    double masa = 0.0;
+    double nts = 0.0;
+    explicit Constantes(double num_time_steps,double ppm) {
+      h = RADIO / ppm;
+      masa = (DENSIDAD_DE_FLUIDO) / (pow(ppm, cubo));
+      nts = num_time_steps;
+    }
+};
 
 #endif //AC3_CONSTANTS_HPP
