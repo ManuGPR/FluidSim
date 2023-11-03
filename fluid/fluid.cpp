@@ -3,7 +3,6 @@
 //
 
 #include <iostream>
-#include <fstream>
 #include <vector>
 #include <span>
 #include "../sim/constants.hpp"
