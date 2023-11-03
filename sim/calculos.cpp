@@ -28,13 +28,13 @@ namespace fisica {
     return 0;
   }
 
-  void incremento_densidades(struct Particula & part, double & operandos, int id_i, int id_j) {
+  void incremento_densidades(Particula & part, double & operandos, int id_i, int id_j) {
     // particula i== id_p[0] y particula j == id_p[1]
     const int cub = 3;
     double incremento = 0;
         const double diferencia = pow(part.pos_x[id_i] - part.pos_x[id_j], 2.0) +
-                              pow(part.pos_y[id_i] - part.pos_y[id_j], 2.0) +
-                              pow(part.pos_z[id_i] - part.pos_z[id_j], 2.0);
+                                  pow(part.pos_y[id_i] - part.pos_y[id_j], 2.0) +
+                                  pow(part.pos_z[id_i]- part.pos_z[id_j], 2.0);
 
     if (diferencia < operandos) {
       incremento = pow((operandos - diferencia), cub);
@@ -43,21 +43,26 @@ namespace fisica {
     part.dens[id_j] += incremento;
   }
 
-  double trans_densidad(double & incremento, double & operando_1, double & operando_2) {
+  inline double trans_densidad(double & incremento, double & operando_1, double & operando_2) {
     return incremento * operando_1 + operando_2;
   }
 
-  void trans_acele(struct Particula & part, const vector<int> & id_p, vector<double> & operandos,double & h) {
-    const double diferencia = pow(part.pos_x[id_p[0]] - part.pos_x[id_p[1]], 2.0)  + pow(part.pos_y[id_p[0]] - part.pos_y[id_p[1]], 2.0)
-                              + pow(part.pos_z[id_p[0]] - part.pos_z[id_p[1]], 2.0);
+  inline void trans_acele(struct Particula & part, const vector<int> & id_p, vector<double> & operandos,double & h) {
+    const double diferencia = pow(part.pos_x[id_p[0]] - part.pos_x[id_p[1]], 2.0) +
+                              pow(part.pos_y[id_p[0]] - part.pos_y[id_p[1]], 2.0) +
+                              pow(part.pos_z[id_p[0]] - part.pos_z[id_p[1]], 2.0);
 
     if (diferencia < operandos[4]) {
           const double distancia = sqrt(max(diferencia, 1e-12));
-          const double operando_1 = operandos[2] * (pow((h - distancia), 2.0)  / distancia) *(part.dens[id_p[0]] + part.dens[id_p[1]] - 2 * DENSIDAD_DE_FLUIDO);
+          const double operando_1 = operandos[2] * (pow((h - distancia), 2.0)  / distancia) *
+                                    (part.dens[id_p[0]] + part.dens[id_p[1]] - 2 * DENSIDAD_DE_FLUIDO);
           const double denominador = part.dens[id_p[0]]* part.dens[id_p[1]];
-          const double acl_x = ((part.pos_x[id_p[0]] - part.pos_x[id_p[1]])   * operando_1 + (part.vel_x[id_p[1]] -  part.vel_x[id_p[0]]) * operandos[3]) / denominador;
-          const double acl_y = ((part.pos_y[id_p[0]] - part.pos_y[id_p[1]])* operando_1+ (part.vel_y[id_p[1]] -  part.vel_y[id_p[0]])* operandos[3] )/ denominador;
-          const double acl_z = ((part.pos_z[id_p[0]] - part.pos_z[id_p[1]]) * operando_1 + (part.vel_z[id_p[1]] -  part.vel_z[id_p[0]])* operandos[3])/ denominador;
+          const double acl_x = ((part.pos_x[id_p[0]] - part.pos_x[id_p[1]]) * operando_1 +
+                                (part.vel_x[id_p[1]] -  part.vel_x[id_p[0]]) * operandos[3]) / denominador;
+          const double acl_y = ((part.pos_y[id_p[0]] - part.pos_y[id_p[1]]) * operando_1 +
+                                (part.vel_y[id_p[1]] -  part.vel_y[id_p[0]]) * operandos[3] )/ denominador;
+          const double acl_z = ((part.pos_z[id_p[0]] - part.pos_z[id_p[1]]) * operando_1 +
+                                (part.vel_z[id_p[1]] -  part.vel_z[id_p[0]])* operandos[3])/ denominador;
 
       part.acel_x[id_p[0]] += acl_x;
       part.acel_y[id_p[0]] += acl_y;
@@ -85,10 +90,13 @@ namespace fisica {
 
 
   int mov_part(struct Particula & part, int id_p){
-        const int cuadrado = 2;
-    part.pos_x[id_p] = part.pos_x[id_p] + part.hv_x[id_p] * PASO_TIEMPO + part.acel_x[id_p] * pow(PASO_TIEMPO,cuadrado);
-    part.pos_y[id_p] = part.pos_y[id_p] + part.hv_y[id_p] * PASO_TIEMPO + part.acel_y[id_p] * pow(PASO_TIEMPO,cuadrado);
-    part.pos_z[id_p] = part.pos_z[id_p] + part.hv_z[id_p] * PASO_TIEMPO + part.acel_z[id_p] * pow(PASO_TIEMPO,cuadrado);
+    const int cuadrado = 2;
+    part.pos_x[id_p] = part.pos_x[id_p] + part.hv_x[id_p] * PASO_TIEMPO +
+                           part.acel_x[id_p] * pow(PASO_TIEMPO,cuadrado);
+    part.pos_y[id_p] = part.pos_y[id_p] + part.hv_y[id_p] * PASO_TIEMPO +
+                       part.acel_y[id_p] * pow(PASO_TIEMPO,cuadrado);
+    part.pos_z[id_p] = part.pos_z[id_p] + part.hv_z[id_p] * PASO_TIEMPO +
+                       part.acel_z[id_p] * pow(PASO_TIEMPO,cuadrado);
 
     part.vel_x[id_p] = part.hv_x[id_p] + (part.acel_x[id_p] * PASO_TIEMPO)/2;
     part.vel_y[id_p] = part.hv_y[id_p] + (part.acel_y[id_p] * PASO_TIEMPO)/2;
@@ -171,7 +179,7 @@ namespace fisica {
 
   int int_x(struct Particula & part,int num_bloques, int id_p){
     if ((part.loc_x[id_p] == 0) || (part.loc_x[id_p] == (num_bloques - 1))) {
-      double dist_x = NAN;
+      double dist_x = 0.0;
       if (part.loc_x[id_p] == 0) {
         dist_x = part.pos_x[id_p] - lim_inf_x;
       }
@@ -194,7 +202,7 @@ namespace fisica {
 
   int int_y(struct Particula & part,  int num_bloques, int id_p){
     if ((part.loc_y[id_p] == 0) || (part.loc_y[id_p] == (num_bloques - 1))) {
-      double dist_y = NAN;
+      double dist_y = 0.0;
       if (part.loc_y[id_p] == 0) {
         dist_y = part.pos_y[id_p] - lim_inf_y;
       }
@@ -217,7 +225,7 @@ namespace fisica {
 
   int int_z(struct Particula & part, int num_bloques, int id_p) {
     if ((part.loc_z[id_p] == 0) || (part.loc_z[id_p] == (num_bloques - 1))) {
-      double dist_z = NAN;
+      double dist_z = 0.0;
       if (part.loc_z[id_p] == 0) {
         dist_z = part.pos_z[id_p] - lim_inf_z;
       } else {
@@ -238,14 +246,13 @@ namespace fisica {
 
   int main_loop(struct Particula & particulas, struct Enclosure3D & malla, struct Constantes & constantes, vector <struct bloque::Bloque> & bloques) {
     for (int time = 0; time < constantes.nts; time++) {
-      bloque::loc_particula(particulas, malla.nps, malla.tam_bloques, malla.num_bloques); //actualizacion
-      int num_bloques_total = malla.num_bloques[0] * malla.num_bloques[1] * malla.num_bloques[2];
-      bloque::loc_bloque(particulas, bloques, malla.nps, num_bloques_total);
+      bloque::loc_particula(particulas, malla.nps, malla.tam_bloques, malla.num_bloques, bloques); //actualizacion
+      const int num_bloques_total = malla.num_bloques[0] * malla.num_bloques[1] * malla.num_bloques[2];
       for(int i=0; i< malla.nps; i++) {fisica::inicializar_dens_acelera(particulas, i);}
       for (int bloque = 0; bloque < num_bloques_total; bloque ++) {
-        for (int part_1 : bloques[bloque].lista_particulas) {
-          for (int bloques_cont : bloques[particulas.bloque[part_1]].bloque_contiguo) {
-            for (int part_2 : bloques[bloques_cont].lista_particulas) {
+        for (const int part_1 : bloques[bloque].lista_particulas) {
+          for (const int bloques_cont : bloques[particulas.bloque[part_1]].bloque_contiguo) {
+            for (const int part_2 : bloques[bloques_cont].lista_particulas) {
               fisica::incremento_densidades(particulas, constantes.operandos[4], part_1, part_2);
             }
           }
@@ -253,9 +260,9 @@ namespace fisica {
         }
       }
       for (int bloque = 0; bloque < num_bloques_total; bloque ++) {
-        for (int part_1: bloques[bloque].lista_particulas) {
-          for (int bloques_cont: bloques[particulas.bloque[part_1]].bloque_contiguo){
-            for (int part_2: bloques[bloques_cont].lista_particulas){
+        for (const int part_1: bloques[bloque].lista_particulas) {
+          for (const int bloques_cont: bloques[particulas.bloque[part_1]].bloque_contiguo){
+            for (const int part_2: bloques[bloques_cont].lista_particulas){
               const vector<int> part = {part_1, part_2};
               fisica::trans_acele(particulas, part, constantes.operandos, constantes.h);} }
         fisica::col_mov(particulas, malla.num_bloques, part_1);

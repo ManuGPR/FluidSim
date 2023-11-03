@@ -22,7 +22,7 @@ namespace bloque {
   int pos_particula_y (double & pos_y, double & tam_bloque_y);
   int pos_particula_z (double & pos_z, double & tam_bloque_z);
   //Función que localiza todas las partículas
-  int loc_particula (struct Particula & particulas, int nps,vector<double> &tam_bloques, vector<int> &num_bloques);
+  int loc_particula (struct Particula & particulas, int nps,vector<double> &tam_bloques, vector<int> &num_bloques, vector<struct Bloque> & bloques);
   int loc_bloque(struct Particula & particulas, vector<struct Bloque> & bloques, int nps, int num_bloques);
   //int repos_particula()
   int total_bloques(vector<int> & num_bloques);

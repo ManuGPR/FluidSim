@@ -46,7 +46,7 @@ namespace ficheros {
       particulas.vel_z[np_real] = lectura_float_to_double(file_in);
       particulas.acel_x[np_real] = gravedad_x;
       particulas.acel_y[np_real] = gravedad_y;
-      particulas.acel_z[np_real]= gravedad_z;
+      particulas.acel_z[np_real] = gravedad_z;
       //cout << particulas.hv_x[np_real] << "\n";
       np_real ++;
     }
@@ -70,9 +70,9 @@ namespace ficheros {
       fichero_comp.read(reinterpret_cast<char *>(&num_p), sizeof(long int));
       fichero_comp_salida << num_bloque << " " << num_p << "\n";
       for (int j = 0; j < num_p; j++) {
-        long int id = 0;
-        fichero_comp.read(reinterpret_cast<char *>(&id), sizeof(long int));
-        fichero_comp_salida << id << " ";
+        long int identificador = 0;
+        fichero_comp.read(reinterpret_cast<char *>(&identificador), sizeof(long int));
+        fichero_comp_salida << identificador << " ";
         double aux = 0.0;
         for (int k = 0; k < 3; k++) {
           fichero_comp.read(reinterpret_cast<char *>(&aux), sizeof(double));

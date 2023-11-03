@@ -41,8 +41,12 @@ namespace bloque {
     return floor((pos_z - lim_inf_z) / tam_bloque_z);
   }
 
-  int loc_particula(struct Particula & particulas, int nps,vector<double> &tam_bloques, vector<int> &num_bloques) {
+  int loc_particula(struct Particula & particulas, int nps,vector<double> &tam_bloques, vector<int> &num_bloques, vector<struct Bloque> & bloques) {
     //CAMBIAR A TRES FUNCIONES DE RELOCALIZACIÓN
+    const int num_bloques_total = num_bloques[0] * num_bloques[1] * num_bloques[2];
+    for (int i = 0; i < num_bloques_total; i ++) {
+      bloques[i].lista_particulas.clear();
+    }
     for (int i = 0; i < nps; i++) {
       particulas.loc_x[i] = pos_particula_x(particulas.pos_x[i], tam_bloques[0]);
       if (particulas.loc_x[i] < 0) {
@@ -62,9 +66,9 @@ namespace bloque {
       } else if (particulas.loc_z[i] >= num_bloques[2]) {
         particulas.loc_z[i] = num_bloques[2] - 1;
       }
-      particulas.bloque[i] =
-          particulas.loc_x[i] +
-          num_bloques[0] * (particulas.loc_y[i] + num_bloques[1] * particulas.loc_z[i]);
+      particulas.bloque[i] = particulas.loc_x[i] + num_bloques[0] *
+                             (particulas.loc_y[i] + num_bloques[1] * particulas.loc_z[i]);
+      bloques[particulas.bloque[i]].lista_particulas.push_back(i);
     }
     return 0;
   }
