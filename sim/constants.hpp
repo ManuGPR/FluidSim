@@ -29,8 +29,8 @@ struct Constantes {
     std::vector<double> operandos;
     double h = 0.0;
     double masa = 0.0;
-    double nts = 0.0;
-    explicit Constantes(double num_time_steps,double ppm) : h(RADIO / ppm), masa((DENSIDAD_DE_FLUIDO) / (pow(ppm, cubo))), nts(num_time_steps) {}
+    int nts = 0;
+    explicit Constantes(int num_time_steps,double ppm) : h(RADIO / ppm), masa((DENSIDAD_DE_FLUIDO) / (pow(ppm, cubo))), nts(num_time_steps) {}
     };
 
 #endif //AC3_CONSTANTS_HPP

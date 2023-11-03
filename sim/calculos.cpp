@@ -30,6 +30,7 @@ namespace fisica {
 
   void incremento_densidades(Particula & part, double & operandos, int id_i, int id_j) {
     // particula i== id_p[0] y particula j == id_p[1]
+    if (id_i > id_j) {return;}
     const int cub = 3;
     double incremento = 0;
         const double diferencia = pow(part.pos_x[id_i] - part.pos_x[id_j], 2.0) +
@@ -48,10 +49,10 @@ namespace fisica {
   }
 
   inline void trans_acele(struct Particula & part, const vector<int> & id_p, vector<double> & operandos,double & h) {
+    if (id_p[0] > id_p[1]) {return;}
     const double diferencia = pow(part.pos_x[id_p[0]] - part.pos_x[id_p[1]], 2.0) +
                               pow(part.pos_y[id_p[0]] - part.pos_y[id_p[1]], 2.0) +
                               pow(part.pos_z[id_p[0]] - part.pos_z[id_p[1]], 2.0);
-
     if (diferencia < operandos[4]) {
           const double distancia = sqrt(max(diferencia, 1e-12));
           const double operando_1 = operandos[2] * (pow((h - distancia), 2.0)  / distancia) *
@@ -245,27 +246,28 @@ namespace fisica {
   }
 
   int main_loop(struct Particula & particulas, struct Enclosure3D & malla, struct Constantes & constantes, vector <struct bloque::Bloque> & bloques) {
-    for (int time = 0; time < constantes.nts; time++) {
+    for (int time = constantes.nts; time > 0; time--) {
       bloque::loc_particula(particulas, malla.nps, malla.tam_bloques, malla.num_bloques, bloques); //actualizacion
       const int num_bloques_total = malla.num_bloques[0] * malla.num_bloques[1] * malla.num_bloques[2];
-      for(int i=0; i< malla.nps; i++) {fisica::inicializar_dens_acelera(particulas, i);}
-      for (int bloque = 0; bloque < num_bloques_total; bloque ++) {
+      for(int i=malla.nps; i > 0; i--) {fisica::inicializar_dens_acelera(particulas, i);}
+      for (int bloque = num_bloques_total; bloque > 0; bloque--) {
         for (const int part_1 : bloques[bloque].lista_particulas) {
           for (const int bloques_cont : bloques[particulas.bloque[part_1]].bloque_contiguo) {
             for (const int part_2 : bloques[bloques_cont].lista_particulas) {
               fisica::incremento_densidades(particulas, constantes.operandos[4], part_1, part_2);
-            }
-          }
-          particulas.dens[part_1] = fisica::trans_densidad(particulas.dens[part_1], constantes.operandos[0], constantes.operandos[1]);
-        }
+            } } } }
+      for (int part_1 = malla.nps; part_1 > 0; part_1--){
+        particulas.dens[part_1] = fisica::trans_densidad(particulas.dens[part_1], constantes.operandos[0], constantes.operandos[1]);
       }
-      for (int bloque = 0; bloque < num_bloques_total; bloque ++) {
+      for (int bloque = num_bloques_total; bloque > 0; bloque--) {
         for (const int part_1: bloques[bloque].lista_particulas) {
           for (const int bloques_cont: bloques[particulas.bloque[part_1]].bloque_contiguo){
             for (const int part_2: bloques[bloques_cont].lista_particulas){
               const vector<int> part = {part_1, part_2};
               fisica::trans_acele(particulas, part, constantes.operandos, constantes.h);} }
+        } }
+      for (int part_1 = malla.nps; part_1 > 0; part_1--) {
         fisica::col_mov(particulas, malla.num_bloques, part_1);
-        fisica::interaccion(particulas, malla.num_bloques, part_1);}}
-    }
+        fisica::interaccion(particulas, malla.num_bloques, part_1);
+      }}
     return 0;}}
