@@ -23,7 +23,7 @@ struct Enclosure3D{
     /*class members*/
     std::vector<int> num_bloques;
     std::vector<double> tam_bloques;
-    int nps = 0.0;
+    int nps = 0;
     /*member functions*/
     /* initialize all the vector arrays in the constructor */
     explicit Enclosure3D(int nps) : nps(nps) {

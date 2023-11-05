@@ -31,6 +31,9 @@ namespace ficheros {
     const char* to_str(int & parameter);
   //Función que castea un doble a un char*
     const char* to_str(float & parameter);
+    int lectura_salida(ifstream & file_in, ifstream & file_corect);
+    int lectura_para_modificar_fichero(ifstream & file_in,int nps_n);
+    int trazas(ifstream & fichero_comp, Particula & particula) ;
 }
 
 

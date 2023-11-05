@@ -25,55 +25,52 @@ namespace bloque {
     return 0;
   }
 
-  int pos_particula_x (double & pos_x, double & tam_bloque_x) {
-    /*Función encargada de calcular la posición en x de una partícula
-         * param1: posicion vectorial de x, param2: limite inferior en el eje x, param3: tamaño de los bloques de x*/
-    return floor((pos_x - lim_inf_x) / tam_bloque_x);
-  }
-  int pos_particula_y(double & pos_y, double & tam_bloque_y) {
-    /*Función encargada de calcular la posición en y de una particula
-         * param1: posición vectorial de y, param2: límite inferior en el eje y, param3: tamaño de los bloques de y*/
-    return floor((pos_y - lim_inf_y) / tam_bloque_y);
-  }
-  int pos_particula_z(double & pos_z, double & tam_bloque_z) {
-    /*Función encargada de calcular la posición en z de una partícula
-         * param1: posición vectorial de z, param2: límite inferior en el eje z, param3: tamaño de los bloques de z*/
-    return floor((pos_z - lim_inf_z) / tam_bloque_z);
-  }
 
-  int loc_particula(struct Particula & particulas, int nps,vector<double> &tam_bloques, vector<int> &num_bloques, vector<struct Bloque> & bloques) {
+
+  int loc_particula_bucle(struct Particula & particulas, struct Enclosure3D & malla, vector<int> &num_bloques, vector<struct Bloque> & bloques) {
     //CAMBIAR A TRES FUNCIONES DE RELOCALIZACIÓN
     const int num_bloques_total = num_bloques[0] * num_bloques[1] * num_bloques[2];
     for (int i = 0; i < num_bloques_total; i ++) {
       bloques[i].lista_particulas.clear();
     }
-    for (int i = 0; i < nps; i++) {
-      particulas.loc_x[i] = pos_particula_x(particulas.pos_x[i], tam_bloques[0]);
-      if (particulas.loc_x[i] < 0) {
-        particulas.loc_x[i] = 0;
-      } else if (particulas.loc_x[i] >= num_bloques[0]) {
-        particulas.loc_x[i] = num_bloques[0] - 1;
-      }
-      particulas.loc_y[i] = pos_particula_y(particulas.pos_y[i], tam_bloques[1]);
-      if (particulas.loc_y[i] < 0) {
-        particulas.loc_y[i] = 0;
-      } else if (particulas.loc_y[i] >= num_bloques[1]) {
-        particulas.loc_y[i] = num_bloques[1] - 1;
-      }
-      particulas.loc_z[i] = pos_particula_z(particulas.pos_z[i], tam_bloques[2]);
-      if (particulas.loc_z[i] < 0) {
-        particulas.loc_z[i] = 0;
-      } else if (particulas.loc_z[i] >= num_bloques[2]) {
-        particulas.loc_z[i] = num_bloques[2] - 1;
-      }
-      particulas.bloque[i] = particulas.loc_x[i] + num_bloques[0] *
-                             (particulas.loc_y[i] + num_bloques[1] * particulas.loc_z[i]);
+    for (int i = 0; i < malla.nps; i++) {
+      particulas.loc_x[i] = loc_particula_x (particulas.loc_x[i], particulas.pos_x[i], malla.tam_bloques[0], num_bloques[0] );
+      particulas.loc_y[i] = loc_particula_y (particulas.loc_y[i], particulas.pos_y[i], malla.tam_bloques[1], num_bloques[1] );
+      particulas.loc_z[i] =loc_particula_z (particulas.loc_z[i], particulas.pos_z[i], malla.tam_bloques[2], num_bloques[2] );
+      particulas.bloque[i] = particulas.loc_x[i] + num_bloques[0] *(particulas.loc_y[i] + num_bloques[1] * particulas.loc_z[i]);
       bloques[particulas.bloque[i]].lista_particulas.push_back(i);
     }
     return 0;
   }
+  inline int loc_particula_x( int loc, double &pos, double &tam_bloques, int num_bloque){
+    loc = floor((pos - lim_inf_x) / tam_bloques);
+    if (loc < 0) {
+      loc = 0;
+    } else if (loc >= num_bloque) {
+      loc = num_bloque - 1;
+    }
+    return loc;
+  }
+  inline int loc_particula_y( int loc, double &pos, double &tam_bloques, int num_bloque){
+    loc = floor((pos - lim_inf_y) / tam_bloques);
+    if (loc < 0) {
+       loc = 0;
+    } else if (loc >= num_bloque) {
+       loc = num_bloque - 1;
+    }
+    return loc;
+  }
+  inline int loc_particula_z( int loc, double &pos, double &tam_bloques, int num_bloque){
+    loc = floor((pos - lim_inf_z) / tam_bloques);
+    if (loc < 0) {
+      loc = 0;
+    } else if (loc >= num_bloque) {
+      loc = num_bloque - 1;
+    }
+    return loc;
+  }
 
-  int loc_bloque(struct Particula & particulas, vector<struct Bloque> & bloques, int nps, int num_bloques){
+  /*int loc_bloque(struct Particula & particulas, vector<struct Bloque> & bloques, int nps, int num_bloques){
     for (int i = 0; i < num_bloques; i ++) {
       bloques[i].lista_particulas.clear();
     }
@@ -81,7 +78,7 @@ namespace bloque {
       bloques[particulas.bloque[i]].lista_particulas.push_back(i);
     }
     return 0;
-  }
+  }*/
 
   int total_bloques(vector<int> & num_bloques) {
     return num_bloques[0] * num_bloques[1] * num_bloques[2];

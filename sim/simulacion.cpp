@@ -22,6 +22,7 @@ int simulacion(const std::vector<std::string> & args_str) {
   if (nts < 0) {return nts;}
   file_in.open(args_str[1], ios::binary);//Apertura del fichero y cabecera
   tie(nps, ppm) = ficheros::lectura_cabecera(file_in);
+
   struct Constantes constantes(nts, ppm);
   struct Enclosure3D malla(nps);
   fisica::calcular_operandos(constantes.masa, constantes.h, constantes.operandos);
@@ -32,8 +33,14 @@ int simulacion(const std::vector<std::string> & args_str) {
   const int total_bloques = bloque::total_bloques(malla.num_bloques);
   vector<struct bloque::Bloque> vector_bloques;
   bloque::crear_bloques(vector_bloques, total_bloques, malla.num_bloques);
+
   fisica::main_loop(particulas, malla, constantes, vector_bloques);
   file_out.open(args_str[2], ios::binary);
   ficheros::escritura_salida(file_out, particulas, ppm, nps);
+  ifstream file;
+  file.open("boundint-base-1.trz", ios::binary);
+  const int resultado = ficheros::trazas(file,particulas);
+  cout << "resultado: " << resultado;
+  ficheros::escritura_comp();
   return 0;
 }
