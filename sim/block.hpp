@@ -22,8 +22,8 @@ namespace bloque {
   int loc_particula_y( int loc, double &pos, double &tam_bloques, int num_bloque);
   int loc_particula_z( int loc, double &pos, double &tam_bloques, int num_bloque);
   //Función que localiza todas las partículas
-  int loc_particula (struct Particula & particulas, int nps,vector<double> &tam_bloques, vector<int> &num_bloques, vector<struct Bloque> & bloques);
-  int loc_bloque(struct Particula & particulas, vector<struct Bloque> & bloques, int nps, int num_bloques);
+  int loc_particula_bucle (struct Particula & particulas, struct Enclosure3D & malla, vector<int> &num_bloques, vector<struct Bloque> & bloques);
+  //int loc_bloque(struct Particula & particulas, vector<struct Bloque> & bloques, int nps, int num_bloques);
   //int repos_particula()
   int total_bloques(vector<int> & num_bloques);
   int crear_bloques(vector<struct Bloque> & bloques, int total_bloques, vector<int> & num_bloques);

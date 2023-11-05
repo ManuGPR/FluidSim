@@ -20,7 +20,7 @@ namespace fisica {
     return 0;
   }
 
-  int inicializar_dens_acelera(struct Particula & part, int id_p){
+  inline int inicializar_dens_acelera(struct Particula & part, int id_p){
     part.acel_x[id_p] = gravedad_x;
     part.acel_y[id_p] = gravedad_y;
     part.acel_z[id_p] = gravedad_z;
@@ -75,14 +75,14 @@ namespace fisica {
 
   }
 
-  int col_mov(struct Particula & part, vector<int> const & num_bloques, int id_p){
+  inline int col_mov(struct Particula & part, vector<int> const & num_bloques, int id_p){
     col_x(part, num_bloques[0], id_p);
     col_y(part, num_bloques[1], id_p);
     col_z(part, num_bloques[2], id_p);
     mov_part(part, id_p);
     return 0;
   }
-  int interaccion(struct Particula & part, vector<int> const & num_bloques, int id_p){
+ inline int interaccion(struct Particula & part, vector<int> const & num_bloques, int id_p){
     int_x(part, num_bloques[0], id_p);
     int_y(part, num_bloques[1], id_p);
     int_z(part, num_bloques[2], id_p);
@@ -204,7 +204,7 @@ namespace fisica {
   int int_y(struct Particula & part,  int num_bloques, int id_p){
     if ((part.loc_y[id_p] == 0) || (part.loc_y[id_p] == (num_bloques - 1))) {
       double dist_y = 0.0;
-      if (part.loc_y[id_p] == 0) {
+      if (0 == part.loc_y[id_p]) {
         dist_y = part.pos_y[id_p] - lim_inf_y;
       }
       else {
@@ -247,10 +247,9 @@ namespace fisica {
 
   int main_loop(struct Particula & particulas, struct Enclosure3D & malla, struct Constantes & constantes, vector <struct bloque::Bloque> & bloques) {
     for (int time = constantes.nts; time > 0; time--) {
-      bloque::loc_particula(particulas, malla.nps, malla.tam_bloques, malla.num_bloques, bloques); //actualizacion
-      const int num_bloques_total = malla.num_bloques[0] * malla.num_bloques[1] * malla.num_bloques[2];
+      bloque::loc_particula_bucle(particulas, malla, malla.num_bloques, bloques); //actualizacion
       for(int i=malla.nps - 1; i >= 0; i--) {fisica::inicializar_dens_acelera(particulas, i);}
-      for (int bloque = num_bloques_total - 1; bloque >= 0; bloque--) {
+      for (int bloque = (malla.num_bloques[0] * malla.num_bloques[1] * malla.num_bloques[2]) - 1; bloque >= 0; bloque--) {
         for (const int part_1 : bloques[bloque].lista_particulas) {
           for (const int bloques_cont : bloques[particulas.bloque[part_1]].bloque_contiguo) {
             for (const int part_2 : bloques[bloques_cont].lista_particulas) {
@@ -259,7 +258,7 @@ namespace fisica {
       for (int part_1 = malla.nps - 1; part_1 >= 0; part_1--){
         particulas.dens[part_1] = fisica::trans_densidad(particulas.dens[part_1], constantes.operandos[0], constantes.operandos[1]);
       }
-      for (int bloque = num_bloques_total - 1; bloque >= 0; bloque--) {
+      for (int bloque = (malla.num_bloques[0] * malla.num_bloques[1] * malla.num_bloques[2]) - 1; bloque >= 0; bloque--) {
         for (const int part_1: bloques[bloque].lista_particulas) {
           for (const int bloques_cont: bloques[particulas.bloque[part_1]].bloque_contiguo){
             for (const int part_2: bloques[bloques_cont].lista_particulas){

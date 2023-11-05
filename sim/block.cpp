@@ -27,7 +27,7 @@ namespace bloque {
 
 
 
-  int loc_particula(struct Particula & particulas, int nps,vector<double> &tam_bloques, vector<int> &num_bloques, vector<struct Bloque> & bloques) {
+  int loc_particula_bucle(struct Particula & particulas, struct Enclosure3D & malla, vector<int> &num_bloques, vector<struct Bloque> & bloques) {
     //CAMBIAR A TRES FUNCIONES DE RELOCALIZACIÓN
     const int num_bloques_total = num_bloques[0] * num_bloques[1] * num_bloques[2];
     for (int i = 0; i < num_bloques_total; i ++) {
@@ -42,8 +42,35 @@ namespace bloque {
     }
     return 0;
   }
+  inline int loc_particula_x( int loc, double &pos, double &tam_bloques, int num_bloque){
+    loc = floor((pos - lim_inf_x) / tam_bloques);
+    if (loc < 0) {
+      loc = 0;
+    } else if (loc >= num_bloque) {
+      loc = num_bloque - 1;
+    }
+    return loc;
+  }
+  inline int loc_particula_y( int loc, double &pos, double &tam_bloques, int num_bloque){
+    loc = floor((pos - lim_inf_y) / tam_bloques);
+    if (loc < 0) {
+       loc = 0;
+    } else if (loc >= num_bloque) {
+       loc = num_bloque - 1;
+    }
+    return loc;
+  }
+  inline int loc_particula_z( int loc, double &pos, double &tam_bloques, int num_bloque){
+    loc = floor((pos - lim_inf_z) / tam_bloques);
+    if (loc < 0) {
+      loc = 0;
+    } else if (loc >= num_bloque) {
+      loc = num_bloque - 1;
+    }
+    return loc;
+  }
 
-  int loc_bloque(struct Particula & particulas, vector<struct Bloque> & bloques, int nps, int num_bloques){
+  /*int loc_bloque(struct Particula & particulas, vector<struct Bloque> & bloques, int nps, int num_bloques){
     for (int i = 0; i < num_bloques; i ++) {
       bloques[i].lista_particulas.clear();
     }
@@ -51,7 +78,7 @@ namespace bloque {
       bloques[particulas.bloque[i]].lista_particulas.push_back(i);
     }
     return 0;
-  }
+  }*/
 
   int total_bloques(vector<int> & num_bloques) {
     return num_bloques[0] * num_bloques[1] * num_bloques[2];
