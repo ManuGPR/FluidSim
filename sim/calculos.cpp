@@ -30,9 +30,7 @@ namespace fisica {
 
   void incremento_densidades(Particula & part, double & operandos, int id_i, int id_j) {
     // particula i== id_p[0] y particula j == id_p[1]
-    //cout << "ANTES    id 1 = " << id_i << " id 2 = " << id_j << "\n";
     if (id_i >= id_j) {return;}
-    //cout << "DESPUES    id 1 = " << id_i << " id 2 = " << id_j << "\n";
     const int cub = 3;
     double incremento = 0;
         const double diferencia = pow(part.pos_x[id_i] - part.pos_x[id_j], 2.0) +
@@ -94,20 +92,20 @@ namespace fisica {
 
   int mov_part(struct Particula & part, int id_p){
     const int cuadrado = 2;
-    part.pos_x[id_p] = part.pos_x[id_p] + part.hv_x[id_p] * PASO_TIEMPO +
+    part.pos_x[id_p] += part.hv_x[id_p] * PASO_TIEMPO +
                            part.acel_x[id_p] * pow(PASO_TIEMPO,cuadrado);
-    part.pos_y[id_p] = part.pos_y[id_p] + part.hv_y[id_p] * PASO_TIEMPO +
+    part.pos_y[id_p] += part.hv_y[id_p] * PASO_TIEMPO +
                        part.acel_y[id_p] * pow(PASO_TIEMPO,cuadrado);
-    part.pos_z[id_p] = part.pos_z[id_p] + part.hv_z[id_p] * PASO_TIEMPO +
+    part.pos_z[id_p] += part.hv_z[id_p] * PASO_TIEMPO +
                        part.acel_z[id_p] * pow(PASO_TIEMPO,cuadrado);
 
     part.vel_x[id_p] = part.hv_x[id_p] + (part.acel_x[id_p] * PASO_TIEMPO)/2;
     part.vel_y[id_p] = part.hv_y[id_p] + (part.acel_y[id_p] * PASO_TIEMPO)/2;
     part.vel_z[id_p] = part.hv_z[id_p] + (part.acel_z[id_p] * PASO_TIEMPO)/2;
 
-    part.hv_x[id_p] = part.hv_x[id_p] + part.acel_x[id_p] * PASO_TIEMPO;
-    part.hv_y[id_p] = part.hv_y[id_p] + part.acel_y[id_p] * PASO_TIEMPO;
-    part.hv_z[id_p] = part.hv_z[id_p] + part.acel_z[id_p] * PASO_TIEMPO;
+    part.hv_x[id_p] += part.acel_x[id_p] * PASO_TIEMPO;
+    part.hv_y[id_p] += part.acel_y[id_p] * PASO_TIEMPO;
+    part.hv_z[id_p] += part.acel_z[id_p] * PASO_TIEMPO;
     return 0;
   }
 
@@ -117,17 +115,17 @@ namespace fisica {
             const double nueva_x = part.pos_x[id_p] + part.hv_x[id_p] * PASO_TIEMPO;
       double dist_x = TAMANO_PARTICULAS;
       if (part.loc_x[id_p] == 0) {
-        dist_x = dist_x - (nueva_x - lim_inf_x);
+        dist_x -=  (nueva_x - lim_inf_x);
       }
       else {
-        dist_x = dist_x - (lim_sup_x - nueva_x);
+        dist_x -= (lim_sup_x - nueva_x);
       }
       if (dist_x > dist_min) {
         if (part.loc_x[id_p] == 0) {
-          part.acel_x[id_p] = part.acel_x[id_p] + (S_C * dist_x - D_V * part.vel_x[id_p]);
+          part.acel_x[id_p] += (S_C * dist_x - D_V * part.vel_x[id_p]);
         }
         else {
-          part.acel_x[id_p] = part.acel_x[id_p] - (S_C * dist_x + D_V * part.vel_x[id_p]);
+          part.acel_x[id_p] -= (S_C * dist_x + D_V * part.vel_x[id_p]);
         }
       }
     }
@@ -140,17 +138,17 @@ namespace fisica {
             const double nueva_y = part.pos_y[id_p] + part.hv_y[id_p] * PASO_TIEMPO;
       double dist_y = TAMANO_PARTICULAS;
       if (part.loc_y[id_p] == 0) {
-        dist_y = dist_y - (nueva_y - lim_inf_y);
+        dist_y -= (nueva_y - lim_inf_y);
       }
       else {
-        dist_y = dist_y - (lim_sup_y - nueva_y);
+        dist_y -= (lim_sup_y - nueva_y);
       }
       if (dist_y > dist_min) {
         if (part.loc_y[id_p] == 0) {
-          part.acel_y[id_p] = part.acel_y[id_p] + (S_C * dist_y - D_V * part.vel_y[id_p]);
+          part.acel_y[id_p] += (S_C * dist_y - D_V * part.vel_y[id_p]);
         }
         else {
-          part.acel_y[id_p] = part.acel_y[id_p] - (S_C * dist_y + D_V * part.vel_y[id_p]);
+          part.acel_y[id_p] -= (S_C * dist_y + D_V * part.vel_y[id_p]);
         }
       }
     }
@@ -163,17 +161,17 @@ namespace fisica {
             const double nueva_z = part.pos_z[id_p] + part.hv_z[id_p] * PASO_TIEMPO;
       double dist_z = TAMANO_PARTICULAS;
       if (part.loc_z[id_p] == 0) {
-        dist_z = dist_z - (nueva_z - lim_inf_z);
+        dist_z -= (nueva_z - lim_inf_z);
       }
       else {
-        dist_z = dist_z - (lim_sup_z - nueva_z);
+        dist_z -=  (lim_sup_z - nueva_z);
       }
       if (dist_z > dist_min) {
         if (part.loc_z[id_p] == 0) {
-          part.acel_z[id_p] = part.acel_z[id_p] + (S_C * dist_z - D_V * part.vel_z[id_p]);
+          part.acel_z[id_p] +=  (S_C * dist_z - D_V * part.vel_z[id_p]);
         }
         else {
-          part.acel_z[id_p] = part.acel_z[id_p] - (S_C * dist_z + D_V * part.vel_z[id_p]);
+          part.acel_z[id_p] -=  (S_C * dist_z + D_V * part.vel_z[id_p]);
         }
       }
     }
