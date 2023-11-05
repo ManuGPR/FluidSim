@@ -19,6 +19,8 @@ constexpr double TAMANO_PARTICULAS = 2e-4;
 constexpr double PASO_TIEMPO = 1e-3;
 constexpr double PI_CONST = std::numbers::pi;
 
+constexpr double distancia_minima = 1e-10;
+
 constexpr double lim_inf_x = -0.065, lim_sup_x = 0.065;
 constexpr double lim_inf_y = -0.08, lim_sup_y = 0.1;
 constexpr double lim_inf_z = -0.065, lim_sup_z = 0.065;
