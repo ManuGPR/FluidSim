@@ -101,33 +101,23 @@ namespace ficheros {
     file_out.write(to_str(aux), sizeof(float));
     file_out.write(to_str(np), sizeof(int ));
     for (int i = 0; i < np; i++) {
-      cout << i << " ";
       aux = static_cast<float>(particulas.pos_x[i]);
-      cout << aux << " ";
       file_out.write(to_str(aux), sizeof(float));
       aux = static_cast<float>(particulas.pos_y[i]);
-      cout << aux << " ";
       file_out.write(to_str((aux)), sizeof(float));
       aux = static_cast<float>(particulas.pos_z[i]);
-      cout << aux << " ";
       file_out.write(to_str(aux), sizeof(float));
       aux = static_cast<float>(particulas.hv_x[i]);
-      cout << aux << " ";
       file_out.write(to_str(aux), sizeof(float));
       aux = static_cast<float>(particulas.hv_y[i]);
-      cout << aux << " ";
       file_out.write(to_str(aux), sizeof(float));
       aux = static_cast<float>(particulas.hv_z[i]);
-      cout << aux << " ";
       file_out.write(to_str(aux), sizeof(float));
       aux = static_cast<float>(particulas.vel_x[i]);
-      cout << aux << " ";
       file_out.write(to_str(aux), sizeof(float));
       aux = static_cast<float>(particulas.vel_y[i]);
-      cout << aux << " ";
       file_out.write(to_str(aux), sizeof(float));
       aux = static_cast<float>(particulas.vel_z[i]);
-      cout << aux << "\n";
       file_out.write(to_str(aux), sizeof(float));
     }
     return 0;

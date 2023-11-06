@@ -33,14 +33,13 @@ int simulacion(const std::vector<std::string> & args_str) {
   const int total_bloques = bloque::total_bloques(malla.num_bloques);
   vector<struct bloque::Bloque> vector_bloques;
   bloque::crear_bloques(vector_bloques, total_bloques, malla.num_bloques);
-
   fisica::main_loop(particulas, malla, constantes, vector_bloques);
   file_out.open(args_str[2], ios::binary);
   ficheros::escritura_salida(file_out, particulas, ppm, nps);
-  ifstream file;
-  file.open("boundint-base-1.trz", ios::binary);
-  const int resultado = ficheros::trazas(file,particulas);
-  cout << "resultado: " << resultado;
-  ficheros::escritura_comp();
+  //ifstream file;
+  //file.open("boundint-base-1.trz", ios::binary);
+  //const int resultado = ficheros::trazas(file,particulas);
+  //cout << "resultado: " << resultado;
+  //ficheros::escritura_comp();
   return 0;
 }
