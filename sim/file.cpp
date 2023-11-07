@@ -12,13 +12,12 @@ namespace ficheros {
   tuple <int, double> lectura_cabecera(ifstream & file_in){
     const tuple<int, double> bad_return = {-5, 5.0};
     int nps = 0;
-    float ppm_float = 0.0;
-    file_in.read(reinterpret_cast<char *> (&ppm_float), sizeof(float));
-    const double ppm = static_cast<double>(ppm_float);
+    float ppm = 0.0;
+    file_in.read(reinterpret_cast<char *> (&ppm), sizeof(float));
     file_in.read(reinterpret_cast<char *> (&nps), sizeof(int));
     //Comprobación del nps
     if (entry::check_np(nps) != 0){return bad_return;}
-    const tuple<int, double> good_return = {nps, ppm};
+    const tuple<int, double> good_return = {nps, static_cast<double>(ppm)};
     return good_return;
   }
 
@@ -60,7 +59,7 @@ namespace ficheros {
   int escritura_comp() {//Esta función hay que borrarla
     ifstream fichero_comp;
     ofstream fichero_comp_salida("salida.txt");
-    fichero_comp.open("boundint-base-1.trz", ios::binary);
+    fichero_comp.open("./trz/small/boundint-base-3.trz", ios::binary);
     int cabecera = 0;
     fichero_comp.read(reinterpret_cast<char *> (&cabecera), sizeof(int));
     fichero_comp_salida << cabecera << "\n";
@@ -99,25 +98,35 @@ namespace ficheros {
   int escritura_salida(ofstream& file_out, const struct Particula & particulas, double & ppm, int np) {
     auto aux = static_cast<float>(ppm);
     file_out.write(to_str(aux), sizeof(float));
-    file_out.write(to_str(np), sizeof(int ));
+    file_out.write(to_str(np), sizeof(int));
     for (int i = 0; i < np; i++) {
+      cout << i << " ";
       aux = static_cast<float>(particulas.pos_x[i]);
+      cout << aux << " ";
       file_out.write(to_str(aux), sizeof(float));
       aux = static_cast<float>(particulas.pos_y[i]);
+      cout << aux << " ";
       file_out.write(to_str((aux)), sizeof(float));
       aux = static_cast<float>(particulas.pos_z[i]);
+      cout << aux << " ";
       file_out.write(to_str(aux), sizeof(float));
       aux = static_cast<float>(particulas.hv_x[i]);
+      cout << aux << " ";
       file_out.write(to_str(aux), sizeof(float));
       aux = static_cast<float>(particulas.hv_y[i]);
+      cout << aux << " ";
       file_out.write(to_str(aux), sizeof(float));
       aux = static_cast<float>(particulas.hv_z[i]);
+      cout << aux << " ";
       file_out.write(to_str(aux), sizeof(float));
       aux = static_cast<float>(particulas.vel_x[i]);
+      cout << aux << " ";
       file_out.write(to_str(aux), sizeof(float));
       aux = static_cast<float>(particulas.vel_y[i]);
+      cout << aux << " ";
       file_out.write(to_str(aux), sizeof(float));
       aux = static_cast<float>(particulas.vel_z[i]);
+      cout << aux << "\n";
       file_out.write(to_str(aux), sizeof(float));
     }
     return 0;
@@ -142,13 +151,7 @@ namespace ficheros {
       file_in.read(reinterpret_cast<char *> (&nps_1), sizeof(int));
       file_corect.read(reinterpret_cast<char *> (&ppm_float_2), sizeof(float));
       file_corect.read(reinterpret_cast<char *> (&nps_2), sizeof(int));
-      cout << "ppm-1 " <<ppm_float_1 << "\n";
-      cout << "ppm-2 " <<ppm_float_2 << "\n";
-      cout << "n-1 " <<nps_1 << "\n";
-      cout << "n-2 " <<nps_2 << "\n";
-      if (nps_1 != nps_2 or ppm_float_1 !=ppm_float_2 ){
-        return -1;
-      }
+      if (nps_1 != nps_2 or ppm_float_1 !=ppm_float_2 ){return -1;}
       float aux_float_1 = 0.0;
       float aux_float_2 = 0.0;
       int i = 0;
@@ -156,10 +159,10 @@ namespace ficheros {
         file_in.read(reinterpret_cast<char *> (&aux_float_1), sizeof(float));
         file_corect.read(reinterpret_cast<char *> (&aux_float_2), sizeof(float));
         if (aux_float_1 != aux_float_2){
-        cout << "aux-1 " <<aux_float_1 << "\n";
-        cout << "aux-2 " <<aux_float_2<< "\n";
-        cout << "i= " << i <<"\n";
-          return -1;
+        cout << "aux-1 " << aux_float_1 << "\n";
+        cout << "aux-2 " << aux_float_2<< "\n";
+        cout << "i= " << i / 9<<"\n";
+        return -1;
         }
 
         i++;
@@ -167,36 +170,31 @@ namespace ficheros {
       return 0;
       }
 
-    int lectura_para_modificar_fichero(ifstream & file_in,int nps_n){
-      ofstream s;
-
-      s.open("small_modificado.fld", ios::binary);
-
+    int modificar_fichero(string & file_name, int nps_mod){
+      ofstream file_out;
+      file_out.open("small_modificado.fld", ios::binary);
+      ifstream file_in;
+      file_in.open(file_name, ios::binary);
       int nps = 0;
       float ppm_float = 0.0;
       file_in.read(reinterpret_cast<char *> (&ppm_float), sizeof(float));
-
-      s.write(to_str(ppm_float), sizeof (float ));
+      file_out.write(to_str(ppm_float), sizeof (float));
 
       file_in.read(reinterpret_cast<char *> (&nps), sizeof(int));
-      s.write(to_str(nps_n), sizeof (int ));
-
-
+      file_out.write(to_str(nps_mod), sizeof (int ));
       float aux_float = 0.0;
       while (!file_in.eof()){
-
         file_in.read(reinterpret_cast<char *> (&aux_float), sizeof(float));
-        s.write(to_str(aux_float), sizeof(float));
+        file_out.write(to_str(aux_float), sizeof(float));
       }
-
+      file_in.close();
+      file_out.close();
       return 0;
     }
 
     int trazas(ifstream & fichero_comp, Particula & particulas) {
       int cabecera = 0;
       fichero_comp.read(reinterpret_cast<char *>(&cabecera), sizeof(int));
-
-      int num_bloque = 0;
       while (!fichero_comp.eof()) {
         long int num_p = 0;
         fichero_comp.read(reinterpret_cast<char *>(&num_p), sizeof(long int));
@@ -204,7 +202,6 @@ namespace ficheros {
         double aux             = 0.0;
         for (int j = 0; j < num_p; j++) {
           fichero_comp.read(reinterpret_cast<char *>(&aux), sizeof(double));
-          cout << identificador<< "\n";
 
           fichero_comp.read(reinterpret_cast<char *>(&aux), sizeof(double));
           if ((particulas.pos_x[identificador] )!= aux) {
@@ -247,7 +244,6 @@ namespace ficheros {
           fichero_comp.read(reinterpret_cast<char *>(&aux), sizeof(double));
           if (particulas.acel_z[identificador] != aux) { return -5; }
         }
-        num_bloque++;
       }
       return 0;
     }

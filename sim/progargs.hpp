@@ -15,7 +15,6 @@ namespace entry {
   int check_outputfile(const std::string &arguments);
   int check_np(int np);
   int check_param(std::vector<std::string> const &  arguments);
-
 }
 
 #endif //ARQUITECTURA_PROGARGS_HPP

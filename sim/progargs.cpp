@@ -9,7 +9,7 @@ using namespace std;
 
 namespace entry {
   int check_args(vector<std::string> const &  arguments) {
-        const size_t size = arguments.size();
+    const size_t size = arguments.size();
     if (size != 3){
       cerr << "Invalid number of arguments " << size  << '\n';
       return -1;
@@ -20,6 +20,10 @@ namespace entry {
   int check_nts(const string & arguments) {
     for (auto digit: arguments) {
       if (isdigit(digit) == 0) {
+        if ('-' == digit) {
+          cerr << "Invalid number of time steps." << "\n";
+          return -2;
+        }
         cerr << "Time steps must be numeric." << '\n';
         return -1;}
     }
@@ -75,7 +79,7 @@ namespace entry {
   }
 
   [[maybe_unused]] int check_np(int np){
-        const int bad_return = -5;
+    const int bad_return = -5;
     if (np == 0) {
       std::cerr << "El numero de particulas es 0";
       return bad_return;

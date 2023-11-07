@@ -101,13 +101,12 @@ namespace fisica {
   }
 
   int mov_part(struct Particula & part, const int & id_p){
-    const double paso_tiempo_cuadrado = PASO_TIEMPO * PASO_TIEMPO;
     part.pos_x[id_p] = part.pos_x[id_p] + part.hv_x[id_p] * PASO_TIEMPO +
-                       part.acel_x[id_p] * paso_tiempo_cuadrado;
+                       part.acel_x[id_p] * PASO_TIEMPO*PASO_TIEMPO;
     part.pos_y[id_p] = part.pos_y[id_p] + part.hv_y[id_p] * PASO_TIEMPO +
-                       part.acel_y[id_p] * paso_tiempo_cuadrado;
+                       part.acel_y[id_p] * PASO_TIEMPO*PASO_TIEMPO;
     part.pos_z[id_p] = part.pos_z[id_p] + part.hv_z[id_p] * PASO_TIEMPO +
-                       part.acel_z[id_p] * paso_tiempo_cuadrado;
+                       part.acel_z[id_p] * PASO_TIEMPO*PASO_TIEMPO;
 
     part.vel_x[id_p] = part.hv_x[id_p] + (part.acel_x[id_p] * PASO_TIEMPO)/2;
     part.vel_y[id_p] = part.hv_y[id_p] + (part.acel_y[id_p] * PASO_TIEMPO)/2;
@@ -198,16 +197,16 @@ namespace fisica {
       const double dist_y = part.pos_y[id_p] - lim_inf_y;
       if (dist_y < 0) {
         part.pos_y[id_p] = lim_inf_y - dist_y;
-        part.vel_y[id_p] = -1*part.vel_y[id_p];
-        part.hv_y[id_p] = -1*part.hv_y[id_p];
+        part.vel_y[id_p] = -part.vel_y[id_p];
+        part.hv_y[id_p]  = -part.hv_y[id_p];
       }
     }
     else {
-      const double dist_y = lim_sup_z - part.pos_y[id_p];
+      const double dist_y = lim_sup_y - part.pos_y[id_p];
       if (dist_y < 0) {
         part.pos_y[id_p] = lim_sup_y + dist_y;
-        part.vel_y[id_p] = -1*part.vel_y[id_p];
-        part.hv_y[id_p] = -1*part.hv_y[id_p];
+        part.vel_y[id_p] = -part.vel_y[id_p];
+        part.hv_y[id_p]  = -part.hv_y[id_p];
       }
     }
     return 0;
@@ -254,10 +253,11 @@ namespace fisica {
       for (int part_1 = malla.nps - 1; part_1 >= 0; part_1--){
         particulas.dens[part_1] = fisica::trans_densidad(particulas.dens[part_1], constantes.operandos[0], constantes.operandos[1]);
       }
+
       for (int bloque = it_bloque; bloque >= 0; bloque--) {
-        for (const int part_1: bloques[bloque].lista_particulas) {
-          for (const int bloques_cont: bloques[it_bloque].bloque_contiguo){
-            for (const int part_2: bloques[bloques_cont].lista_particulas) {
+        for (const int bloques_cont: bloques[bloque].bloque_contiguo) {
+          for (const int part_1 : bloques[bloque].lista_particulas) {
+              for (const int part_2 : bloques[bloques_cont].lista_particulas) {
               if (part_1 < part_2) {
                 const vector<int> part = {part_1, part_2};
                 fisica::trans_acele(particulas, part, constantes.operandos, constantes.h);
@@ -271,5 +271,6 @@ namespace fisica {
        fisica::col_mov(particulas, malla.num_bloques, part_1);
        fisica::interaccion(particulas, malla.num_bloques, part_1);
       }
+
     }
     return 0;}}
