@@ -36,6 +36,5 @@ int simulacion(const std::vector<std::string> & args_str) {
   fisica::main_loop(particulas, malla, constantes, vector_bloques);
   file_out.open(args_str[2], ios::binary);
   ficheros::escritura_salida(file_out, particulas, ppm, nps);
-  ficheros::escritura_comp();
   return 0;
 }

@@ -100,33 +100,23 @@ namespace ficheros {
     file_out.write(to_str(aux), sizeof(float));
     file_out.write(to_str(np), sizeof(int));
     for (int i = 0; i < np; i++) {
-      cout << i << " ";
       aux = static_cast<float>(particulas.pos_x[i]);
-      cout << aux << " ";
       file_out.write(to_str(aux), sizeof(float));
       aux = static_cast<float>(particulas.pos_y[i]);
-      cout << aux << " ";
       file_out.write(to_str((aux)), sizeof(float));
       aux = static_cast<float>(particulas.pos_z[i]);
-      cout << aux << " ";
       file_out.write(to_str(aux), sizeof(float));
       aux = static_cast<float>(particulas.hv_x[i]);
-      cout << aux << " ";
       file_out.write(to_str(aux), sizeof(float));
       aux = static_cast<float>(particulas.hv_y[i]);
-      cout << aux << " ";
       file_out.write(to_str(aux), sizeof(float));
       aux = static_cast<float>(particulas.hv_z[i]);
-      cout << aux << " ";
       file_out.write(to_str(aux), sizeof(float));
       aux = static_cast<float>(particulas.vel_x[i]);
-      cout << aux << " ";
       file_out.write(to_str(aux), sizeof(float));
       aux = static_cast<float>(particulas.vel_y[i]);
-      cout << aux << " ";
       file_out.write(to_str(aux), sizeof(float));
       aux = static_cast<float>(particulas.vel_z[i]);
-      cout << aux << "\n";
       file_out.write(to_str(aux), sizeof(float));
     }
     return 0;
@@ -194,6 +184,7 @@ namespace ficheros {
 
     int trazas(ifstream & fichero_comp, Particula & particulas) {
       int cabecera = 0;
+      double epsilon = 0.000001;
       fichero_comp.read(reinterpret_cast<char *>(&cabecera), sizeof(int));
       while (!fichero_comp.eof()) {
         long int num_p = 0;
@@ -201,48 +192,33 @@ namespace ficheros {
         long int identificador = 0;
         double aux             = 0.0;
         for (int j = 0; j < num_p; j++) {
-          fichero_comp.read(reinterpret_cast<char *>(&aux), sizeof(double));
-
-          fichero_comp.read(reinterpret_cast<char *>(&aux), sizeof(double));
-          if ((particulas.pos_x[identificador] )!= aux) {
-          return -1; }
-
-
-          fichero_comp.read(reinterpret_cast<char *>(&aux), sizeof(double));
-          if (particulas.pos_y[identificador] != aux) {
-          return -1; }
-
-
-          fichero_comp.read(reinterpret_cast<char *>(&aux), sizeof(double));
-          if (particulas.pos_z[identificador] != aux) {
-          return -1; }
-
-
-          fichero_comp.read(reinterpret_cast<char *>(&aux), sizeof(double));
-          if (particulas.hv_x[identificador] != aux) {
-          cout << "resta" << particulas.hv_x[identificador] - aux <<"\n";
-          cout << "part hv x:" << particulas.hv_x[identificador]<<"\n";
-          cout << "aux hv x:: " << aux <<"\n";
-          cout <<"error x"<<"\n";
-          return -2; }
-          fichero_comp.read(reinterpret_cast<char *>(&aux), sizeof(double));
-          if (particulas.hv_y[identificador] != aux) { return -2; }
-          fichero_comp.read(reinterpret_cast<char *>(&aux), sizeof(double));
-          if (particulas.hv_z[identificador] != aux) { return -2; }
-          fichero_comp.read(reinterpret_cast<char *>(&aux), sizeof(double));
-          if (particulas.vel_x[identificador] != aux) { return -3; }
-          fichero_comp.read(reinterpret_cast<char *>(&aux), sizeof(double));
-          if (particulas.vel_y[identificador] != aux) { return -3; }
-          fichero_comp.read(reinterpret_cast<char *>(&aux), sizeof(double));
-          if (particulas.vel_z[identificador] != aux) { return -3; }
-          fichero_comp.read(reinterpret_cast<char *>(&aux), sizeof(double));
-          if (particulas.dens[identificador] != aux) { return -4; }
-          fichero_comp.read(reinterpret_cast<char *>(&aux), sizeof(double));
-          if (particulas.acel_x[identificador] != aux) { return -5; }
-          fichero_comp.read(reinterpret_cast<char *>(&aux), sizeof(double));
-          if (particulas.acel_y[identificador] != aux) { return -5; }
-          fichero_comp.read(reinterpret_cast<char *>(&aux), sizeof(double));
-          if (particulas.acel_z[identificador] != aux) { return -5; }
+        fichero_comp.read(reinterpret_cast<char *>(&aux), sizeof(double));
+        fichero_comp.read(reinterpret_cast<char *>(&aux), sizeof(double));
+        if (fabs(particulas.pos_x[identificador] - aux) >= epsilon) {return -1; }
+        fichero_comp.read(reinterpret_cast<char *>(&aux), sizeof(double));
+        if (fabs(particulas.pos_y[identificador]- aux) >= epsilon) {return -1; }
+        fichero_comp.read(reinterpret_cast<char *>(&aux), sizeof(double));
+        if (fabs(particulas.pos_z[identificador] - aux) >= epsilon) {return -1; }
+        fichero_comp.read(reinterpret_cast<char *>(&aux), sizeof(double));
+        if (fabs(particulas.hv_x[identificador]- aux) >= epsilon) {return -2; }
+        fichero_comp.read(reinterpret_cast<char *>(&aux), sizeof(double));
+        if (fabs(particulas.hv_y[identificador] - aux) >= epsilon) { return -2; }
+        fichero_comp.read(reinterpret_cast<char *>(&aux), sizeof(double));
+        if (fabs(particulas.hv_z[identificador]- aux) >= epsilon) { return -2; }
+        fichero_comp.read(reinterpret_cast<char *>(&aux), sizeof(double));
+        if (fabs(particulas.vel_x[identificador]- aux) >= epsilon) { return -3; }
+        fichero_comp.read(reinterpret_cast<char *>(&aux), sizeof(double));
+        if (fabs(particulas.vel_y[identificador]- aux) >= epsilon) {return -3; }
+        fichero_comp.read(reinterpret_cast<char *>(&aux), sizeof(double));
+        if (fabs(particulas.vel_z[identificador] - aux) >= epsilon) { return -3; }
+        fichero_comp.read(reinterpret_cast<char *>(&aux), sizeof(double));
+        if (fabs(particulas.dens[identificador]- aux) >= epsilon) { return -4; }
+        fichero_comp.read(reinterpret_cast<char *>(&aux), sizeof(double));
+        if (fabs(particulas.acel_x[identificador]- aux) >= epsilon) {return -5; }
+        fichero_comp.read(reinterpret_cast<char *>(&aux), sizeof(double));
+        if (fabs(particulas.acel_y[identificador]- aux) >= epsilon) {return -5; }
+        fichero_comp.read(reinterpret_cast<char *>(&aux), sizeof(double));
+        if (fabs(particulas.acel_z[identificador] - aux) >= epsilon) {return -5; }
         }
       }
       return 0;

@@ -17,9 +17,9 @@ using namespace std;
 namespace fisica {
   int calcular_operandos(double & masa,double & h, vector<double> & operandos);
   int inicializar_dens_acelera(struct Particula & part, const int & id_p);
-  void incremento_densidades(struct Particula & part, const double & operandos, const int & id_i, const int & id_j);
+  void incremento_densidades(struct Particula & part, const double & operandos, const int & id_i, const int & id_j, double & diferencia);
   double trans_densidad(double & incremento, double & operando_1, double & operando_2);
-  void trans_acele(struct Particula & part, const vector<int>  & id_p, vector<double> & operandos, double & h );
+  void trans_acele(struct Particula & part, const vector<int>  & id_p, vector<double> & operandos, double & h, double & diferencia);
   int mov_part(struct Particula & part, const int & id_p);
   int col_x(struct Particula & part, const int & id_p);
   int col_y(struct Particula & part, const int & id_p);
