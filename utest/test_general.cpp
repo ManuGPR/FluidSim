@@ -97,7 +97,7 @@ TEST(salida, 1){
   EXPECT_EQ(0,resultado);
 }
 
-//Test correcto el archivo out.fld coincide con small-1+2.fld
+//Test correcto el archivo out.fld coincide con small-1.fld
 TEST(salida, 2){
   const vector<string> vec = {"2", "./small.fld","./out.fld"};
   simulacion(vec);

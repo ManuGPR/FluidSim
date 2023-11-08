@@ -2,38 +2,33 @@
 // Created by marina on 27/09/23.
 //
 
-#include <vector>
-#include <iostream>
-#include <iomanip>
-#include <fstream>
-#include <cmath>
 #include "constants.hpp"
+
+#include <cmath>
+#include <fstream>
+#include <iomanip>
+#include <iostream>
+#include <vector>
 
 #ifndef ARQUITECTURA_GRID_HPP
   #define ARQUITECTURA_GRID_HPP
 
 using namespace std;
 
-//NameSpace que tiene funciones sobre la malla
-namespace malla {
-
-}
-
-struct Enclosure3D{
-    /*class members*/
+// Estructura que define la malla
+struct Enclosure3D {
+    // Argumentos de la malla
     std::vector<int> num_bloques;
     std::vector<double> tam_bloques;
     int nps = 0;
-    /*member functions*/
-    /* initialize all the vector arrays in the constructor */
-    explicit Enclosure3D(int nps) : nps(nps) {
-      /*constructor using parameters specified in cmd*/
-    }
+
+    // Constructor de la malla
+    explicit Enclosure3D(int nps) : nps(nps) { }
 };
 
-
+// Estrucura que define las partículas
 struct Particula {
-    /*class attributes*/
+    // Argumentos de las partículas
     vector<double> pos_x;
     vector<double> pos_y;
     vector<double> pos_z;
@@ -51,12 +46,11 @@ struct Particula {
     vector<int> loc_y;
     vector<int> loc_z;
     vector<int> bloque;
-    /*class methods*/
-    explicit Particula(int np) : pos_x(np, 0.0), pos_y(np, 0.0), pos_z(np, 0.0),
-        hv_x(np, 0.0), hv_y(np, 0.0), hv_z(np, 0.0),
-        vel_x(np, 0.0), vel_y(np, 0.0), vel_z(np, 0.0),
-        acel_x(np, gravedad_x), acel_y(np, gravedad_y),
-        acel_z(np, gravedad_z), dens(np, 0.0),
-        loc_x(np, 0), loc_y(np, 0), loc_z(np, 0), bloque(np, 0){};
+    // Constructor de la partícula
+    explicit Particula(int np)
+      : pos_x(np, 0.0), pos_y(np, 0.0), pos_z(np, 0.0), hv_x(np, 0.0), hv_y(np, 0.0), hv_z(np, 0.0),
+        vel_x(np, 0.0), vel_y(np, 0.0), vel_z(np, 0.0), acel_x(np, gravedad_x),
+        acel_y(np, gravedad_y), acel_z(np, gravedad_z), dens(np, 0.0), loc_x(np, 0), loc_y(np, 0),
+        loc_z(np, 0), bloque(np, 0){};
 };
-#endif //ARQUITECTURA_GRID_HPP
+#endif  // ARQUITECTURA_GRID_HPP
