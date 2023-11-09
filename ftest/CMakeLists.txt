@@ -6,4 +6,4 @@ target_link_libraries (ftest PRIVATE  sim  GTest::gtest_main)
 
 # Discover all tests and add them to the test driver
 include(GoogleTest)
-gtest_discover_tests(utest)
+gtest_discover_tests(ftest)

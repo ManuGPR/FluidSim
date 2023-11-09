@@ -9,6 +9,7 @@ namespace ficheros {
     const tuple<int, double> bad_return = {-5, 5.0};
     int nps = 0;
     float ppm = 0.0;
+
     file_in.read(reinterpret_cast<char *> (&ppm), sizeof(float));
     file_in.read(reinterpret_cast<char *> (&nps), sizeof(int));
     //Comprobación del nps
@@ -21,6 +22,7 @@ namespace ficheros {
 
   double lectura_float_to_double (ifstream & fichero) {
     float aux_float = 0.0;
+    // NOLINTNEXTLINE(cppcoreguidelines-pro-type-reinterpret-cast)
     fichero.read(reinterpret_cast<char *> (&aux_float), sizeof(float));
     return static_cast<double>(aux_float);
   }
@@ -58,11 +60,13 @@ namespace ficheros {
     ofstream fichero_comp_salida("salida.txt");
     fichero_comp.open("./trz/small/boundint-base-3.trz", ios::binary);
     int cabecera = 0;
+    // NOLINTNEXTLINE(cppcoreguidelines-pro-type-reinterpret-cast)
     fichero_comp.read(reinterpret_cast<char *> (&cabecera), sizeof(int));
     fichero_comp_salida << cabecera << "\n";
     int num_bloque = 0;
     while(!fichero_comp.eof()) {
       long int num_p = 0;
+      // NOLINTNEXTLINE(cppcoreguidelines-pro-type-reinterpret-cast)
       fichero_comp.read(reinterpret_cast<char *>(&num_p), sizeof(long int));
       fichero_comp_salida << num_bloque << " " << num_p << "\n";
       for (int j = 0; j < num_p; j++) {
