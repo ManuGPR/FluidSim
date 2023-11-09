@@ -1,6 +1,3 @@
-//
-// Created by marina on 27/09/23.
-//
 #include "vector"
 
 #include <fstream>
@@ -10,18 +7,17 @@
   #define ARQUITECTURA_PROGARGS_HPP
 
 namespace entry {
-  // Función que checkea los argumentos de entrda
+  //@param1: vector de strings con los argumentos
   int check_args(std::vector<std::string> const & arguments);
-  // Funciṕn que checkea el número de pasos de tiempo
+  //@param1: string con nts
   int check_nts(std::string const & arguments);
-  // Función que checkea el fichero de entrada
+  //@param1: string con el nombre del fichero de entrada
   int check_inputfile(std::string const & arguments);
-  // Función que checkea el fichero de salida
+  //@param1: string con el nombre del fichero de salida
   int check_outputfile(std::string const & arguments);
-  // Función que checkea el número de partículas del fichero
+  //@param1: número de partículas
   int check_np(int np);
-
-  // Función de checkeo maestra, que llama al resto de funciones
+  //@param1: string con los argumentos
   int check_param(std::vector<std::string> const & arguments);
 }  // namespace entry
 

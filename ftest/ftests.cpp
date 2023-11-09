@@ -9,6 +9,30 @@
 #include "sim/grid.hpp"
 #include <fstream>
 
+/*class myTestFixture: public ::testing::Test {
+  public:
+    myTestFixture( ) {
+      // initialization;
+      // can also be done in SetUp()
+    }
+
+    void SetUp( ) {
+      // initialization or some code to run before each test
+    }
+
+    void TearDown( ) {
+      // code to run after each test;
+      // can be used instead of a destructor,
+      // but exceptions can be handled in this function only
+    }
+
+    ~myTestFixture( )  {
+      //resources cleanup, no exceptions allowed
+    }
+
+    // shared user data
+};*/
+
 TEST(argumentos, 1){
   const vector<string> vec = {"1", "./small.fld","out.fld"};
   const int resultado = simulacion(vec);
@@ -93,7 +117,7 @@ TEST(salida, 1){
   ifstream file_correct;
   file_in.open("./out.fld", ios::binary);
   file_correct.open("./out/small-1.fld", ios::binary);
-  const int resultado = ficheros::lectura_salida(file_in,file_correct);
+  const int resultado = ficheros::comparar_ficheros(file_in,file_correct);
   EXPECT_EQ(0,resultado);
 }
 
@@ -105,7 +129,7 @@ TEST(salida, 2){
   ifstream file_correct;
   file_in.open("./out.fld", ios::binary);
   file_correct.open("./out/small-2.fld", ios::binary);
-  const int resultado = ficheros::lectura_salida(file_in,file_correct);
+  const int resultado = ficheros::comparar_ficheros(file_in,file_correct);
   EXPECT_EQ(0,resultado);
 }
 
@@ -117,7 +141,7 @@ TEST(salida, 3){
   ifstream file_correct;
   file_in.open("./out.fld", ios::binary);
   file_correct.open("./out/small-3.fld", ios::binary);
-  const int resultado = ficheros::lectura_salida(file_in,file_correct);
+  const int resultado = ficheros::comparar_ficheros(file_in,file_correct);
   EXPECT_EQ(0,resultado);
 }
 

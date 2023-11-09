@@ -1,7 +1,3 @@
-//
-// Created by manu on 8/10/23.
-//
-
 #include <cmath>
 #include <numbers>
 #include <vector>
@@ -10,15 +6,14 @@
   #define AC3_CONSTANTS_HPP
 
 // Constantes de la simulación
-constexpr double RADIO              = 1.695;
-constexpr int DENSIDAD_DE_FLUIDO    = 1000;
-constexpr double PRESION_DE_RIGIDEZ = 3.0;
-constexpr int S_C                   = 30000;
-constexpr double D_V                = 128.0;
-constexpr double VISCOSIDAD         = 0.4;
-constexpr double TAMANO_PARTICULAS  = 2e-4;
-constexpr double PASO_TIEMPO        = 1e-3;
-constexpr double PI_CONST           = std::numbers::pi;
+constexpr double radio              = 1.695;
+constexpr int densidad_de_fluido    = 1000;
+constexpr double presion_de_rigidez = 3.0;
+constexpr int s_c                   = 30000;
+constexpr double d_v                = 128.0;
+constexpr double viscosidad         = 0.4;
+constexpr double tamano_particulas  = 2e-4;
+constexpr double paso_tiempo        = 1e-3;
 constexpr double distancia_minima   = 1e-10;
 
 // Constantes vectoriales de la simulación
@@ -39,7 +34,7 @@ struct Constantes {
     int nts     = 0;
 
     explicit Constantes(int num_time_steps, double ppm)
-      : h(RADIO / ppm), masa((DENSIDAD_DE_FLUIDO) / (pow(ppm, cubo))), nts(num_time_steps) { }
+      : h(radio / ppm), masa((densidad_de_fluido) / (pow(ppm, cubo))), nts(num_time_steps) { }
 };
 
 #endif  // AC3_CONSTANTS_HPP

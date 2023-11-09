@@ -1,7 +1,3 @@
-//
-// Created by manu on 5/10/23.
-//
-
 #include "block.hpp"
 #include "constants.hpp"
 #include "grid.hpp"
@@ -17,23 +13,26 @@
 using namespace std;
 
 namespace ficheros {
-  // Función que se encarga de leer la cabecera
+  //@param1: fichero de entrada para leer
   tuple<int, double> lectura_cabecera(ifstream & file_in);
-  // Función que se encarga de leer un objeto del fichero, hacer el cast a double y devolverlo
+  //@param1: fichero que se lee
   double lectura_float_to_double(ifstream & fichero);
-  // Función que se encarga de leer el fichero
+  //@param1: fichero de entrada, @param2: número de partículas, @param3: partículas
   int lectura_file(ifstream & file_in, int np, struct Particula & particulas);
-  // Función que se encarga de la escritura del fichero de salida
-  int escritura_salida(ofstream & file_out, const struct Particula & particulas, double & ppm,
-                       int np);
-  // Función que escribe un fichero de salida de comprobación
-  int escritura_comp();
-  // Función que castea un entero a un char*
+  //@param1: fichero de salida de la simulación, @param2: partículas, @param3: partículas por metro
+  //@param4: número de partículas
+  int escritura_salida(ofstream & file_out, const struct Particula & particulas, double & ppm, int np);
+  [[maybe_unused]] int escritura_comp();
+  [[maybe_unused]] void loop_escritura_comp(long int & num_p, ifstream & fichero_comp, ofstream & fichero_comp_salida);
+  //@param1: parametro a castear a char*
   char const * to_str(int & parameter);
-  // Función que castea un doble a un char*
+  //@param1: parametro a castear a char*
   char const * to_str(float & parameter);
-  int lectura_salida(ifstream & file_in, ifstream & file_corect);
+  //@param1: fichero de entrada, @param2: fichero con el que corregir
+  int comparar_ficheros(ifstream & file_in, ifstream & file_corect);
+  //@param1: string con el nombre del fichero que modificar, @param2: número por el que cambiar nps
   int modificar_fichero(string & file_name, int nps_mod);
+  //@param1: fichero con el que comparar, @param2: partículas con las que comparar
   int trazas(ifstream & fichero_comp, Particula & particula);
 }  // namespace ficheros
 

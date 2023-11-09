@@ -1,6 +1,3 @@
-//
-// Created by marina on 27/09/23.
-//
 #include "grid.hpp"
 
 #include <cmath>
@@ -14,23 +11,23 @@
 
 using namespace std;
 
-namespace bloque {
-  // Función que calcula el número de bloques
+namespace block {
+  //@param1: número de bloques, @param2: longitud de suavizado
   int num_bloques(vector<int> & num_bloques, double & h);
-  // Funcion que calcula el tamaño de bloques
+  //@param1: tamaño de los bloques , @param2: número de bloques
   int tam_bloques(vector<double> & tam_bloques, vector<int> & num_bloques);
-  // Funciones que calculan las posiciones de las particulas en cada eje
-  int loc_particula_x(int loc, double & pos, double & tam_bloques, int num_bloque);
-  int loc_particula_y(int loc, double & pos, double & tam_bloques, int num_bloque);
-  int loc_particula_z(int loc, double & pos, double & tam_bloques, int num_bloque);
-  // Función que localiza todas las partículas
+  //@param1: posición de la partícula, @param2: tamaño de los bloques, @param3: número de bloques
+  int loc_particula_x(double & pos, double & tam_bloques, int num_bloque);
+  int loc_particula_y(double & pos, double & tam_bloques, int num_bloque);
+  int loc_particula_z(double & pos, double & tam_bloques, int num_bloque);
+  //@param1: partículas, @param2: malla, @param3: número de bloques, @param4: bloques
   int loc_particula_bucle(struct Particula & particulas, struct Enclosure3D & malla,
                           vector<int> & num_bloques, vector<struct Bloque> & bloques);
-  // Función auxiliar que devuelve el total de bloques
+  //@param1: número de bloques
   int total_bloques(vector<int> & num_bloques);
-  // Función que crea los bloques
+  //@param1: bloques, @param2: número total de bloques, @param3: número de bloques
   int crear_bloques(vector<struct Bloque> & bloques, int total_bloques, vector<int> & num_bloques);
-  // Función que crea la struct auxiliar
+  //@param1: número de bloques, @param2: estructura a
   int crear_auxiliar(vector<int> & num_bloques, struct Aux & auxiliar);
 
   // Estructura que define los bloques

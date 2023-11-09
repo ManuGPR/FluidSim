@@ -2,13 +2,11 @@
 add_library(sim
         progargs.hpp
         progargs.cpp
-        grid.cpp
         grid.hpp
         block.cpp
         block.hpp
         calculos.hpp
         calculos.cpp
-        constants.cpp
         constants.hpp
         file.hpp
         file.cpp

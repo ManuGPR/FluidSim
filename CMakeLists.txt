@@ -6,7 +6,7 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
 add_compile_options(-Wall -Wextra -Werror -pedantic -pedantic-errors)
 set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} -march=native")
-#set(CMAKE_CXX_CLANG_TIDY .clang-tidy -header-filter=.*)
+#set(CMAKE_CXX_CLANG_TIDY clang-tidy -header-filter=.*)
 
 
 # Enable GoogleTest Library
@@ -23,4 +23,5 @@ add_subdirectory(sim)
 add_subdirectory(fluid)
 
 enable_testing()
+add_subdirectory(ftest)
 add_subdirectory(utest)

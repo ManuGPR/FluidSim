@@ -11,7 +11,7 @@
 #include "../sim/file.hpp"
 #include "../sim/block.hpp"
 #include "../sim/calculos.hpp"
-#include "../sim/simulacion.cpp"
+#include "../sim/simulacion.hpp"
 
 using namespace std;
 
@@ -19,7 +19,7 @@ using namespace std;
 int main(int argc, char **argv){
   const span args{argv, static_cast<size_t>(argc)}; //Vista sobre argumentos
   const std::vector<std::string> args_str{args.begin() +1, args.end()}; //Vector strings
-  return simulacion(args_str); // Llamada a la simulación
+  return sim::simulacion(args_str); // Llamada a la simulación
 }
 
 // NOLINTBEGIN
