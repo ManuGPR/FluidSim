@@ -34,6 +34,10 @@ namespace ficheros {
   int modificar_fichero(string & file_name, int nps_mod);
   //@param1: fichero con el que comparar, @param2: partículas con las que comparar
   int trazas(ifstream & fichero_comp, Particula & particula);
+  [[maybe_unused]] int read_pos_xyz (ifstream & fichero_comp, Particula & particulas);
+  [[maybe_unused]] int read_hv_xyz (ifstream & fichero_comp, Particula & particulas);
+  [[maybe_unused]] int read_vel_xyz (ifstream & fichero_comp, Particula & particulas);
+  [[maybe_unused]] int read_acel_xyz (ifstream & fichero_comp, Particula & particulas);
 }  // namespace ficheros
 
 #endif  // AC3_FILE_HPP

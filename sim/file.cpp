@@ -69,31 +69,38 @@ namespace ficheros {
       // NOLINTNEXTLINE(cppcoreguidelines-pro-type-reinterpret-cast)
       fichero_comp.read(reinterpret_cast<char *>(&num_p), sizeof(long int));
       fichero_comp_salida << num_bloque << " " << num_p << "\n";
-      for (int j = 0; j < num_p; j++) {
-        long int identificador = 0;
-        fichero_comp.read(reinterpret_cast<char *>(&identificador), sizeof(long int));
-        fichero_comp_salida << identificador << " ";
-        double aux = 0.0;
-        for (int k = 0; k < 3; k++) {
-          fichero_comp.read(reinterpret_cast<char *>(&aux), sizeof(double));
-          fichero_comp_salida << aux << " ";
-          fichero_comp.read(reinterpret_cast<char *>(&aux), sizeof(double));
-          fichero_comp_salida << aux << " ";
-          fichero_comp.read(reinterpret_cast<char *>(&aux), sizeof(double));
-          fichero_comp_salida << aux << " ";
-        }
-        fichero_comp.read(reinterpret_cast<char *>(&aux), sizeof(double));
-        fichero_comp_salida << aux << " ";
-        for (int k = 0; k < 3; k++) {
-          fichero_comp.read(reinterpret_cast<char *>(&aux), sizeof(double));
-          fichero_comp_salida << aux << " ";
-        }
-        fichero_comp_salida << "\n";
-      }
+      loop_escritura_comp(num_p,fichero_comp,fichero_comp_salida);
       num_bloque++;
       fichero_comp_salida << "\n";
     }
     return 0;
+  }
+
+  [[maybe_unused]] void loop_escritura_comp(long int & num_p, ifstream & fichero_comp, ofstream & fichero_comp_salida){
+    for (int j = 0; j < num_p; j++) {
+      long int identificador = 0;
+      // NOLINTNEXTLINE(cppcoreguidelines-pro-type-reinterpret-cast)
+      fichero_comp.read(reinterpret_cast<char *>(&identificador), sizeof(long int));
+      fichero_comp_salida << identificador << " ";
+      double aux = 0.0;
+      for (int k = 0; k < 3; k++) {
+        // NOLINTNEXTLINE(cppcoreguidelines-pro-type-reinterpret-cast)
+        fichero_comp.read(reinterpret_cast<char *>(&aux), sizeof(double));
+        fichero_comp_salida << aux << " ";
+        // NOLINTNEXTLINE(cppcoreguidelines-pro-type-reinterpret-cast)
+        fichero_comp.read(reinterpret_cast<char *>(&aux), sizeof(double));
+        fichero_comp_salida << aux << " ";
+        fichero_comp.read(reinterpret_cast<char *>(&aux), sizeof(double));
+        fichero_comp_salida << aux << " ";
+      }
+      fichero_comp.read(reinterpret_cast<char *>(&aux), sizeof(double));
+      fichero_comp_salida << aux << " ";
+      for (int k = 0; k < 3; k++) {
+        fichero_comp.read(reinterpret_cast<char *>(&aux), sizeof(double));
+        fichero_comp_salida << aux << " ";
+      }
+      fichero_comp_salida << "\n";
+    }
   }
 
   // Función que se encarga de la escritura del fichero de salida
@@ -194,32 +201,11 @@ namespace ficheros {
       double aux             = 0.0;
       for (int j = 0; j < num_p; j++) {
         fichero_comp.read(reinterpret_cast<char *>(&aux), sizeof(double));
+        read_pos_xyz (fichero_comp,particulas);
+        read_hv_xyz (fichero_comp,particulas);
+        read_vel_xyz (fichero_comp,particulas);
         fichero_comp.read(reinterpret_cast<char *>(&aux), sizeof(double));
-        if (fabs(particulas.pos_x[identificador] - aux) >= epsilon) {return -1; }
-        fichero_comp.read(reinterpret_cast<char *>(&aux), sizeof(double));
-        if (fabs(particulas.pos_y[identificador]- aux) >= epsilon) {return -1; }
-        fichero_comp.read(reinterpret_cast<char *>(&aux), sizeof(double));
-        if (fabs(particulas.pos_z[identificador] - aux) >= epsilon) {return -1; }
-        fichero_comp.read(reinterpret_cast<char *>(&aux), sizeof(double));
-        if (fabs(particulas.hv_x[identificador]- aux) >= epsilon) {return -2; }
-        fichero_comp.read(reinterpret_cast<char *>(&aux), sizeof(double));
-        if (fabs(particulas.hv_y[identificador] - aux) >= epsilon) { return -2; }
-        fichero_comp.read(reinterpret_cast<char *>(&aux), sizeof(double));
-        if (fabs(particulas.hv_z[identificador]- aux) >= epsilon) { return -2; }
-        fichero_comp.read(reinterpret_cast<char *>(&aux), sizeof(double));
-        if (fabs(particulas.vel_x[identificador]- aux) >= epsilon) { return -3; }
-        fichero_comp.read(reinterpret_cast<char *>(&aux), sizeof(double));
-        if (fabs(particulas.vel_y[identificador]- aux) >= epsilon) {return -3; }
-        fichero_comp.read(reinterpret_cast<char *>(&aux), sizeof(double));
-        if (fabs(particulas.vel_z[identificador] - aux) >= epsilon) { return -3; }
-        fichero_comp.read(reinterpret_cast<char *>(&aux), sizeof(double));
-        if (fabs(particulas.dens[identificador]- aux) >= epsilon) { return -4; }
-        fichero_comp.read(reinterpret_cast<char *>(&aux), sizeof(double));
-        if (fabs(particulas.acel_x[identificador]- aux) >= epsilon) {return -5; }
-        fichero_comp.read(reinterpret_cast<char *>(&aux), sizeof(double));
-        if (fabs(particulas.acel_y[identificador]- aux) >= epsilon) {return -5; }
-        fichero_comp.read(reinterpret_cast<char *>(&aux), sizeof(double));
-        if (fabs(particulas.acel_z[identificador] - aux) >= epsilon) {return -5; }
+        read_acel_xyz (fichero_comp,particulas);
         }
     }
     return 0;

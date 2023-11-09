@@ -95,8 +95,9 @@ TEST(argumentos, 8){
 
 //Modificar el archivo de entrada para que np no coincida
 TEST(argumentos, 9){
+  const int num = 10;
   string file = "small.fld";
-  ficheros::modificar_fichero(file, 10);
+  ficheros::modificar_fichero(file, num);
   const vector<string> vec = { "1", "../small_modificado.fld","./out.fld"};
   const int resultado = simulacion(vec);
   EXPECT_EQ(-5,resultado);
@@ -146,10 +147,11 @@ TEST(salida, 3){
 }
 
 TEST(trazas,uno){
+  const int num_part = 4800;
   const vector<string> vec = {"1", "./small.fld","./out.fld"};
   simulacion(vec);
   ifstream file_in;
-  struct Particula particula(4800);
+  struct Particula particula(num_part);
   file_in.open("./trz/small/boundint-base-1.trz", ios::binary);
   const int resultado = ficheros::trazas(file_in,particula);
   EXPECT_EQ(0,resultado);

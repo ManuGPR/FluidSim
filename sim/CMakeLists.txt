@@ -11,6 +11,7 @@ add_library(sim
         file.hpp
         file.cpp
         simulacion.cpp
+        simulacion.hpp
 
 )
 # Use this line only if you have dependencies from stim to GSL
