@@ -4,7 +4,7 @@
 #include "gtest/gtest.h"
 #include "sim/calculos.hpp"
 #include "sim/file.hpp"
-#include "sim/simulacion.cpp"
+#include "sim/simulacion.hpp"
 #include "sim/block.hpp"
 #include "sim/grid.hpp"
 #include <fstream>
@@ -35,42 +35,42 @@
 
 TEST(argumentos, 1){
   const vector<string> vec = {"1", "./small.fld","out.fld"};
-  const int resultado = simulacion(vec);
+  const int resultado = sim::simulacion(vec);
   EXPECT_EQ(0,resultado);
 }
 
 //Número inválido de argumentos
 TEST(argumentos, 2){
   const vector<string> vec = { "./small.fld","./out.fld"};
-  const int resultado = simulacion(vec);
+  const int resultado = sim::simulacion(vec);
   EXPECT_EQ(-1,resultado);
 }
 
 //El argumento de paso de parametros no es un número
 TEST(argumentos, 3){
   const vector<string> vec = { "a","./small.fld","./out.fld"};
-  const int resultado = simulacion(vec);
+  const int resultado = sim::simulacion(vec);
   EXPECT_EQ(-1,resultado);
 }
 
 //El número de paso es negativo
 TEST(argumentos, 4){
   const vector<string> vec = { "-1","./small.fld","./out.fld"};
-  const int resultado = simulacion(vec);
+  const int resultado = sim::simulacion(vec);
   EXPECT_EQ(-2,resultado);
 }
 
 //Error al abrir archivo de lectura
 TEST(argumentos, 5){
   const vector<string> vec = { "1","./no_existe.fld","./out.fld"};
-  const int resultado = simulacion(vec);
+  const int resultado = sim::simulacion(vec);
   EXPECT_EQ(-3,resultado);
 }
 
 //Error al abrir archivo de salida
 TEST(argumentos, 6){
   const vector<string> vec = { "1","./small.fld","../.+./out.fld"};
-  const int resultado = simulacion(vec);
+  const int resultado = sim::simulacion(vec);
   EXPECT_EQ(-4,resultado);
 }
 
@@ -79,7 +79,7 @@ TEST(argumentos, 7){
   string file = "small.fld";
   ficheros::modificar_fichero(file,0);
   const vector<string> vec = { "1", "./small_modificado.fld","./out.fld"};
-  const int resultado = simulacion(vec);
+  const int resultado = sim::simulacion(vec);
   EXPECT_EQ(-5,resultado);
 }
 
@@ -88,7 +88,7 @@ TEST(argumentos, 8){
   string file = "small.fld";
   ficheros::modificar_fichero(file,-1);
   const vector<string> vec = { "1", "./small_modificado.fld","./out.fld"};
-  const int resultado = simulacion(vec);
+  const int resultado = sim::simulacion(vec);
   EXPECT_EQ(-5,resultado);
 }
 
@@ -99,21 +99,21 @@ TEST(argumentos, 9){
   string file = "small.fld";
   ficheros::modificar_fichero(file, num);
   const vector<string> vec = { "1", "../small_modificado.fld","./out.fld"};
-  const int resultado = simulacion(vec);
+  const int resultado = sim::simulacion(vec);
   EXPECT_EQ(-5,resultado);
 }
 
 //El numero de paso de tiempo 0
 TEST(argumentos, 10){
   const vector<string> vec = { "0","small.fld","./out.fld"};
-  const int resultado = simulacion(vec);
+  const int resultado = sim::simulacion(vec);
   EXPECT_EQ(-2,resultado);
 }
 
 //Test correcto el archivo out.fld coincide con small-1.fld
 TEST(salida, 1){
   const vector<string> vec = {"1", "./small.fld","./out.fld"};
-  simulacion(vec);
+  sim::simulacion(vec);
   ifstream file_in;
   ifstream file_correct;
   file_in.open("./out.fld", ios::binary);
@@ -125,7 +125,7 @@ TEST(salida, 1){
 //Test correcto el archivo out.fld coincide con small-1.fld
 TEST(salida, 2){
   const vector<string> vec = {"2", "./small.fld","./out.fld"};
-  simulacion(vec);
+  sim::simulacion(vec);
   ifstream file_in;
   ifstream file_correct;
   file_in.open("./out.fld", ios::binary);
@@ -137,7 +137,7 @@ TEST(salida, 2){
 //Test correcto el archivo out.fld coincide con la el el small-3.fld
 TEST(salida, 3){
   const vector<string> vec = {"3", "./small.fld","./out.fld"};
-  simulacion(vec);
+  sim::simulacion(vec);
   ifstream file_in;
   ifstream file_correct;
   file_in.open("./out.fld", ios::binary);
@@ -149,7 +149,7 @@ TEST(salida, 3){
 TEST(trazas,uno){
   const int num_part = 4800;
   const vector<string> vec = {"1", "./small.fld","./out.fld"};
-  simulacion(vec);
+  sim::simulacion(vec);
   ifstream file_in;
   struct Particula particula(num_part);
   file_in.open("./trz/small/boundint-base-1.trz", ios::binary);

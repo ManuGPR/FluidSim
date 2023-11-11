@@ -18,8 +18,8 @@ namespace calc {
   int inicializar_dens_acel(Particula & part, int id_p);
   //@param1: partículas, @param2: operando para el cálculo, @param3: id's de las partículas,
   //@param4:diferencia de las posiciones
-  [[maybe_unused]]void incremento_densidades(Particula & part, double const & operandos, vector<int> const & id_i,
-                             double & diferencia);
+  [[maybe_unused]] void incremento_densidades(Particula & part, double const & operandos,
+                                              vector<int> const & id_i, double & diferencia);
   //@param1: incremento para la función, @param2: primero operando, @param3: segundo operando
   double trans_densidad(double & incremento, double & operando_1, double & operando_2);
   //@param1: partículas, @param2: id de las partículas, @param3: constantes, @param4: diferencias
