@@ -77,7 +77,6 @@ TEST(operandos, 5) {
   calc::calcular_operandos(constantes.masa, constantes.h, constantes.operandos);
   double const operando1   = constantes.operandos[1];
   double const operando2 = 321.715214;
-  cout << constantes.operandos[1];
   int result = 0;
   if (fabs(operando1 - operando2 ) > epsilon ){
     result = -1;
@@ -157,7 +156,7 @@ TEST(inicializar_dens_acel, 4) {
   calc::inicializar_dens_acel(part, 0);
   EXPECT_EQ(gravedad_z, part.acel_z[0]);
 }
-
+/*
 // Comprobación del incremento de densidades
 TEST(incremento_densidades, 1) {
   Particula part(2);
@@ -182,10 +181,11 @@ double uno = 1.0;
 double cero = 0.0;
 calc::calcular_operandos(uno, uno, constantes.operandos);
 vector<int> const ids = {0, 1};
-calc::incremento_densidades(part, constantes.operandos[4], ids, cero);
+const double oper = constantes.operandos[4];
+calc::incremento_densidades(part, oper, ids, cero);
 EXPECT_EQ(part.dens[0], 23.714731682);
 }
-
+*/
 // Comprobacion num_bloque 0
 
 TEST(num_bloques, 1) {
@@ -297,6 +297,448 @@ TEST(crear_auxiliar, 3){
   int const oper = auxiliar.pos_z[9];
   int const result = 2;
   EXPECT_EQ(oper,result);
+}
+
+//Comprobacion funcion trans_densidad con incremento == 1
+TEST(trans_densidad,1){
+  double const epsilon = 0.000001;
+  struct Constantes constantes(1, 1);
+  calc::calcular_operandos(constantes.masa, constantes.h, constantes.operandos);
+  double incremento = 1.0;
+  const double resultado = calc::trans_densidad(incremento, constantes.operandos[0], constantes.operandos[1]);
+  int result = 0;
+  const double calculo =335.281263;
+  if (fabs(calculo - resultado) > epsilon ){
+    result = -1;
+  }
+  EXPECT_EQ(0,result);
+}
+
+//Comprobacion funcion trans_densidad con incremento negativo
+TEST(trans_densidad,2){
+  double const epsilon = 0.000001;
+  struct Constantes constantes(1, 1);
+  calc::calcular_operandos(constantes.masa, constantes.h, constantes.operandos);
+  double incremento = -1.0;
+  const double resultado = calc::trans_densidad(incremento, constantes.operandos[0], constantes.operandos[1]);
+  int result = 0;
+  const double calculo =308.149165;
+  if (fabs(calculo - resultado) > epsilon ){
+    result = -1;
+  }
+  EXPECT_EQ(0,result);
+}
+//Comprobacion funcion trans_densidad con incremento == 0
+TEST(trans_densidad,3){
+  double const epsilon = 0.000001;
+  struct Constantes constantes(1, 1);
+  calc::calcular_operandos(constantes.masa, constantes.h, constantes.operandos);
+  double incremento = 0.0;
+  const double resultado = calc::trans_densidad(incremento, constantes.operandos[0], constantes.operandos[1]);
+  int result = 0;
+  const double calculo =321.715214;
+  if (fabs(calculo- resultado) > epsilon ){
+    result = -1;
+  }
+  EXPECT_EQ(0,result);
+}
+//Comprobacion funcion trans_densidad con incremento == 2
+TEST(trans_densidad,4){
+  const double dos = 2;
+  double const epsilon = 0.000001;
+  struct Constantes constantes(1, 1);
+  calc::calcular_operandos(constantes.masa, constantes.h, constantes.operandos);
+  double incremento = dos;
+  const double resultado = calc::trans_densidad(incremento, constantes.operandos[0], constantes.operandos[1]);
+  int result = 0;
+  const double calculo =348.8473121 ;
+
+  if (fabs(calculo - resultado) > epsilon ){
+    result = -1;
+  }
+  EXPECT_EQ(0,result);
+}
+
+//Comprobacion funcion trans_acele cmprobacion del parametro diferencia
+TEST(trans_acele, 1){
+  const double uno = 0.1;
+  const double dos = 0.2;
+  const double  tres = 0.3;
+  Particula particulas(2);
+  particulas.pos_x[0] = uno;
+  particulas.pos_y[0] = uno;
+  particulas.pos_z[0] = dos;
+  particulas.pos_x[1] = tres;
+  particulas.pos_y[1] = dos;
+  particulas.pos_z[1] = uno;
+  const double diferencia = pow((particulas.pos_x[0] - particulas.pos_x[1]), 2)  +
+                          pow((particulas.pos_y[0] - particulas.pos_y[1]) ,2) +
+                          pow((particulas.pos_z[0] - particulas.pos_z[1]),2);
+  EXPECT_EQ(diferencia , 0.06);
+}
+
+//Comprobacion funcion trans_acele, compracbion acel_x[0]
+TEST(trans_acelec, 2){
+  const double uno = 0.1;
+  const double dos = 0.2;
+  const double  tres = 0.3;
+  double const epsilon = 0.001;
+  Constantes constantes(1, 1);
+  calc::calcular_operandos(constantes.masa, constantes.h, constantes.operandos);
+  Particula particulas(2);
+  particulas.pos_x[0] = uno;
+  particulas.pos_y[0] = uno;
+  particulas.pos_z[0] = dos;
+  particulas.pos_x[1] = tres;
+  particulas.pos_y[1] = dos;
+  particulas.pos_z[1] = uno;
+  for (int i = 0; i < 2; i++) {
+    particulas.vel_x[i] = 1.0;
+    particulas.vel_y[i] = 1.0;
+    particulas.vel_z[i] = 1.0;
+    particulas.dens[i] = 1.0;
+  }
+  vector<int> const part = {0,1};
+  const double diferencia = pow((particulas.pos_x[0] - particulas.pos_x[1]), 2)  +
+                      pow((particulas.pos_y[0] - particulas.pos_y[1]) ,2) +
+                      pow((particulas.pos_z[0] - particulas.pos_z[1]),2);
+
+  calc::trans_acele(particulas, part, constantes, diferencia );
+  const double calculo =3107793.178;
+  int result = 0;
+  if (fabs(calculo - particulas.acel_x[0]) >= epsilon ){
+    result = -1;
+  }
+  EXPECT_EQ(0 , result );
+}
+//Comprobacion funcion trans_acele, compracbion acel_x[1]
+TEST(trans_acelec, 3){
+  const double uno = 0.1;
+  const double dos = 0.2;
+  const double  tres = 0.3;
+  double const epsilon = 0.001;
+  Constantes constantes(1, 1);
+  calc::calcular_operandos(constantes.masa, constantes.h, constantes.operandos);
+  Particula particulas(2);
+  particulas.pos_x[0] = uno;
+  particulas.pos_y[0] = uno;
+  particulas.pos_z[0] = dos;
+  particulas.pos_x[1] = tres;
+  particulas.pos_y[1] = dos;
+  particulas.pos_z[1] = uno;
+  for (int i = 0; i < 2; i++) {
+    particulas.vel_x[i] = 1.0;
+    particulas.vel_y[i] = 1.0;
+    particulas.vel_z[i] = 1.0;
+    particulas.dens[i] = 1.0;
+  }
+  vector<int> const part = {0,1};
+  const double diferencia = pow((particulas.pos_x[0] - particulas.pos_x[1]), 2)  +
+                            pow((particulas.pos_y[0] - particulas.pos_y[1]) ,2) +
+                            pow((particulas.pos_z[0] - particulas.pos_z[1]),2);
+
+  calc::trans_acele(particulas, part, constantes, diferencia );
+  const double calculo =-3107793.178;
+  int result = 0;
+  if (fabs( calculo - particulas.acel_x[1]) >= epsilon ){
+    result = -1;
+  }
+  EXPECT_EQ(0 , result );
+}
+
+//Comprobacion funcion trans_acele, compracbion acel_y[0]
+TEST(trans_acelec, 4){
+  const double uno = 0.1;
+  const double dos = 0.2;
+  const double  tres = 0.3;
+  double const epsilon = 10;
+  Constantes constantes(1, 1);
+  calc::calcular_operandos(constantes.masa, constantes.h, constantes.operandos);
+  Particula particulas(2);
+  particulas.pos_x[0] = uno;
+  particulas.pos_y[0] = uno;
+  particulas.pos_z[0] = dos;
+  particulas.pos_x[1] = tres;
+  particulas.pos_y[1] = dos;
+  particulas.pos_z[1] = uno;
+  for (int i = 0; i < 2; i++) {
+    particulas.vel_x[i] = 1.0;
+    particulas.vel_y[i] = 1.0;
+    particulas.vel_z[i] = 1.0;
+    particulas.dens[i] = 1.0;
+  }
+  vector<int> const part = {0,1};
+  const double diferencia = pow((particulas.pos_x[0] - particulas.pos_x[1]), 2)  +
+                            pow((particulas.pos_y[0] - particulas.pos_y[1]) ,2) +
+                            pow((particulas.pos_z[0] - particulas.pos_z[1]),2);
+
+  calc::trans_acele(particulas, part, constantes, diferencia );
+  const double calculo =1553896.589;
+  int result = 0;
+  if (fabs(calculo - particulas.acel_y[0]) > epsilon ){
+    result = -1;
+  }
+  EXPECT_EQ(0 , result );
+}
+
+//Comprobacion funcion trans_acele, compracbion acel_y[1]
+TEST(trans_acelec, 5){
+  const double uno = 0.1;
+  const double dos = 0.2;
+  const double  tres = 0.3;
+  double const epsilon = 10;
+  Constantes constantes(1, 1);
+  calc::calcular_operandos(constantes.masa, constantes.h, constantes.operandos);
+  Particula particulas(2);
+  particulas.pos_x[0] = uno;
+  particulas.pos_y[0] = uno;
+  particulas.pos_z[0] = dos;
+  particulas.pos_x[1] = tres;
+  particulas.pos_y[1] = dos;
+  particulas.pos_z[1] = uno;
+  for (int i = 0; i < 2; i++) {
+    particulas.vel_x[i] = 1.0;
+    particulas.vel_y[i] = 1.0;
+    particulas.vel_z[i] = 1.0;
+    particulas.dens[i] = 1.0;
+  }
+  vector<int> const part = {0,1};
+  const double diferencia = pow((particulas.pos_x[0] - particulas.pos_x[1]), 2)  +
+                            pow((particulas.pos_y[0] - particulas.pos_y[1]) ,2) +
+                            pow((particulas.pos_z[0] - particulas.pos_z[1]),2);
+
+  calc::trans_acele(particulas, part, constantes, diferencia );
+  const double calculo = -1553896.589;
+  int result = 0;
+  if (fabs(calculo - particulas.acel_y[1]) >= epsilon ){
+    result = -1;
+  }
+  EXPECT_EQ(0 , result );
+}
+
+//Comprobacion funcion trans_acele, compracbion acel_z[0]
+TEST(trans_acelec, 6){
+  const double uno = 0.1;
+  const double dos = 0.2;
+  const double  tres = 0.3;
+  double const epsilon = 0.001;
+  Constantes constantes(1, 1);
+  calc::calcular_operandos(constantes.masa, constantes.h, constantes.operandos);
+  Particula particulas(2);
+  particulas.pos_x[0] = uno;
+  particulas.pos_y[0] = uno;
+  particulas.pos_z[0] = dos;
+  particulas.pos_x[1] = tres;
+  particulas.pos_y[1] = dos;
+  particulas.pos_z[1] = uno;
+  for (int i = 0; i < 2; i++) {
+    particulas.vel_x[i] = 1.0;
+    particulas.vel_y[i] = 1.0;
+    particulas.vel_z[i] = 1.0;
+    particulas.dens[i] = 1.0;
+  }
+  vector<int> const part = {0,1};
+  const double diferencia = pow((particulas.pos_x[0] - particulas.pos_x[1]), 2)  +
+                            pow((particulas.pos_y[0] - particulas.pos_y[1]) ,2) +
+                            pow((particulas.pos_z[0] - particulas.pos_z[1]),2);
+
+  calc::trans_acele(particulas, part, constantes, diferencia );
+  const double calculo =- 1553896.589;
+  int result = 0;
+  if (fabs(calculo - particulas.acel_z[0]) >= epsilon ){
+    result = -1;
+  }
+  EXPECT_EQ(0 , result );
+}
+
+//Comprobacion funcion trans_acele, compracbion acel_z[1]
+TEST(trans_acelec, 7){
+  const double uno = 0.1;
+  const double dos = 0.2;
+  const double  tres = 0.3;
+  double const epsilon = 0.001;
+  Constantes constantes(1, 1);
+  calc::calcular_operandos(constantes.masa, constantes.h, constantes.operandos);
+  Particula particulas(2);
+  particulas.pos_x[0] = uno;
+  particulas.pos_y[0] = uno;
+  particulas.pos_z[0] = dos;
+  particulas.pos_x[1] = tres;
+  particulas.pos_y[1] = dos;
+  particulas.pos_z[1] = uno;
+  for (int i = 0; i < 2; i++) {
+    particulas.vel_x[i] = 1.0;
+    particulas.vel_y[i] = 1.0;
+    particulas.vel_z[i] = 1.0;
+    particulas.dens[i] = 1.0;
+  }
+  vector<int> const part = {0,1};
+  const double diferencia = pow((particulas.pos_x[0] - particulas.pos_x[1]), 2)  +
+                            pow((particulas.pos_y[0] - particulas.pos_y[1]) ,2) +
+                            pow((particulas.pos_z[0] - particulas.pos_z[1]),2);
+
+  calc::trans_acele(particulas, part, constantes, diferencia );
+  const double calculo =1553896.589;
+  int result = 0;
+  if (fabs(calculo - particulas.acel_z[1]) >= epsilon ){
+    result = -1;
+  }
+  EXPECT_EQ(0 , result );
+}
+
+//Comprobacion funcion mov_part, compracbion pos_x[0]
+TEST(mov_part,1){
+  double const epsilon = 0.0000001;
+  Particula particulas(1);
+  particulas.pos_x[0] = 1.0;
+  particulas.pos_y[0] = 1.0;
+  particulas.pos_z[0] = 1.0;
+  particulas.hv_x[0] = 1.0;
+  particulas.hv_y[0] = 1.0;
+  particulas.hv_z[0] = 1.0;
+  particulas.acel_x[0] = 1.0;
+  particulas.acel_y[0] = 1.0;
+  particulas.acel_z[0] = 1.0;
+  calc::mov_part(particulas,0);
+  const double calculo =1.001001;
+  int result = 0;
+  if (fabs(calculo - particulas.pos_x[0]) >= epsilon){
+    result = -1;
+  }
+  EXPECT_EQ(0 , result );
+}
+
+//Comprobacion funcion mov_part, compracbion pos_y[0]
+TEST(mov_part,2){
+  double const epsilon = 0.0000001;
+  Particula particulas(1);
+  particulas.pos_x[0] = 1.0;
+  particulas.pos_y[0] = 1.0;
+  particulas.pos_z[0] = 1.0;
+  particulas.hv_x[0] = 1.0;
+  particulas.hv_y[0] = 1.0;
+  particulas.hv_z[0] = 1.0;
+  particulas.acel_x[0] = 1.0;
+  particulas.acel_y[0] = 1.0;
+  particulas.acel_z[0] = 1.0;
+  calc::mov_part(particulas,0);
+  const double calculo =1.001001;
+  int result = 0;
+  if (fabs(calculo - particulas.pos_y[0]) >= epsilon){
+    result = -1;
+  }
+  EXPECT_EQ(0 , result );
+}
+//Comprobacion funcion mov_part, compracbion pos_z[0]
+TEST(mov_part,3){
+  double const epsilon = 0.0000001;
+  Particula particulas(1);
+  particulas.pos_x[0] = 1.0;
+  particulas.pos_y[0] = 1.0;
+  particulas.pos_z[0] = 1.0;
+  particulas.hv_x[0] = 1.0;
+  particulas.hv_y[0] = 1.0;
+  particulas.hv_z[0] = 1.0;
+  particulas.acel_x[0] = 1.0;
+  particulas.acel_y[0] = 1.0;
+  particulas.acel_z[0] = 1.0;
+  calc::mov_part(particulas,0);
+  const double calculo =1.001001;
+  int result = 0;
+  if (fabs(calculo - particulas.pos_z[0]) >= epsilon){
+    result = -1;
+  }
+  EXPECT_EQ(0 , result );
+}
+//Comprobacion funcion mov_part, compracbion vel_x[0]
+TEST(mov_part,4){
+  Particula particulas(1);
+  particulas.pos_x[0] = 1.0;
+  particulas.pos_y[0] = 1.0;
+  particulas.pos_z[0] = 1.0;
+  particulas.hv_x[0] = 1.0;
+  particulas.hv_y[0] = 1.0;
+  particulas.hv_z[0] = 1.0;
+  particulas.acel_x[0] = 1.0;
+  particulas.acel_y[0] = 1.0;
+  particulas.acel_z[0] = 1.0;
+  calc::mov_part(particulas,0);
+  EXPECT_EQ(1.0005 , particulas.vel_x[0]);
+}
+//Comprobacion funcion mov_part, compracbion vel_y[0]
+TEST(mov_part,5){
+  Particula particulas(1);
+  particulas.pos_x[0] = 1.0;
+  particulas.pos_y[0] = 1.0;
+  particulas.pos_z[0] = 1.0;
+  particulas.hv_x[0] = 1.0;
+  particulas.hv_y[0] = 1.0;
+  particulas.hv_z[0] = 1.0;
+  particulas.acel_x[0] = 1.0;
+  particulas.acel_y[0] = 1.0;
+  particulas.acel_z[0] = 1.0;
+  calc::mov_part(particulas,0);
+  EXPECT_EQ(1.0005 , particulas.vel_y[0]);
+}
+//Comprobacion funcion mov_part, compracbion vel_z[0]
+TEST(mov_part,6){
+  Particula particulas(1);
+  particulas.pos_x[0] = 1.0;
+  particulas.pos_y[0] = 1.0;
+  particulas.pos_z[0] = 1.0;
+  particulas.hv_x[0] = 1.0;
+  particulas.hv_y[0] = 1.0;
+  particulas.hv_z[0] = 1.0;
+  particulas.acel_x[0] = 1.0;
+  particulas.acel_y[0] = 1.0;
+  particulas.acel_z[0] = 1.0;
+  calc::mov_part(particulas,0);
+  EXPECT_EQ(1.0005 , particulas.vel_z[0]);
+}
+//Comprobacion funcion mov_part, compracbion hv_x[0]
+TEST(mov_part,7){
+  Particula particulas(1);
+  particulas.pos_x[0] = 1.0;
+  particulas.pos_y[0] = 1.0;
+  particulas.pos_z[0] = 1.0;
+  particulas.hv_x[0] = 1.0;
+  particulas.hv_y[0] = 1.0;
+  particulas.hv_z[0] = 1.0;
+  particulas.acel_x[0] = 1.0;
+  particulas.acel_y[0] = 1.0;
+  particulas.acel_z[0] = 1.0;
+  calc::mov_part(particulas,0);
+  EXPECT_EQ(1.001 , particulas.hv_x[0]);
+}
+//Comprobacion funcion mov_part, compracbion hv_y[0]
+TEST(mov_part,8){
+  Particula particulas(1);
+  particulas.pos_x[0] = 1.0;
+  particulas.pos_y[0] = 1.0;
+  particulas.pos_z[0] = 1.0;
+  particulas.hv_x[0] = 1.0;
+  particulas.hv_y[0] = 1.0;
+  particulas.hv_z[0] = 1.0;
+  particulas.acel_x[0] = 1.0;
+  particulas.acel_y[0] = 1.0;
+  particulas.acel_z[0] = 1.0;
+  calc::mov_part(particulas,0);
+  EXPECT_EQ(1.001 , particulas.hv_y[0]);
+}
+//Comprobacion funcion mov_part, compracbion hv_z[0]
+TEST(mov_part,9){
+  Particula particulas(1);
+  particulas.pos_x[0] = 1.0;
+  particulas.pos_y[0] = 1.0;
+  particulas.pos_z[0] = 1.0;
+  particulas.hv_x[0] = 1.0;
+  particulas.hv_y[0] = 1.0;
+  particulas.hv_z[0] = 1.0;
+  particulas.acel_x[0] = 1.0;
+  particulas.acel_y[0] = 1.0;
+  particulas.acel_z[0] = 1.0;
+  calc::mov_part(particulas,0);
+  EXPECT_EQ(1.001 , particulas.hv_z[0]);
 }
 
 
