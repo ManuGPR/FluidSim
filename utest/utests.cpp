@@ -15,18 +15,6 @@
 
   EXPECT_EQ(oper,result);
 }
-
- TEST(crear_bloque, 1){
- //bloque[8]=(2,0,1)
- vector<struct block::Bloque> vector_bloques;
- vector<int> num_bloques = {2,2,3};
- int total_bloques = block::total_bloques(num_bloques);
- block::crear_bloques(bloques, total_bloques, num_bloques);
- int const oper = auxiliar.posx[6];
- int const result = 2;
-  EXPECT_EQ(oper,result);
-}
-
  */
 
 // Comprobacion de la masa
@@ -258,7 +246,7 @@ TEST(tam_bloque, 3) {
   EXPECT_EQ(operando1, result);
 }
 
-
+// Comprobacion funcion total_bloques
 TEST(total_bloques, 1){
   vector<int> num_bloques = {1,2,3};
   int const oper = block::total_bloques(num_bloques);
@@ -266,6 +254,7 @@ TEST(total_bloques, 1){
   EXPECT_EQ(oper,result);
 }
 
+// Comprobacion pos_x de estructura auxiliar
 TEST(crear_auxiliar, 1){
   //bloque[8]=(1,0,2)
   vector<int> num_bloques = {2,2,3};
@@ -277,6 +266,7 @@ TEST(crear_auxiliar, 1){
   EXPECT_EQ(oper,result);
 }
 
+// Comprobacion pos_y de estructura auxiliar
 TEST(crear_auxiliar, 2){
   //bloque[8]=(1,0,2)
   vector<int> num_bloques = {2,2,3};
@@ -288,6 +278,7 @@ TEST(crear_auxiliar, 2){
   EXPECT_EQ(oper,result);
 }
 
+// Comprobacion pos_z de estructura auxiliar
 TEST(crear_auxiliar, 3){
   //bloque[8]=(1,0,2)
   vector<int> num_bloques = {2,2,3};
@@ -296,6 +287,162 @@ TEST(crear_auxiliar, 3){
   block::crear_auxiliar(num_bloques, auxiliar);
   int const oper = auxiliar.pos_z[9];
   int const result = 2;
+  EXPECT_EQ(oper,result);
+}
+
+// Comprobacion bloque en esquina
+TEST(crear_bloque, 1){
+  //bloque[8]=(0,1,0)
+  vector<struct block::Bloque> vector_bloques;
+  vector<int> num_bloques = {2,2,3};
+  int total_bloques = block::total_bloques(num_bloques);
+  block::crear_bloques(vector_bloques, total_bloques, num_bloques);
+  vector const oper = vector_bloques[2].bloque_contiguo;
+  vector const result = {0,1,2,3,4,5,6,7};
+  EXPECT_EQ(oper,result);
+}
+
+// Comprobacion bloque totalmente rodeado
+TEST(crear_bloque, 2){
+  //bloque[8]=(1,1,1)
+  vector<struct block::Bloque> vector_bloques;
+  vector<int> num_bloques = {3,3,3};
+  int total_bloques = block::total_bloques(num_bloques);
+  block::crear_bloques(vector_bloques, total_bloques, num_bloques);
+  vector const oper = vector_bloques[13].bloque_contiguo;
+  vector const result = {0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26};
+  EXPECT_EQ(oper,result);
+}
+
+// Comprobacion bloque en lateral
+TEST(crear_bloque, 3){
+  //bloque[8]=(1,1,0)
+  vector<struct block::Bloque> vector_bloques;
+  vector<int> num_bloques = {3,3,3};
+  int total_bloques = block::total_bloques(num_bloques);
+  block::crear_bloques(vector_bloques, total_bloques, num_bloques);
+  vector const oper = vector_bloques[4].bloque_contiguo;
+  vector const result = {0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17};
+  EXPECT_EQ(oper,result);
+}
+
+// Comprobacion bloque en vertice
+TEST(crear_bloque, 4){
+  //bloque[8]=(1,0,0)
+  vector<struct block::Bloque> vector_bloques;
+  vector<int> num_bloques = {3,3,3};
+  int total_bloques = block::total_bloques(num_bloques);
+  block::crear_bloques(vector_bloques, total_bloques, num_bloques);
+  vector const oper = vector_bloques[1].bloque_contiguo;
+  vector const result = {0,1,2,3,4,5,9,10,11,12,13,14};
+  EXPECT_EQ(oper,result);
+}
+
+//comprobacion loc_particula_x, particula dento de bloque en cordenada x
+TEST(loc_particula_x, 1){
+  vector<int> num_bloques = {10,20,15};
+  vector<double> tam_bloque;
+  block::tam_bloques(tam_bloque, num_bloques);
+  double pos = 0.05;
+  int loc = block::loc_particula_x(pos, tam_bloque[0], num_bloques[0]);
+  int const oper = loc;
+  int const result = 8;
+  EXPECT_EQ(oper,result);
+}
+
+//comprobacion loc_particula_x, particula fuera de bloque con cordenada x negativa
+TEST(loc_particula_x, 2){
+  vector<int> num_bloques = {10,20,15};
+  vector<double> tam_bloque;
+  block::tam_bloques(tam_bloque, num_bloques);
+  double pos = -0.07;
+  int loc = block::loc_particula_x(pos, tam_bloque[0], num_bloques[0]);
+  int const oper = loc;
+  int const result = 0;
+  EXPECT_EQ(oper,result);
+}
+
+//comprobacion loc_particula_x, particula fuera de bloque con cordenada x positiva
+TEST(loc_particula_x, 3){
+  vector<int> num_bloques = {10,20,15};
+  vector<double> tam_bloque;
+  block::tam_bloques(tam_bloque, num_bloques);
+  double pos = 0.1;
+  int loc = block::loc_particula_x(pos, tam_bloque[0], num_bloques[0]);
+  int const oper = loc;
+  int const result = 9;
+  EXPECT_EQ(oper,result);
+}
+
+//comprobacion loc_particula_y, particula dento de bloque en cordenada y
+TEST(loc_particula_y, 1){
+  vector<int> num_bloques = {10,20,15};
+  vector<double> tam_bloque;
+  block::tam_bloques(tam_bloque, num_bloques);
+  double pos = 0.04;
+  int loc = block::loc_particula_y(pos, tam_bloque[1], num_bloques[1]);
+  int const oper = loc;
+  int const result = 13;
+  EXPECT_EQ(oper,result);
+}
+
+//comprobacion loc_particula_x, particula fuera de bloque con cordenada y negativa
+TEST(loc_particula_y, 2){
+  vector<int> num_bloques = {10,20,15};
+  vector<double> tam_bloque;
+  block::tam_bloques(tam_bloque, num_bloques);
+  double pos = -0.09;
+  int loc = block::loc_particula_y(pos, tam_bloque[1], num_bloques[1]);
+  int const oper = loc;
+  int const result = 0;
+  EXPECT_EQ(oper,result);
+}
+
+//comprobacion loc_particula, particula fuera de bloque con cordenada y positiva
+TEST(loc_particula_y, 3){
+  vector<int> num_bloques = {10,20,15};
+  vector<double> tam_bloque;
+  block::tam_bloques(tam_bloque, num_bloques);
+  double pos = 0.11;
+  int loc = block::loc_particula_y(pos, tam_bloque[1], num_bloques[1]);
+  int const oper = loc;
+  int const result = 19;
+  EXPECT_EQ(oper,result);
+}
+
+//comprobacion loc_particula_z, particula dento de bloque en cordenada z
+TEST(loc_particula_z, 1){
+  vector<int> num_bloques = {10,20,15};
+  vector<double> tam_bloque;
+  block::tam_bloques(tam_bloque, num_bloques);
+  double pos = 0.03;
+  int loc = block::loc_particula_z(pos, tam_bloque[2], num_bloques[2]);
+  int const oper = loc;
+  int const result = 10;
+  EXPECT_EQ(oper,result);
+}
+
+//comprobacion loc_particula_z, particula fuera de bloque con cordenada z negativa
+TEST(loc_particula_z, 2){
+  vector<int> num_bloques = {10,20,15};
+  vector<double> tam_bloque;
+  block::tam_bloques(tam_bloque, num_bloques);
+  double pos = -0.08;
+  int loc = block::loc_particula_z(pos, tam_bloque[2], num_bloques[2]);
+  int const oper = loc;
+  int const result = 0;
+  EXPECT_EQ(oper,result);
+}
+
+//comprobacion loc_particula_z, particula fuera de bloque con cordenada z positiva
+TEST(loc_particula_z, 3){
+  vector<int> num_bloques = {10,20,15};
+  vector<double> tam_bloque;
+  block::tam_bloques(tam_bloque, num_bloques);
+  double pos = 0.8;
+  int loc = block::loc_particula_z(pos, tam_bloque[2], num_bloques[2]);
+  int const oper = loc;
+  int const result = 14;
   EXPECT_EQ(oper,result);
 }
 
