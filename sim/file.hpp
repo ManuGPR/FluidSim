@@ -34,14 +34,14 @@ namespace ficheros {
   int modificar_fichero(string & file_name, int nps_mod);
   //@param1: fichero con el que comparar, @param2: partículas con las que comparar
   int trazas(ifstream & fichero_comp, Particula & particula);
-  [[maybe_unused]] int read_pos_xyz (ifstream & fichero_comp, Particula & particulas);
-  [[maybe_unused]] int read_hv_xyz (ifstream & fichero_comp, Particula & particulas);
-  [[maybe_unused]] int read_vel_xyz (ifstream & fichero_comp, Particula & particulas);
-  [[maybe_unused]] int read_acel_xyz (ifstream & fichero_comp, Particula & particulas);
-  [[maybe_unused]] void vector_creacion(vector<float> &parametros);
-  [[maybe_unused]] ifstream archivo_creacion();
-  [[maybe_unused]] vector<double> comprobacion_lectura1(ifstream &fichero_comprobacion);
-  [[maybe_unused]] int comprobacion_lectura2(ifstream &fichero_comprobacion);
+  int read_pos_xyz (ifstream & fichero_comp, Particula & particulas);
+  int read_hv_xyz (ifstream & fichero_comp, Particula & particulas);
+  int read_vel_xyz (ifstream & fichero_comp, Particula & particulas);
+  int read_acel_xyz (ifstream & fichero_comp, Particula & particulas);
+  void vector_creacion(vector<float> &parametros);
+  ifstream archivo_creacion();
+  vector<double> comprobacion_lectura1(ifstream &fichero_comprobacion);
+  int comprobacion_lectura2(ifstream &fichero_comprobacion);
 }  // namespace ficheros
 
 #endif  // AC3_FILE_HPP
