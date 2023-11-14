@@ -28,11 +28,11 @@ namespace ficheros {
   }
 
   int lectura_file(ifstream & file_in, int np, struct Particula & particulas){
-        const int bad_return = -5;
+    const int bad_return = -5;
     int np_real = 0;
     while (!file_in.eof()){
       //hay que hacer el checkeo de np (variable que vaya sumando, comprobar al final o poner un if con un break)
-      particulas.pos_x[np_real] = ficheros::lectura_float_to_double(file_in);
+      particulas.pos_x[np_real] = lectura_float_to_double(file_in);
       particulas.pos_y[np_real] = lectura_float_to_double(file_in);
       particulas.pos_z[np_real] = lectura_float_to_double(file_in);
       particulas.hv_x[np_real] =  lectura_float_to_double(file_in);
@@ -268,4 +268,85 @@ namespace ficheros {
     return 0;
   }
 }
+
+//------------FUNCIONES AUXILIARES PARA LOS TEST UNITARIOS---------------
+
+  [[maybe_unused]] void vector_creacion(vector<float> &parametros){
+  float pos_x = 1.0;
+  float pos_y = 2.0;
+  float pos_z = 3.0;
+  float hv_x = 4.0;
+  float hv_y = 5.0;
+  float hv_z = 6.0;
+  float vel_x = 7.0;
+  float vel_y = 8.0;
+  float vel_z = 9.0;
+  parametros.push_back(pos_x);
+  parametros.push_back(pos_y);
+  parametros.push_back(pos_z);
+  parametros.push_back(hv_x);
+  parametros.push_back(hv_y);
+  parametros.push_back(hv_z);
+  parametros.push_back(vel_x);
+  parametros.push_back(vel_y);
+  parametros.push_back(vel_z);
+  }
+
+  [[maybe_unused]] ifstream archivo_creacion(){
+  vector<float> parametros;
+  vector_creacion(parametros);
+  ofstream prueba_escritura;
+  prueba_escritura.open("prueba_lf.fld", ios::binary);
+  auto aux = static_cast<float>(parametros[0]);
+  prueba_escritura.write(ficheros::to_str(aux), sizeof(float));
+  auto aux2 = static_cast<float>(parametros[1]);
+  prueba_escritura.write(ficheros::to_str(aux2), sizeof(float));
+  auto aux3 = static_cast<float>(parametros[2]);
+  prueba_escritura.write(ficheros::to_str(aux3), sizeof(float));
+  auto aux4 = static_cast<float>(parametros[3]);
+  prueba_escritura.write(ficheros::to_str(aux4), sizeof(float));
+  auto aux5 = static_cast<float>(parametros[4]);
+  prueba_escritura.write(ficheros::to_str(aux5), sizeof(float));
+  auto aux6 = static_cast<float>(parametros[5]);
+  prueba_escritura.write(ficheros::to_str(aux6), sizeof(float));
+  auto aux7 = static_cast<float>(parametros[6]);
+  prueba_escritura.write(ficheros::to_str(aux7), sizeof(float));
+  auto aux8 = static_cast<float>(parametros[7]);
+  prueba_escritura.write(ficheros::to_str(aux8), sizeof(float));
+  auto aux9 = static_cast<float>(parametros[8]);
+  prueba_escritura.write(ficheros::to_str(aux9), sizeof(float));
+  prueba_escritura.close();
+  parametros.clear();
+  ifstream prueba_lectura("prueba_lf.fld", ios::binary);
+  return prueba_lectura;
+  }
+
+  [[maybe_unused]] vector<double>comprobacion_lectura1(ifstream &fichero_comprobacion){
+    vector<double> comprobacion;
+    comprobacion[0] = ficheros::lectura_float_to_double(fichero_comprobacion);
+    int aux = 0;
+    // NOLINTNEXTLINE(cppcoreguidelines-pro-type-reinterpret-cast)
+    fichero_comprobacion.read(reinterpret_cast<char *> (&aux), sizeof(int));
+    comprobacion[1] = ficheros::lectura_float_to_double(fichero_comprobacion);
+    comprobacion[2] = ficheros::lectura_float_to_double(fichero_comprobacion);
+    comprobacion[3] = ficheros::lectura_float_to_double(fichero_comprobacion);
+    comprobacion[4] = ficheros::lectura_float_to_double(fichero_comprobacion);
+    comprobacion[5] = ficheros::lectura_float_to_double(fichero_comprobacion);
+    comprobacion[6] = ficheros::lectura_float_to_double(fichero_comprobacion);
+    comprobacion[7] = ficheros::lectura_float_to_double(fichero_comprobacion);
+    comprobacion[8] = ficheros::lectura_float_to_double(fichero_comprobacion);
+    comprobacion[9] = ficheros::lectura_float_to_double(fichero_comprobacion);
+    return comprobacion;
+  }
+
+  [[maybe_unused]] int comprobacion_lectura2(ifstream &fichero_comprobacion) {
+    fichero_comprobacion.open("prueba_es.fld",ios::binary);
+    double inn =0.0;
+    int npart= 0;
+    // NOLINTNEXTLINE(cppcoreguidelines-pro-type-reinterpret-cast)
+    fichero_comprobacion.read(reinterpret_cast<char *> (&inn), sizeof(double));
+    // NOLINTNEXTLINE(cppcoreguidelines-pro-type-reinterpret-cast)
+    fichero_comprobacion.read(reinterpret_cast<char *> (&npart), sizeof(int));
+    return npart;
+  }
 // NOLINTEND

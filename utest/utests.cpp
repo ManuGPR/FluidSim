@@ -295,7 +295,7 @@ TEST(crear_bloque, 1){
   //bloque[8]=(0,1,0)
   vector<struct block::Bloque> vector_bloques;
   vector<int> num_bloques = {2,2,3};
-  int total_bloques = block::total_bloques(num_bloques);
+  const int total_bloques = block::total_bloques(num_bloques);
   block::crear_bloques(vector_bloques, total_bloques, num_bloques);
   vector const oper = vector_bloques[2].bloque_contiguo;
   vector const result = {0,1,2,3,4,5,6,7};
@@ -307,7 +307,7 @@ TEST(crear_bloque, 2){
   //bloque[8]=(1,1,1)
   vector<struct block::Bloque> vector_bloques;
   vector<int> num_bloques = {3,3,3};
-  int total_bloques = block::total_bloques(num_bloques);
+  const int total_bloques = block::total_bloques(num_bloques);
   block::crear_bloques(vector_bloques, total_bloques, num_bloques);
   vector const oper = vector_bloques[13].bloque_contiguo;
   vector const result = {0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26};
@@ -319,7 +319,7 @@ TEST(crear_bloque, 3){
   //bloque[8]=(1,1,0)
   vector<struct block::Bloque> vector_bloques;
   vector<int> num_bloques = {3,3,3};
-  int total_bloques = block::total_bloques(num_bloques);
+  const int total_bloques = block::total_bloques(num_bloques);
   block::crear_bloques(vector_bloques, total_bloques, num_bloques);
   vector const oper = vector_bloques[4].bloque_contiguo;
   vector const result = {0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17};
@@ -331,7 +331,7 @@ TEST(crear_bloque, 4){
   //bloque[8]=(1,0,0)
   vector<struct block::Bloque> vector_bloques;
   vector<int> num_bloques = {3,3,3};
-  int total_bloques = block::total_bloques(num_bloques);
+  const int total_bloques = block::total_bloques(num_bloques);
   block::crear_bloques(vector_bloques, total_bloques, num_bloques);
   vector const oper = vector_bloques[1].bloque_contiguo;
   vector const result = {0,1,2,3,4,5,9,10,11,12,13,14};
@@ -340,11 +340,15 @@ TEST(crear_bloque, 4){
 
 //comprobacion loc_particula_x, particula dento de bloque en cordenada x
 TEST(loc_particula_x, 1){
-  vector<int> num_bloques = {10,20,15};
+  const int num1 = 10;
+  const int num2 = 20;
+  const int num3 = 15;
+  const double num4 = 0.05;
+  vector<int> num_bloques = {num1,num2,num3};
   vector<double> tam_bloque;
   block::tam_bloques(tam_bloque, num_bloques);
-  double pos = 0.05;
-  int loc = block::loc_particula_x(pos, tam_bloque[0], num_bloques[0]);
+  double pos = num4;
+  const int loc = block::loc_particula_x(pos, tam_bloque[0], num_bloques[0]);
   int const oper = loc;
   int const result = 8;
   EXPECT_EQ(oper,result);
@@ -352,11 +356,15 @@ TEST(loc_particula_x, 1){
 
 //comprobacion loc_particula_x, particula fuera de bloque con cordenada x negativa
 TEST(loc_particula_x, 2){
-  vector<int> num_bloques = {10,20,15};
+  const int num1 = 10;
+  const int num2 = 20;
+  const int num3 = 15;
+  const double num4 = -0.07;
+  vector<int> num_bloques = {num1,num2,num3};
   vector<double> tam_bloque;
   block::tam_bloques(tam_bloque, num_bloques);
-  double pos = -0.07;
-  int loc = block::loc_particula_x(pos, tam_bloque[0], num_bloques[0]);
+  double pos = num4;
+  const int loc = block::loc_particula_x(pos, tam_bloque[0], num_bloques[0]);
   int const oper = loc;
   int const result = 0;
   EXPECT_EQ(oper,result);
@@ -364,11 +372,15 @@ TEST(loc_particula_x, 2){
 
 //comprobacion loc_particula_x, particula fuera de bloque con cordenada x positiva
 TEST(loc_particula_x, 3){
-  vector<int> num_bloques = {10,20,15};
+  const int num1 = 10;
+  const int num2 = 20;
+  const int num3 = 15;
+  const double num4 = 0.1;
+  vector<int> num_bloques = {num1,num2,num3};
   vector<double> tam_bloque;
   block::tam_bloques(tam_bloque, num_bloques);
-  double pos = 0.1;
-  int loc = block::loc_particula_x(pos, tam_bloque[0], num_bloques[0]);
+  double pos = num4;
+  const int loc = block::loc_particula_x(pos, tam_bloque[0], num_bloques[0]);
   int const oper = loc;
   int const result = 9;
   EXPECT_EQ(oper,result);
@@ -376,11 +388,15 @@ TEST(loc_particula_x, 3){
 
 //comprobacion loc_particula_y, particula dento de bloque en cordenada y
 TEST(loc_particula_y, 1){
-  vector<int> num_bloques = {10,20,15};
+  const int num1 = 10;
+  const int num2 = 20;
+  const int num3 = 15;
+  const double num4 = 0.04;
+  vector<int> num_bloques = {num1,num2,num3};
   vector<double> tam_bloque;
   block::tam_bloques(tam_bloque, num_bloques);
-  double pos = 0.04;
-  int loc = block::loc_particula_y(pos, tam_bloque[1], num_bloques[1]);
+  double pos = num4;
+  const int loc = block::loc_particula_y(pos, tam_bloque[1], num_bloques[1]);
   int const oper = loc;
   int const result = 13;
   EXPECT_EQ(oper,result);
@@ -388,11 +404,15 @@ TEST(loc_particula_y, 1){
 
 //comprobacion loc_particula_x, particula fuera de bloque con cordenada y negativa
 TEST(loc_particula_y, 2){
-  vector<int> num_bloques = {10,20,15};
+  const int num1 = 10;
+  const int num2 = 20;
+  const int num3 = 15;
+  const double num4 = -0.09;
+  vector<int> num_bloques = {num1,num2,num3};
   vector<double> tam_bloque;
   block::tam_bloques(tam_bloque, num_bloques);
-  double pos = -0.09;
-  int loc = block::loc_particula_y(pos, tam_bloque[1], num_bloques[1]);
+  double pos = num4;
+  const int loc = block::loc_particula_y(pos, tam_bloque[1], num_bloques[1]);
   int const oper = loc;
   int const result = 0;
   EXPECT_EQ(oper,result);
@@ -400,11 +420,15 @@ TEST(loc_particula_y, 2){
 
 //comprobacion loc_particula, particula fuera de bloque con cordenada y positiva
 TEST(loc_particula_y, 3){
-  vector<int> num_bloques = {10,20,15};
+  const int num1 = 10;
+  const int num2 = 20;
+  const int num3 = 15;
+  const double num4 = 0.11;
+  vector<int> num_bloques = {num1,num2,num3};
   vector<double> tam_bloque;
   block::tam_bloques(tam_bloque, num_bloques);
-  double pos = 0.11;
-  int loc = block::loc_particula_y(pos, tam_bloque[1], num_bloques[1]);
+  double pos = num4;
+  const int loc = block::loc_particula_y(pos, tam_bloque[1], num_bloques[1]);
   int const oper = loc;
   int const result = 19;
   EXPECT_EQ(oper,result);
@@ -412,11 +436,15 @@ TEST(loc_particula_y, 3){
 
 //comprobacion loc_particula_z, particula dento de bloque en cordenada z
 TEST(loc_particula_z, 1){
-  vector<int> num_bloques = {10,20,15};
+  const int num1 = 10;
+  const int num2 = 20;
+  const int num3 = 15;
+  const double num4 = 0.03;
+  vector<int> num_bloques = {num1,num2,num3};
   vector<double> tam_bloque;
   block::tam_bloques(tam_bloque, num_bloques);
-  double pos = 0.03;
-  int loc = block::loc_particula_z(pos, tam_bloque[2], num_bloques[2]);
+  double pos = num4;
+  const int loc = block::loc_particula_z(pos, tam_bloque[2], num_bloques[2]);
   int const oper = loc;
   int const result = 10;
   EXPECT_EQ(oper,result);
@@ -424,11 +452,15 @@ TEST(loc_particula_z, 1){
 
 //comprobacion loc_particula_z, particula fuera de bloque con cordenada z negativa
 TEST(loc_particula_z, 2){
-  vector<int> num_bloques = {10,20,15};
+  const int num1 = 10;
+  const int num2 = 20;
+  const int num3 = 15;
+  const double num4 = -0.08;
+  vector<int> num_bloques = {num1,num2,num3};
   vector<double> tam_bloque;
   block::tam_bloques(tam_bloque, num_bloques);
-  double pos = -0.08;
-  int loc = block::loc_particula_z(pos, tam_bloque[2], num_bloques[2]);
+  double pos = num4;
+  const int loc = block::loc_particula_z(pos, tam_bloque[2], num_bloques[2]);
   int const oper = loc;
   int const result = 0;
   EXPECT_EQ(oper,result);
@@ -436,11 +468,15 @@ TEST(loc_particula_z, 2){
 
 //comprobacion loc_particula_z, particula fuera de bloque con cordenada z positiva
 TEST(loc_particula_z, 3){
-  vector<int> num_bloques = {10,20,15};
+  const int num1 = 10;
+  const int num2 = 20;
+  const int num3 = 15;
+  const double num4 = 0.08;
+  vector<int> num_bloques = {num1,num2,num3};
   vector<double> tam_bloque;
   block::tam_bloques(tam_bloque, num_bloques);
-  double pos = 0.8;
-  int loc = block::loc_particula_z(pos, tam_bloque[2], num_bloques[2]);
+  double pos = num4;
+  const int loc = block::loc_particula_z(pos, tam_bloque[2], num_bloques[2]);
   int const oper = loc;
   int const result = 14;
   EXPECT_EQ(oper,result);
@@ -888,4 +924,603 @@ TEST(mov_part,9){
   EXPECT_EQ(1.001 , particulas.hv_z[0]);
 }
 
+//Comprobacion funcion lectura_cabecera, comprobacion nps
+TEST(lectura_cabecera,1){
+  //CREACION DEL FICHERO DE PRUEBA
+  // Abrir el archivo en modo de escritura
+  ofstream prueba_escritura("prueba_lc1.fld", ios::binary);
+  const int nps_in = 10;
+  const float ppm_in = 5.5;
+  // Escribir el número en binario en el archivo
+  auto aux_nps = static_cast<int>(nps_in);
+  auto aux_ppm = static_cast<float>(ppm_in);
+  prueba_escritura.write(ficheros::to_str(aux_nps), sizeof(aux_nps));
+  prueba_escritura.write(ficheros::to_str(aux_ppm), sizeof(aux_nps));
+  // Cerrar el archivo
+  prueba_escritura.close();
+  //Cambiar el tipo de archivo de escritura a lectura para comprobar
+  ifstream prueba_lectura("prueba_lc1.fld", ios::binary);
+  int nps_out = 0 ;
+  float ppm_out = 0.0;
+  tie(nps_out, ppm_out) = ficheros::lectura_cabecera(prueba_lectura);
 
+  EXPECT_EQ(5.5 ,nps_out);
+}
+
+//Comprobacion funcion lectura_cabecera, comprobacion ppm
+TEST(lectura_cabecera,2){
+  //CREACION DEL FICHERO DE PRUEBA
+  // Abrir el archivo en modo de escritura
+  ofstream prueba_escritura;
+  prueba_escritura.open("prueba_lc2.fld", ios::binary);
+  const int nps_in = 10;
+  const float ppm_in = 5.5;
+  // Escribir los números en binario en el archivo
+  auto aux_nps = static_cast<int>(nps_in);
+  auto aux_ppm = static_cast<float>(ppm_in);
+  prueba_escritura.write(ficheros::to_str(aux_nps), sizeof(aux_nps));
+  prueba_escritura.write(ficheros::to_str(aux_ppm), sizeof(aux_ppm));
+  // Cerrar el archivo
+  prueba_escritura.close();
+  //Cambiar el tipo de archivo de escritura a lectura para comprobar
+  ifstream prueba_lectura;
+  int nps_out = 0;
+  float ppm_out = 0.0;
+  prueba_lectura.open("prueba_lc2.fld", ios::binary);
+  tie(nps_out, ppm_out) = ficheros::lectura_cabecera(prueba_lectura);
+
+  EXPECT_EQ(5.5 ,ppm_out);
+}
+
+//Comprobacion funcion lectura_float_to_double
+TEST(lectura_float_to_double,1){
+  //CREACION DE ARCHIVO AUXILIAR
+  ofstream prueba_escritura;
+  prueba_escritura.open("prueba_lftd.fld", ios::binary);
+  const float num1 = 3.0;
+  auto aux_num1 = static_cast<float>(num1);
+  prueba_escritura.write(ficheros::to_str(aux_num1), sizeof(aux_num1));
+  prueba_escritura.close();
+  //Cambiar el tipo de archivo de escritura a lectura para comprobar
+  ifstream prueba_lectura;
+  prueba_lectura.open("prueba_lftd.fld", ios::binary);
+  const double result = ficheros::lectura_float_to_double(prueba_lectura);
+
+  EXPECT_EQ(3.0 , result);
+}
+
+//Comprobacion funcion lectura_float_to_double
+/*TEST(lectura_float_to_double,2){
+  //CREACION DE ARCHIVO AUXILIAR
+  ofstream prueba_escritura("prueba_lftd.fld", ios::binary);
+  const float num1 = 3.0;
+  auto aux_num1 = static_cast<float>(num1);
+  prueba_escritura.write(ficheros::to_str(aux_num1), sizeof(aux_num1));
+  prueba_escritura.close();
+  //Cambiar el tipo de archivo de escritura a lectura para comprobar
+  ifstream prueba_lectura("prueba_lftd.fld", ios::binary);
+  const double result = ficheros::lectura_float_to_double(prueba_lectura);
+  const std::type_info& tipoDouble = typeid(decltype(result));
+  EXPECT_EQ(tipoDouble, typeid(double);
+}*/
+
+
+//Comprobacion funcion lectura_file, comprobacion pos_x
+TEST(lectura_file,1){
+  //CREACION DEL ARCHIVO AUXILIAR CON PARAMETROS PARA LA PARTICULA DEL 1 AL 9 (ver en file.cpp)
+  ifstream archivo_prueba = ficheros::archivo_creacion();
+  const int numpar =1;
+  Particula particulas(numpar);
+  particulas.pos_x[0] = 0.0;
+  particulas.pos_y[0] = 0.0;
+  particulas.pos_z[0] = 0.0;
+  particulas.hv_x[0] = 0.0;
+  particulas.hv_y[0] = 0.0;
+  particulas.hv_z[0] = 0.0;
+  particulas.acel_x[0] = 0.0;
+  particulas.acel_y[0] = 0.0;
+  particulas.acel_z[0] = 0.0;
+  archivo_prueba.open("prueba_lf.fld", ios::binary);
+  ficheros::lectura_file(archivo_prueba, numpar, particulas);
+
+  EXPECT_EQ(1.0 ,particulas.pos_x[0]);
+}
+
+//Comprobacion funcion lectura_file, comprobacion pos_y
+TEST(lectura_file,2){
+  //CREACION DEL ARCHIVO AUXILIAR CON PARAMETROS PARA LA PARTICULA DEL 1 AL 9 (ver en file.cpp)
+  ifstream archivo_prueba = ficheros::archivo_creacion();
+  const int numpar =1;
+  Particula particulas(numpar);
+  particulas.pos_x[0] = 0.0;
+  particulas.pos_y[0] = 0.0;
+  particulas.pos_z[0] = 0.0;
+  particulas.hv_x[0] = 0.0;
+  particulas.hv_y[0] = 0.0;
+  particulas.hv_z[0] = 0.0;
+  particulas.acel_x[0] = 0.0;
+  particulas.acel_y[0] = 0.0;
+  particulas.acel_z[0] = 0.0;
+  archivo_prueba.open("prueba_lf.fld", ios::binary);
+  ficheros::lectura_file(archivo_prueba, numpar, particulas);
+
+  EXPECT_EQ(2.0 ,particulas.pos_y[0]);
+}
+
+//Comprobacion funcion lectura_file, comprobacion pos_z
+TEST(lectura_file,3){
+  //CREACION DEL ARCHIVO AUXILIAR CON PARAMETROS PARA LA PARTICULA DEL 1 AL 9 (ver en file.cpp)
+  ifstream archivo_prueba = ficheros::archivo_creacion();
+  const int numpar =1;
+  Particula particulas(numpar);
+  particulas.pos_x[0] = 0.0;
+  particulas.pos_y[0] = 0.0;
+  particulas.pos_z[0] = 0.0;
+  particulas.hv_x[0] = 0.0;
+  particulas.hv_y[0] = 0.0;
+  particulas.hv_z[0] = 0.0;
+  particulas.acel_x[0] = 0.0;
+  particulas.acel_y[0] = 0.0;
+  particulas.acel_z[0] = 0.0;
+  archivo_prueba.open("prueba_lf.fld", ios::binary);
+  ficheros::lectura_file(archivo_prueba, numpar, particulas);
+
+  EXPECT_EQ(3.0 ,particulas.pos_z[0]);
+}
+
+//Comprobacion funcion lectura_file, comprobacion hv_x
+TEST(lectura_file,4){
+  //CREACION DEL ARCHIVO AUXILIAR CON PARAMETROS PARA LA PARTICULA DEL 1 AL 9 (ver en file.cpp)
+  ifstream archivo_prueba = ficheros::archivo_creacion();
+  const int numpar =1;
+  Particula particulas(numpar);
+  particulas.pos_x[0] = 0.0;
+  particulas.pos_y[0] = 0.0;
+  particulas.pos_z[0] = 0.0;
+  particulas.hv_x[0] = 0.0;
+  particulas.hv_y[0] = 0.0;
+  particulas.hv_z[0] = 0.0;
+  particulas.acel_x[0] = 0.0;
+  particulas.acel_y[0] = 0.0;
+  particulas.acel_z[0] = 0.0;
+  archivo_prueba.open("prueba_lf.fld", ios::binary);
+  ficheros::lectura_file(archivo_prueba, numpar, particulas);
+
+  EXPECT_EQ(4.0 ,particulas.hv_x[0]);
+}
+
+//Comprobacion funcion lectura_file, comprobacion hv_y
+TEST(lectura_file,5){
+  //CREACION DEL ARCHIVO AUXILIAR CON PARAMETROS PARA LA PARTICULA DEL 1 AL 9 (ver en file.cpp)
+  ifstream archivo_prueba = ficheros::archivo_creacion();
+  const int numpar =1;
+  Particula particulas(numpar);
+  particulas.pos_x[0] = 0.0;
+  particulas.pos_y[0] = 0.0;
+  particulas.pos_z[0] = 0.0;
+  particulas.hv_x[0] = 0.0;
+  particulas.hv_y[0] = 0.0;
+  particulas.hv_z[0] = 0.0;
+  particulas.acel_x[0] = 0.0;
+  particulas.acel_y[0] = 0.0;
+  particulas.acel_z[0] = 0.0;
+  archivo_prueba.open("prueba_lf.fld", ios::binary);
+  ficheros::lectura_file(archivo_prueba, numpar, particulas);
+
+  EXPECT_EQ(5.0 ,particulas.hv_y[0]);
+}
+
+//Comprobacion funcion lectura_file, comprobacion hv_z
+TEST(lectura_file,6){
+  //CREACION DEL ARCHIVO AUXILIAR CON PARAMETROS PARA LA PARTICULA DEL 1 AL 9 (ver en file.cpp)
+  ifstream archivo_prueba = ficheros::archivo_creacion();
+  const int numpar =1;
+  Particula particulas(numpar);
+  particulas.pos_x[0] = 0.0;
+  particulas.pos_y[0] = 0.0;
+  particulas.pos_z[0] = 0.0;
+  particulas.hv_x[0] = 0.0;
+  particulas.hv_y[0] = 0.0;
+  particulas.hv_z[0] = 0.0;
+  particulas.acel_x[0] = 0.0;
+  particulas.acel_y[0] = 0.0;
+  particulas.acel_z[0] = 0.0;
+  archivo_prueba.open("prueba_lf.fld", ios::binary);
+  ficheros::lectura_file(archivo_prueba, numpar, particulas);
+
+  EXPECT_EQ(6.0 ,particulas.hv_z[0]);
+}
+
+//Comprobacion funcion lectura_file, comprobacion vel_x
+TEST(lectura_file,7){
+  //CREACION DEL ARCHIVO AUXILIAR CON PARAMETROS PARA LA PARTICULA DEL 1 AL 9 (ver en file.cpp)
+  ifstream archivo_prueba = ficheros::archivo_creacion();
+  const int numpar =1;
+  Particula particulas(numpar);
+  particulas.pos_x[0] = 0.0;
+  particulas.pos_y[0] = 0.0;
+  particulas.pos_z[0] = 0.0;
+  particulas.hv_x[0] = 0.0;
+  particulas.hv_y[0] = 0.0;
+  particulas.hv_z[0] = 0.0;
+  particulas.acel_x[0] = 0.0;
+  particulas.acel_y[0] = 0.0;
+  particulas.acel_z[0] = 0.0;
+  archivo_prueba.open("prueba_lf.fld", ios::binary);
+  ficheros::lectura_file(archivo_prueba, numpar, particulas);
+
+  EXPECT_EQ(7.0 ,particulas.vel_x[0]);
+}
+
+//Comprobacion funcion lectura_file, comprobacion vel_y
+TEST(lectura_file,8){
+  //CREACION DEL ARCHIVO AUXILIAR CON PARAMETROS PARA LA PARTICULA DEL 1 AL 9 (ver en file.cpp)
+  ifstream archivo_prueba = ficheros::archivo_creacion();
+  const int numpar =1;
+  Particula particulas(numpar);
+  particulas.pos_x[0] = 0.0;
+  particulas.pos_y[0] = 0.0;
+  particulas.pos_z[0] = 0.0;
+  particulas.hv_x[0] = 0.0;
+  particulas.hv_y[0] = 0.0;
+  particulas.hv_z[0] = 0.0;
+  particulas.acel_x[0] = 0.0;
+  particulas.acel_y[0] = 0.0;
+  particulas.acel_z[0] = 0.0;
+  archivo_prueba.open("prueba_lf.fld", ios::binary);
+  ficheros::lectura_file(archivo_prueba, numpar, particulas);
+
+  EXPECT_EQ(8.0 ,particulas.vel_y[0]);
+}
+
+//Comprobacion funcion lectura_file, comprobacion vel_z
+TEST(lectura_file,9){
+  //CREACION DEL ARCHIVO AUXILIAR CON PARAMETROS PARA LA PARTICULA DEL 1 AL 9 (ver en file.cpp)
+  ifstream archivo_prueba = ficheros::archivo_creacion();
+  const int numpar =1;
+  Particula particulas(numpar);
+  particulas.pos_x[0] = 0.0;
+  particulas.pos_y[0] = 0.0;
+  particulas.pos_z[0] = 0.0;
+  particulas.hv_x[0] = 0.0;
+  particulas.hv_y[0] = 0.0;
+  particulas.hv_z[0] = 0.0;
+  particulas.acel_x[0] = 0.0;
+  particulas.acel_y[0] = 0.0;
+  particulas.acel_z[0] = 0.0;
+  archivo_prueba.open("prueba_lf.fld", ios::binary);
+  ficheros::lectura_file(archivo_prueba, numpar, particulas);
+
+  EXPECT_EQ(9.0 ,particulas.vel_z[0]);
+}
+
+//Comprobacion funcion escritura_salida, comprobacion ppm
+TEST(escritura_salida,1){
+  ofstream file_vacio("prueba_es.fld", ios::binary);
+  const double num1 = 10.0;
+  const double num2 = 11.0;
+  const double num3 = 12.0;
+  const double num4 = 13.0;
+  const double num5 = 14.0;
+  const double num6 = 15.0;
+  const double num7 = 16.0;
+  const double num8 = 17.0;
+  const double num9 = 18.0;
+  double ppm = num7;
+  Particula particulas(1);
+  particulas.pos_x[0] = num1;
+  particulas.pos_y[0] = num2;
+  particulas.pos_z[0] = num3;
+  particulas.hv_x[0] = num4;
+  particulas.hv_y[0] = num5;
+  particulas.hv_z[0] = num6;
+  particulas.acel_x[0] = num7;
+  particulas.acel_y[0] = num8;
+  particulas.acel_z[0] = num9;
+  file_vacio.open("prueba_es.fld", ios::binary);
+  ficheros::escritura_salida(file_vacio, particulas, ppm, 1);
+  ifstream file_lleno("prueba_es.fld", ios::binary);
+  const vector <double> comprobacion = ficheros::comprobacion_lectura1(file_lleno);
+  EXPECT_EQ(17.0 ,comprobacion[0]);
+}
+
+
+//Comprobacion funcion escritura_salida, comprobacion np
+TEST(escritura_salida,2){
+  ofstream file_vacio("prueba_es.fld", ios::binary);
+  const double num1 = 10.0;
+  const double num2 = 11.0;
+  const double num3 = 12.0;
+  const double num4 = 13.0;
+  const double num5 = 14.0;
+  const double num6 = 15.0;
+  const double num7 = 16.0;
+  const double num8 = 17.0;
+  const double num9 = 18.0;
+  double ppm = num7;
+  Particula particulas(1);
+  particulas.pos_x[0] = num1;
+  particulas.pos_y[0] = num2;
+  particulas.pos_z[0] = num3;
+  particulas.hv_x[0] = num4;
+  particulas.hv_y[0] = num5;
+  particulas.hv_z[0] = num6;
+  particulas.acel_x[0] = num7;
+  particulas.acel_y[0] = num8;
+  particulas.acel_z[0] = num9;
+  file_vacio.open("prueba_es.fld", ios::binary);
+  ficheros::escritura_salida(file_vacio, particulas, ppm, 1);
+  ifstream file_lleno("prueba_es.fld", ios::binary);
+  const int comprobacion = ficheros::comprobacion_lectura2(file_lleno);
+  EXPECT_EQ(1 ,comprobacion);
+}
+
+//Comprobacion funcion escritura_salida, comprobacion pos_x
+TEST(escritura_salida,3){
+  ofstream file_vacio("prueba_es.fld", ios::binary);
+  const double num1 = 10.0;
+  const double num2 = 11.0;
+  const double num3 = 12.0;
+  const double num4 = 13.0;
+  const double num5 = 14.0;
+  const double num6 = 15.0;
+  const double num7 = 16.0;
+  const double num8 = 17.0;
+  const double num9 = 18.0;
+  double ppm = num7;
+  Particula particulas(1);
+  particulas.pos_x[0] = num1;
+  particulas.pos_y[0] = num2;
+  particulas.pos_z[0] = num3;
+  particulas.hv_x[0] = num4;
+  particulas.hv_y[0] = num5;
+  particulas.hv_z[0] = num6;
+  particulas.acel_x[0] = num7;
+  particulas.acel_y[0] = num8;
+  particulas.acel_z[0] = num9;
+  file_vacio.open("prueba_es.fld", ios::binary);
+  ficheros::escritura_salida(file_vacio, particulas, ppm, 1);
+  ifstream file_lleno("prueba_es.fld", ios::binary);
+  const vector <double> comprobacion = ficheros::comprobacion_lectura1(file_lleno);
+  EXPECT_EQ(10.0 ,comprobacion[1]);
+}
+
+//Comprobacion funcion escritura_salida, comprobacion pos_y
+TEST(escritura_salida,4){
+  ofstream file_vacio("prueba_es.fld", ios::binary);
+  const double num1 = 10.0;
+  const double num2 = 11.0;
+  const double num3 = 12.0;
+  const double num4 = 13.0;
+  const double num5 = 14.0;
+  const double num6 = 15.0;
+  const double num7 = 16.0;
+  const double num8 = 17.0;
+  const double num9 = 18.0;
+  double ppm = num7;
+  Particula particulas(1);
+  particulas.pos_x[0] = num1;
+  particulas.pos_y[0] = num2;
+  particulas.pos_z[0] = num3;
+  particulas.hv_x[0] = num4;
+  particulas.hv_y[0] = num5;
+  particulas.hv_z[0] = num6;
+  particulas.acel_x[0] = num7;
+  particulas.acel_y[0] = num8;
+  particulas.acel_z[0] = num9;
+  file_vacio.open("prueba_es.fld", ios::binary);
+  ficheros::escritura_salida(file_vacio, particulas, ppm, 1);
+  ifstream file_lleno("prueba_es.fld", ios::binary);
+  const vector <double> comprobacion = ficheros::comprobacion_lectura1(file_lleno);
+  EXPECT_EQ(11.0 ,comprobacion[2]);
+}
+
+//Comprobacion funcion escritura_salida, comprobacion pos_z
+TEST(escritura_salida,5){
+  ofstream file_vacio("prueba_es.fld", ios::binary);
+  const double num1 = 10.0;
+  const double num2 = 11.0;
+  const double num3 = 12.0;
+  const double num4 = 13.0;
+  const double num5 = 14.0;
+  const double num6 = 15.0;
+  const double num7 = 16.0;
+  const double num8 = 17.0;
+  const double num9 = 18.0;
+  double ppm = num7;
+  Particula particulas(1);
+  particulas.pos_x[0] = num1;
+  particulas.pos_y[0] = num2;
+  particulas.pos_z[0] = num3;
+  particulas.hv_x[0] = num4;
+  particulas.hv_y[0] = num5;
+  particulas.hv_z[0] = num6;
+  particulas.acel_x[0] = num7;
+  particulas.acel_y[0] = num8;
+  particulas.acel_z[0] = num9;
+  file_vacio.open("prueba_es.fld", ios::binary);
+  ficheros::escritura_salida(file_vacio, particulas, ppm, 1);
+  ifstream file_lleno("prueba_es.fld", ios::binary);
+  const vector <double> comprobacion = ficheros::comprobacion_lectura1(file_lleno);
+  EXPECT_EQ(12.0 ,comprobacion[3]);
+}
+
+//Comprobacion funcion escritura_salida, comprobacion hv_x
+TEST(escritura_salida,6){
+  ofstream file_vacio("prueba_es.fld", ios::binary);
+  const double num1 = 10.0;
+  const double num2 = 11.0;
+  const double num3 = 12.0;
+  const double num4 = 13.0;
+  const double num5 = 14.0;
+  const double num6 = 15.0;
+  const double num7 = 16.0;
+  const double num8 = 17.0;
+  const double num9 = 18.0;
+  double ppm = num7;
+  Particula particulas(1);
+  particulas.pos_x[0] = num1;
+  particulas.pos_y[0] = num2;
+  particulas.pos_z[0] = num3;
+  particulas.hv_x[0] = num4;
+  particulas.hv_y[0] = num5;
+  particulas.hv_z[0] = num6;
+  particulas.acel_x[0] = num7;
+  particulas.acel_y[0] = num8;
+  particulas.acel_z[0] = num9;
+  file_vacio.open("prueba_es.fld", ios::binary);
+  ficheros::escritura_salida(file_vacio, particulas, ppm, 1);
+  ifstream file_lleno("prueba_es.fld", ios::binary);
+  const vector <double> comprobacion = ficheros::comprobacion_lectura1(file_lleno);
+  EXPECT_EQ(13.0 ,comprobacion[4]);
+}
+
+//Comprobacion funcion escritura_salida, comprobacion hv_y
+TEST(escritura_salida,7){
+  ofstream file_vacio("prueba_es.fld", ios::binary);
+  const double num1 = 10.0;
+  const double num2 = 11.0;
+  const double num3 = 12.0;
+  const double num4 = 13.0;
+  const double num5 = 14.0;
+  const double num6 = 15.0;
+  const double num7 = 16.0;
+  const double num8 = 17.0;
+  const double num9 = 18.0;
+  double ppm = num7;
+  Particula particulas(1);
+  particulas.pos_x[0] = num1;
+  particulas.pos_y[0] = num2;
+  particulas.pos_z[0] = num3;
+  particulas.hv_x[0] = num4;
+  particulas.hv_y[0] = num5;
+  particulas.hv_z[0] = num6;
+  particulas.acel_x[0] = num7;
+  particulas.acel_y[0] = num8;
+  particulas.acel_z[0] = num9;
+  file_vacio.open("prueba_es.fld", ios::binary);
+  ficheros::escritura_salida(file_vacio, particulas, ppm, 1);
+  ifstream file_lleno("prueba_es.fld", ios::binary);
+  const vector <double> comprobacion = ficheros::comprobacion_lectura1(file_lleno);
+  EXPECT_EQ(14.0 ,comprobacion[5]);
+}
+
+//Comprobacion funcion escritura_salida, comprobacion hv_z
+TEST(escritura_salida,8){
+  ofstream file_vacio("prueba_es.fld", ios::binary);
+  const double num1 = 10.0;
+  const double num2 = 11.0;
+  const double num3 = 12.0;
+  const double num4 = 13.0;
+  const double num5 = 14.0;
+  const double num6 = 15.0;
+  const double num7 = 16.0;
+  const double num8 = 17.0;
+  const double num9 = 18.0;
+  double ppm = num7;
+  Particula particulas(1);
+  particulas.pos_x[0] = num1;
+  particulas.pos_y[0] = num2;
+  particulas.pos_z[0] = num3;
+  particulas.hv_x[0] = num4;
+  particulas.hv_y[0] = num5;
+  particulas.hv_z[0] = num6;
+  particulas.acel_x[0] = num7;
+  particulas.acel_y[0] = num8;
+  particulas.acel_z[0] = num9;
+  file_vacio.open("prueba_es.fld", ios::binary);
+  ficheros::escritura_salida(file_vacio, particulas, ppm, 1);
+  ifstream file_lleno("prueba_es.fld", ios::binary);
+  const vector <double> comprobacion = ficheros::comprobacion_lectura1(file_lleno);
+  EXPECT_EQ(15.0 ,comprobacion[6]);
+}
+
+//Comprobacion funcion escritura_salida, comprobacion vel_x
+TEST(escritura_salida,9){
+  ofstream file_vacio("prueba_es.fld", ios::binary);
+  const double num1 = 10.0;
+  const double num2 = 11.0;
+  const double num3 = 12.0;
+  const double num4 = 13.0;
+  const double num5 = 14.0;
+  const double num6 = 15.0;
+  const double num7 = 16.0;
+  const double num8 = 17.0;
+  const double num9 = 18.0;
+  double ppm = num7;
+  Particula particulas(1);
+  particulas.pos_x[0] = num1;
+  particulas.pos_y[0] = num2;
+  particulas.pos_z[0] = num3;
+  particulas.hv_x[0] = num4;
+  particulas.hv_y[0] = num5;
+  particulas.hv_z[0] = num6;
+  particulas.acel_x[0] = num7;
+  particulas.acel_y[0] = num8;
+  particulas.acel_z[0] = num9;
+  file_vacio.open("prueba_es.fld", ios::binary);
+  ficheros::escritura_salida(file_vacio, particulas, ppm, 1);
+  ifstream file_lleno("prueba_es.fld", ios::binary);
+  const vector <double> comprobacion = ficheros::comprobacion_lectura1(file_lleno);
+  EXPECT_EQ(16.0 ,comprobacion[7]);
+}
+
+//Comprobacion funcion escritura_salida, comprobacion vel_y
+TEST(escritura_salida,10){
+  ofstream file_vacio("prueba_es.fld", ios::binary);
+  const double num1 = 10.0;
+  const double num2 = 11.0;
+  const double num3 = 12.0;
+  const double num4 = 13.0;
+  const double num5 = 14.0;
+  const double num6 = 15.0;
+  const double num7 = 16.0;
+  const double num8 = 17.0;
+  const double num9 = 18.0;
+  double ppm = num7;
+  Particula particulas(1);
+  particulas.pos_x[0] = num1;
+  particulas.pos_y[0] = num2;
+  particulas.pos_z[0] = num3;
+  particulas.hv_x[0] = num4;
+  particulas.hv_y[0] = num5;
+  particulas.hv_z[0] = num6;
+  particulas.acel_x[0] = num7;
+  particulas.acel_y[0] = num8;
+  particulas.acel_z[0] = num9;
+  file_vacio.open("prueba_es.fld", ios::binary);
+  ficheros::escritura_salida(file_vacio, particulas, ppm, 1);
+  ifstream file_lleno("prueba_es.fld", ios::binary);
+  const vector <double> comprobacion = ficheros::comprobacion_lectura1(file_lleno);
+  EXPECT_EQ(17.0 ,comprobacion[8]);
+}
+
+//Comprobacion funcion escritura_salida, comprobacion vel_z
+TEST(escritura_salida,11){
+  ofstream file_vacio("prueba_es.fld", ios::binary);
+  const double num1 = 10.0;
+  const double num2 = 11.0;
+  const double num3 = 12.0;
+  const double num4 = 13.0;
+  const double num5 = 14.0;
+  const double num6 = 15.0;
+  const double num7 = 16.0;
+  const double num8 = 17.0;
+  const double num9 = 18.0;
+  double ppm = num7;
+  Particula particulas(1);
+  particulas.pos_x[0] = num1;
+  particulas.pos_y[0] = num2;
+  particulas.pos_z[0] = num3;
+  particulas.hv_x[0] = num4;
+  particulas.hv_y[0] = num5;
+  particulas.hv_z[0] = num6;
+  particulas.acel_x[0] = num7;
+  particulas.acel_y[0] = num8;
+  particulas.acel_z[0] = num9;
+  file_vacio.open("prueba_es.fld", ios::binary);
+  ficheros::escritura_salida(file_vacio, particulas, ppm, 1);
+  ifstream file_lleno("prueba_es.fld", ios::binary);
+  const vector <double> comprobacion = ficheros::comprobacion_lectura1(file_lleno);
+  EXPECT_EQ(18.0 ,comprobacion[9]);
+}

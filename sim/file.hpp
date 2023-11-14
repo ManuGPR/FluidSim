@@ -38,6 +38,10 @@ namespace ficheros {
   [[maybe_unused]] int read_hv_xyz (ifstream & fichero_comp, Particula & particulas);
   [[maybe_unused]] int read_vel_xyz (ifstream & fichero_comp, Particula & particulas);
   [[maybe_unused]] int read_acel_xyz (ifstream & fichero_comp, Particula & particulas);
+  [[maybe_unused]] void vector_creacion(vector<float> &parametros);
+  [[maybe_unused]] ifstream archivo_creacion();
+  [[maybe_unused]] vector<double> comprobacion_lectura1(ifstream &fichero_comprobacion);
+  [[maybe_unused]] int comprobacion_lectura2(ifstream &fichero_comprobacion);
 }  // namespace ficheros
 
 #endif  // AC3_FILE_HPP
