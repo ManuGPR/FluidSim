@@ -336,15 +336,15 @@ namespace ficheros {
     return comprobacion;
   }
 
-  int comprobacion_lectura2(ifstream & fichero_comprobacion) {
+  int comprobacion_lectura2() {
+    ifstream fichero_comprobacion;
     fichero_comprobacion.open("prueba_es.fld", ios::binary);
     double inn = 0.0;
     int npart  = 0;
     // NOLINTNEXTLINE(cppcoreguidelines-pro-type-reinterpret-cast)
     fichero_comprobacion.read(reinterpret_cast<char *>(&inn), sizeof(double));
-    // NOLINTNEXTLINE(cppcoreguidelines-pro-type-reinterpret-cast)
     fichero_comprobacion.read(reinterpret_cast<char *>(&npart), sizeof(int));
-    return npart;
+    return inn;
   }
 }
 // NOLINTEND
