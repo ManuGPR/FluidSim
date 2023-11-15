@@ -28,7 +28,7 @@ namespace calc {
   }
 
   // Función que incrementa las densidades (Paso 4.3.2.2)
-  [[maybe_unused]] void incremento_densidades(Particula & part, double & operandos, vector<int> const & id_p,
+  void incremento_densidades(Particula & part, double & operandos, vector<int> const & id_p,
                              double & diferencia) {
     // particula i== id_p[0] y particula j == id_p[1]
     double const incremento =

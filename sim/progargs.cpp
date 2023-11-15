@@ -18,17 +18,16 @@ namespace entry {
     for (auto digit : arguments) {
       if (isdigit(digit) == 0) {
         if ('-' == digit) {
-          cerr << "Invalid number of time steps."
-               << "\n";
+          cerr << "Invalid number of time steps.\n";
           return -2;
         }
-        cerr << "Time steps must be numeric." << '\n';
+        cerr << "Time steps must be numeric.\n";
         return -1;
       }
     }
     int const number_nts = stoi(arguments);
     if (number_nts <= 0) {
-      cerr << "Invalid number of time steps." << '\n';
+      cerr << "Invalid number of time steps.\n";
       return -2;
     }
     return number_nts;
@@ -38,7 +37,7 @@ namespace entry {
   int check_inputfile(string const & arguments) {
     ifstream fichero(arguments, ios::binary);
     if (!fichero) {
-      cerr << "Cannot open " << arguments << " for reading" << '\n';
+      cerr << "Cannot open " << arguments << " for reading\n";
       return -3;
     }
     fichero.close();
@@ -49,7 +48,7 @@ namespace entry {
   int check_outputfile(string const & arguments) {
     ofstream fichero(arguments, ios::binary);
     if (!fichero) {
-      std::cerr << "Cannot open " << arguments << " for writing";
+      std::cerr << "Cannot open " << arguments << " for writing\n";
       return -4;
     }
     fichero.close();
@@ -60,11 +59,11 @@ namespace entry {
   [[maybe_unused]] int check_np(int np) {
     int const bad_return = -5;
     if (np == 0) {
-      std::cerr << "El numero de particulas es 0";
+      std::cerr << "El numero de particulas es 0\n";
       return bad_return;
     }
     if (np < 0) {
-      std::cerr << "El numero de particulas es negativo";
+      std::cerr << "El numero de particulas es negativo\n";
       return bad_return;
     }
     return 0;  // No se si devolver el numero de particulas

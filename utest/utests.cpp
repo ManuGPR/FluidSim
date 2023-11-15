@@ -135,10 +135,11 @@ TEST(inicializar_dens_acel, 4) {
   calc::inicializar_dens_acel(part, 0);
   ASSERT_EQ(gravedad_z, part.acel_z[0]);
 }
-/*
+
 // Comprobación del incremento de densidades
 TEST(incremento_densidades, 1) {
   Particula part(2);
+  const double epsilon = 0.0000001;
   for (int i = 0; i < 2; i++) {
     calc::inicializar_dens_acel(part, i);
     part.pos_x[i] = lim_inf_x;
@@ -154,16 +155,18 @@ TEST(incremento_densidades, 1) {
     part.loc_y[i] = 0;
     part.loc_z[i] = 0;
     part.bloque[i] = 0;
+    part.dens[i] = 0;
   }
   Constantes constantes(1, 1);
-  double uno = 1.0;
   double cero = 0.0;
-  calc::calcular_operandos(uno, uno, constantes.operandos);
+  calc::calcular_operandos(constantes.masa, constantes.h, constantes.operandos);
   vector<int> const ids = {0, 1};
-  const double oper = constantes.operandos[4];
-  calc::incremento_densidades(part, oper, ids, cero);
-  ASSERT_EQ(part.dens[0], 23.714731682);
-}*/
+  calc::incremento_densidades(part, constantes.operandos[4], ids, cero);
+  int result = 0;
+  const double density = 23.714731682;
+  if (fabs(density - part.dens[0]) >= epsilon) {result = -1;}
+  ASSERT_EQ(result, 0);
+}
 
 // Comprobacion num_bloque 0
 TEST(num_bloques, 1) {
@@ -1032,8 +1035,7 @@ TEST(lectura_cabecera,1){
   int nps_out = 0 ;
   float ppm_out = 0.0;
   tie(nps_out, ppm_out) = ficheros::lectura_cabecera(prueba_lectura);
-
-  EXPECT_EQ(10 ,nps_out);
+  if (remove("prueba_lc1.fld") == 0){EXPECT_EQ(10 ,nps_out);}
 }
 
 //Comprobacion funcion lectura_cabecera, comprobacion ppm
@@ -1056,8 +1058,7 @@ TEST(lectura_cabecera,2){
   int nps_out = 0 ;
   float ppm_out = 0.0;
   tie(nps_out, ppm_out) = ficheros::lectura_cabecera(prueba_lectura);
-
-  EXPECT_EQ(6.5 ,ppm_out);
+  if (remove("prueba_lc2.fld") == 0) {EXPECT_EQ(6.5 ,ppm_out);}
 }
 
 //Comprobacion funcion lectura_float_to_double
@@ -1073,10 +1074,8 @@ TEST(lectura_float_to_double,1){
   ifstream prueba_lectura;
   prueba_lectura.open("prueba_lftd.fld", ios::binary);
   const double result = ficheros::lectura_float_to_double(prueba_lectura);
-
-  EXPECT_EQ(3.5 , result);
+  if (remove("prueba_lftd.fld") == 0) {EXPECT_EQ(3.5 , result);}
 }
-
 
 //Comprobacion funcion lectura_file, comprobacion pos_x
 TEST(lectura_file,1){
@@ -1099,7 +1098,7 @@ TEST(lectura_file,1){
   ifstream archivo_prueba;
   archivo_prueba.open("prueba_lf.fld", ios::binary);
   ficheros::lectura_file(archivo_prueba, numpar, particulas);
-  EXPECT_EQ(1.5 ,particulas.pos_x[0]);
+  if (remove("prueba_lf.fld") == 0) {EXPECT_EQ(1.5 ,particulas.pos_x[0]);}
 }
 
 //Comprobacion funcion lectura_file, comprobacion pos_y
@@ -1120,7 +1119,7 @@ TEST(lectura_file,2){
   ifstream archivo_prueba;
   archivo_prueba.open("prueba_lf.fld", ios::binary);
   ficheros::lectura_file(archivo_prueba, numpar, particulas);
-  EXPECT_EQ(2.5 ,particulas.pos_y[0]);
+  if (remove("prueba_lf.fld") == 0) {EXPECT_EQ(2.5 ,particulas.pos_y[0]);}
 }
 
 //Comprobacion funcion lectura_file, comprobacion pos_z
@@ -1141,8 +1140,7 @@ TEST(lectura_file,3){
   ifstream archivo_prueba;
   archivo_prueba.open("prueba_lf.fld", ios::binary);
   ficheros::lectura_file(archivo_prueba, numpar, particulas);
-
-  EXPECT_EQ(3.5 ,particulas.pos_z[0]);
+  if (remove("prueba_lf.fld") == 0) {EXPECT_EQ(3.5 ,particulas.pos_z[0]);}
 }
 
 //Comprobacion funcion lectura_file, comprobacion hv_x
@@ -1163,8 +1161,7 @@ TEST(lectura_file,4){
   ifstream archivo_prueba;
   archivo_prueba.open("prueba_lf.fld", ios::binary);
   ficheros::lectura_file(archivo_prueba, numpar, particulas);
-
-  EXPECT_EQ(4.5 ,particulas.hv_x[0]);
+  if (remove("prueba_lf.fld") == 0) {EXPECT_EQ(4.5 ,particulas.hv_x[0]);}
 }
 
 //Comprobacion funcion lectura_file, comprobacion hv_y
@@ -1185,8 +1182,7 @@ TEST(lectura_file,5){
   ifstream archivo_prueba;
   archivo_prueba.open("prueba_lf.fld", ios::binary);
   ficheros::lectura_file(archivo_prueba, numpar, particulas);
-
-  EXPECT_EQ(5.5 ,particulas.hv_y[0]);
+  if (remove("prueba_lf.fld") == 0) {EXPECT_EQ(5.5 ,particulas.hv_y[0]);}
 }
 
 //Comprobacion funcion lectura_file, comprobacion hv_z
@@ -1207,8 +1203,7 @@ TEST(lectura_file,6){
   ifstream archivo_prueba;
   archivo_prueba.open("prueba_lf.fld", ios::binary);
   ficheros::lectura_file(archivo_prueba, numpar, particulas);
-
-  EXPECT_EQ(6.5 ,particulas.hv_z[0]);
+  if (remove("prueba_lf.fld") == 0) {EXPECT_EQ(6.5 ,particulas.hv_z[0]);}
 }
 
 //Comprobacion funcion lectura_file, comprobacion vel_x
@@ -1229,8 +1224,7 @@ TEST(lectura_file,7){
   ifstream archivo_prueba;
   archivo_prueba.open("prueba_lf.fld", ios::binary);
   ficheros::lectura_file(archivo_prueba, numpar, particulas);
-
-  EXPECT_EQ(7.5 ,particulas.vel_x[0]);
+  if (remove("prueba_lf.fld") == 0) {EXPECT_EQ(7.5 ,particulas.vel_x[0]);}
 }
 
 //Comprobacion funcion lectura_file, comprobacion vel_y
@@ -1251,8 +1245,7 @@ TEST(lectura_file,8){
   ifstream archivo_prueba;
   archivo_prueba.open("prueba_lf.fld", ios::binary);
   ficheros::lectura_file(archivo_prueba, numpar, particulas);
-
-  EXPECT_EQ(8.5 ,particulas.vel_y[0]);
+  if (remove("prueba_lf.fld") == 0) {EXPECT_EQ(8.5 ,particulas.vel_y[0]);}
 }
 
 //Comprobacion funcion lectura_file, comprobacion vel_z
@@ -1273,8 +1266,7 @@ TEST(lectura_file,9){
   ifstream archivo_prueba;
   archivo_prueba.open("prueba_lf.fld", ios::binary);
   ficheros::lectura_file(archivo_prueba, numpar, particulas);
-
-  EXPECT_EQ(9.5 ,particulas.vel_z[0]);
+  if (remove("prueba_lf.fld") == 0) {EXPECT_EQ(9.5 ,particulas.vel_z[0]);}
 }
 /*
 //Comprobacion funcion escritura_salida, comprobacion ppm

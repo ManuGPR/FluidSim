@@ -176,7 +176,6 @@ namespace ficheros {
     float ppm_float = 0.0;
     file_in.read(reinterpret_cast<char *>(&ppm_float), sizeof(float));
     file_out.write(to_str(ppm_float), sizeof(float));
-
     file_in.read(reinterpret_cast<char *>(&nps), sizeof(int));
     file_out.write(to_str(nps_mod), sizeof(int));
     float aux_float = 0.0;
