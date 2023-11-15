@@ -268,30 +268,23 @@ namespace ficheros {
 
   //------------FUNCIONES AUXILIARES PARA LOS TEST UNITARIOS---------------
 
-  void vector_creacion(vector<float> & parametros) {
-    float pos_x = 1.0;
-    float pos_y = 2.0;
-    float pos_z = 3.0;
-    float hv_x  = 4.0;
-    float hv_y  = 5.0;
-    float hv_z  = 6.0;
-    float vel_x = 7.0;
-    float vel_y = 8.0;
-    float vel_z = 9.0;
-    parametros.push_back(pos_x);
-    parametros.push_back(pos_y);
-    parametros.push_back(pos_z);
-    parametros.push_back(hv_x);
-    parametros.push_back(hv_y);
-    parametros.push_back(hv_z);
-    parametros.push_back(vel_x);
-    parametros.push_back(vel_y);
-    parametros.push_back(vel_z);
+  vector<float> vector_creacion() {
+    vector<float> parametros;
+    parametros.push_back(1.5);
+    parametros.push_back(2.5);
+    parametros.push_back(3.5);
+    parametros.push_back(4.5);
+    parametros.push_back(5.5);
+    parametros.push_back(6.5);
+    parametros.push_back(7.5);
+    parametros.push_back(8.5);
+    parametros.push_back(9.5);
+
+    return parametros;
   }
 
-  ifstream archivo_creacion() {
-    vector<float> parametros;
-    vector_creacion(parametros);
+  void archivo_creacion() {
+    vector<float> parametros = vector_creacion();
     ofstream prueba_escritura;
     prueba_escritura.open("prueba_lf.fld", ios::binary);
     auto aux = static_cast<float>(parametros[0]);
@@ -314,12 +307,12 @@ namespace ficheros {
     prueba_escritura.write(ficheros::to_str(aux9), sizeof(float));
     prueba_escritura.close();
     parametros.clear();
-    ifstream prueba_lectura("prueba_lf.fld", ios::binary);
-    return prueba_lectura;
   }
 
-  vector<double> comprobacion_lectura1(ifstream & fichero_comprobacion) {
+  vector<double> comprobacion_lectura1() {
     vector<double> comprobacion;
+    ifstream fichero_comprobacion;
+    fichero_comprobacion.open("prueba_es.fld", ios::binary);
     comprobacion[0] = ficheros::lectura_float_to_double(fichero_comprobacion);
     int aux         = 0;
     // NOLINTNEXTLINE(cppcoreguidelines-pro-type-reinterpret-cast)
