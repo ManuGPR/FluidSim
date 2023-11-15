@@ -34,7 +34,7 @@
 };*/
 
 TEST(argumentos, 1){
-  const vector<string> vec = {"1", "./small.fld","out.fld"};
+  const vector<string> vec = {"1", "./small.fld","./out.fld"};
   const int resultado = sim::simulacion(vec);
   EXPECT_EQ(0,resultado);
 }
