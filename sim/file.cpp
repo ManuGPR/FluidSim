@@ -266,7 +266,7 @@ namespace ficheros {
     return 0;
   }
 
-  //------------FUNCIONES AUXILIARES PARA LOS TEST UNITARIOS---------------
+  //------------FUNCIONES AUXILIARES PARA LOS TEST UNITARIOS----------------
 
   vector<float> vector_creacion() {
     vector<float> parametros;
