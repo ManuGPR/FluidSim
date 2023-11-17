@@ -28,6 +28,7 @@ namespace ficheros {
   char const * to_str(int & parameter);
   //@param1: parametro a castear a char*
   char const * to_str(float & parameter);
+  //void write_float(std::ostream&os,float value);
   //@param1: fichero de entrada, @param2: fichero con el que corregir
   int comparar_ficheros(ifstream & file_in, ifstream & file_corect);
   //@param1: string con el nombre del fichero que modificar, @param2: número por el que cambiar nps

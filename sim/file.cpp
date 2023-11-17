@@ -134,11 +134,13 @@ namespace ficheros {
 
   // Función con overloading que castea un entero a un char*
   const char* to_str(int & parameter) {
+    //NOLINTNEXTLINE(cppcoreguidelines-pro-type-reinterpret-cast)
     const char * value = reinterpret_cast<const char*>(&parameter);
     return value;
   }
 
   const char* to_str(float & parameter) {
+    //NOLINTNEXTLINE(cppcoreguidelines-pro-type-reinterpret-cast)
     const char * value = reinterpret_cast<const char *>(&parameter);
     return value;
   }
@@ -157,6 +159,7 @@ namespace ficheros {
     float ppm_float_1 = 0.0;
     int nps_2         = 0;
     float ppm_float_2 = 0.0;
+
     file_in.read(reinterpret_cast<char *>(&ppm_float_1), sizeof(float));
     file_in.read(reinterpret_cast<char *>(&nps_1), sizeof(int));
     file_corect.read(reinterpret_cast<char *>(&ppm_float_2), sizeof(float));
@@ -319,7 +322,7 @@ namespace ficheros {
     prueba_escritura.close();
     parametros.clear();
   }
-
+/*
   vector<double> comprobacion_lectura1() {
     vector<double> comprobacion;
     ifstream fichero_comprobacion;
