@@ -646,8 +646,8 @@ TEST(trans_acelec, 1){
   particulas.pos_y[1] = dos;
   particulas.pos_z[1] = uno;
   const double diferencia = pow((particulas.pos_x[0] - particulas.pos_x[1]), 2)  +
-                          pow((particulas.pos_y[0] - particulas.pos_y[1]) ,2) +
-                          pow((particulas.pos_z[0] - particulas.pos_z[1]),2);
+                            pow((particulas.pos_y[0] - particulas.pos_y[1]) ,2) +
+                            pow((particulas.pos_z[0] - particulas.pos_z[1]),2);
   ASSERT_EQ(diferencia , 0.06);
 }
 
@@ -674,8 +674,8 @@ TEST(trans_acelec, 2){
   }
   vector<int> const part = {0,1};
   const double diferencia = pow((particulas.pos_x[0] - particulas.pos_x[1]), 2)  +
-                      pow((particulas.pos_y[0] - particulas.pos_y[1]) ,2) +
-                      pow((particulas.pos_z[0] - particulas.pos_z[1]),2);
+                            pow((particulas.pos_y[0] - particulas.pos_y[1]) ,2) +
+                            pow((particulas.pos_z[0] - particulas.pos_z[1]),2);
 
   calc::trans_acele(particulas, part, constantes, diferencia );
   const double calculo =3107793.178;
@@ -1237,21 +1237,245 @@ TEST(mov_part,9){
   ASSERT_EQ(1.001 , particulas.hv_z[0]);
 }
 
-//Particula en cordenada z 0 que no interacciona
-TEST(int_x,1){
-  double const epsilon = 0.0000001;
+//Particula en cordenada x 0 que no interacciona
+TEST(int_x,1) {
+  double const epsilon  = 0.0000001;
+  double const posicion = 0.01;
   Particula particulas(1);
-  particulas.pos_x[0] = 0.0;
-  particulas.hv_x[0] = 0.0;
+  particulas.pos_x[0] = posicion;
+  particulas.hv_x[0]  = 0.0;
   particulas.vel_x[0] = 0.0;
-  particulas.acel_x[0] = 0.0;
   particulas.loc_x[0] = 0;
-  calc::int_x(particulas,0);
-  const double calculo = 0.0;
-  int result = 0;
-  if (fabs(calculo - particulas.acel_x[0]) >= epsilon){
-    result = -1;
-  }
+  calc::int_x(particulas, 0);
+  const double calculo = 0.01;
+  int result           = 0;
+  if (fabs(calculo - particulas.pos_x[0]) >= epsilon) { result = -1; }
+  ASSERT_EQ(0, result);
+}
+
+//Particula en cordenada x 0 que interacciona, comprobacion pos_x
+TEST(int_x,2) {
+  double const epsilon  = 0.0000001;
+  double const posicion = -0.07;
+  Particula particulas(1);
+  particulas.pos_x[0] = posicion;
+  particulas.hv_x[0]  = 0.0;
+  particulas.vel_x[0] = 0.0;
+  particulas.loc_x[0] = 0;
+  calc::int_x(particulas, 0);
+  const double calculo = -0.06;
+  int result           = 0;
+  if (fabs(calculo - particulas.pos_x[0]) >= epsilon) { result = -1; }
+  ASSERT_EQ(0, result);
+}
+
+
+
+//Particula en cordenada x 0 que interacciona, comprobacion h_x
+TEST(int_x,3) {
+  double const epsilon  = 0.0000001;
+  double const posicion = -0.07;
+  Particula particulas(1);
+  particulas.pos_x[0] = posicion;
+  particulas.hv_x[0]  = 1;
+  particulas.vel_x[0] = 0.0;
+  particulas.loc_x[0] = 0;
+  calc::int_x(particulas, 0);
+  const double calculo = -1;
+  int result           = 0;
+  if (fabs(calculo - particulas.hv_x[0]) >= epsilon) { result = -1; }
+  ASSERT_EQ(0, result);
+}
+
+//Particula en cordenada x 0 que interacciona, comprobacion vel_x
+TEST(int_x,4) {
+  double const epsilon  = 0.0000001;
+  double const posicion = -0.07;
+  Particula particulas(1);
+  particulas.pos_x[0] = posicion;
+  particulas.hv_x[0]  = 0.0;
+  particulas.vel_x[0] = 1;
+  particulas.loc_x[0] = 0;
+  calc::int_x(particulas, 0);
+  const double calculo = -1;
+  int result           = 0;
+  if (fabs(calculo - particulas.vel_x[0]) >= epsilon) { result = -1; }
+  ASSERT_EQ(0, result);
+}
+
+//Particula en cordenada x=2(considerado num_bloque[0]-1) que interacciona, comprobacion pos_x
+TEST(int_x,5) {
+  double const epsilon  = 0.0000001;
+  double const posicion = 0.08;
+  Particula particulas(1);
+  particulas.pos_x[0] = posicion;
+  particulas.hv_x[0]  = 0.0;
+  particulas.vel_x[0] = 0.0;
+  particulas.loc_x[0] = 2;
+  calc::int_x(particulas, 0);
+  const double calculo = 0.05;
+  int result           = 0;
+  if (fabs(calculo - particulas.pos_x[0]) >= epsilon) { result = -1; }
+  ASSERT_EQ(0, result);
+}
+
+//Particula en cordenada y 0 que no interacciona
+TEST(int_y,1) {
+  double const epsilon  = 0.0000001;
+  double const posicion = 0.01;
+  Particula particulas(1);
+  particulas.pos_y[0] = posicion;
+  particulas.hv_y[0]  = 0.0;
+  particulas.vel_y[0] = 0.0;
+  particulas.loc_y[0] = 0;
+  calc::int_y(particulas, 0);
+  const double calculo = 0.01;
+  int result           = 0;
+  if (fabs(calculo - particulas.pos_y[0]) >= epsilon) { result = -1; }
+  ASSERT_EQ(0, result);
+}
+
+//Particula en cordenada y 0 que interacciona, comprobacion pos_y
+TEST(int_y,2) {
+  double const epsilon  = 0.0000001;
+  double const posicion = -0.09;
+  Particula particulas(1);
+  particulas.pos_y[0] = posicion;
+  particulas.hv_y[0]  = 0.0;
+  particulas.vel_y[0] = 0.0;
+  particulas.loc_y[0] = 0;
+  calc::int_y(particulas, 0);
+  const double calculo = -0.07;
+  int result           = 0;
+  if (fabs(calculo - particulas.pos_y[0]) >= epsilon) { result = -1; }
+  ASSERT_EQ(0, result);
+}
+
+//Particula en cordenada x 0 que interacciona, comprobacion h_y
+TEST(int_y,3) {
+  double const epsilon  = 0.0000001;
+  double const posicion = -0.09;
+  Particula particulas(1);
+  particulas.pos_y[0] = posicion;
+  particulas.hv_y[0]  = 1;
+  particulas.vel_y[0] = 0.0;
+  particulas.loc_y[0] = 0;
+  calc::int_y(particulas, 0);
+  const double calculo = -1;
+  int result           = 0;
+  if (fabs(calculo - particulas.hv_y[0]) >= epsilon) { result = -1; }
+  ASSERT_EQ(0, result);
+}
+
+//Particula en cordenada x 0 que interacciona, comprobacion vel_y
+TEST(int_y,4) {
+  double const epsilon  = 0.0000001;
+  double const posicion = -0.09;
+  Particula particulas(1);
+  particulas.pos_y[0] = posicion;
+  particulas.hv_y[0]  = 0.0;
+  particulas.vel_y[0] = 1;
+  particulas.loc_y[0] = 0;
+  calc::int_y(particulas, 0);
+  const double calculo = -1;
+  int result           = 0;
+  if (fabs(calculo - particulas.vel_y[0]) >= epsilon) { result = -1; }
+  ASSERT_EQ(0, result);
+}
+
+//Particula en cordenada y=2(considerado num_bloque[0]-1) que interacciona, comprobacion pos_y
+TEST(int_y,5) {
+  double const epsilon  = 0.0000001;
+  double const posicion = 0.11;
+  Particula particulas(1);
+  particulas.pos_y[0] = posicion;
+  particulas.hv_y[0]  = 0.0;
+  particulas.vel_y[0] = 0.0;
+  particulas.loc_y[0] = 2;
+  calc::int_y(particulas, 0);
+  const double calculo = 0.09;
+  int result           = 0;
+  if (fabs(calculo - particulas.pos_y[0]) >= epsilon) { result = -1; }
+  ASSERT_EQ(0, result);
+}
+
+//Particula en cordenada z 0 que no interacciona
+TEST(int_z,1) {
+  double const epsilon  = 0.0000001;
+  double const posicion = 0.01;
+  Particula particulas(1);
+  particulas.pos_z[0] = posicion;
+  particulas.hv_z[0]  = 0.0;
+  particulas.vel_z[0] = 0.0;
+  particulas.loc_z[0] = 0;
+  calc::int_z(particulas, 0);
+  const double calculo = 0.01;
+  int result           = 0;
+  if (fabs(calculo - particulas.pos_z[0]) >= epsilon) { result = -1; }
+  ASSERT_EQ(0, result);
+}
+
+//Particula en cordenada z=0 que interacciona, comprobacion pos_z
+TEST(int_z,2) {
+  double const epsilon  = 0.0000001;
+  double const posicion = -0.07;
+  Particula particulas(1);
+  particulas.pos_z[0] = posicion;
+  particulas.hv_z[0]  = 0.0;
+  particulas.vel_z[0] = 0.0;
+  particulas.loc_z[0] = 0;
+  calc::int_z(particulas, 0);
+  const double calculo = -0.06;
+  int result           = 0;
+  if (fabs(calculo - particulas.pos_z[0]) >= epsilon) { result = -1; }
+  ASSERT_EQ(0, result);
+}
+
+//Particula en cordenada z = 0 que interacciona, comprobacion h_z
+TEST(int_z,3) {
+  double const epsilon  = 0.0000001;
+  double const posicion = -0.07;
+  Particula particulas(1);
+  particulas.pos_z[0] = posicion;
+  particulas.hv_z[0]  = 1;
+  particulas.vel_z[0] = 0.0;
+  particulas.loc_z[0] = 0;
+  calc::int_z(particulas, 0);
+  const double calculo = -1;
+  int result           = 0;
+  if (fabs(calculo - particulas.hv_z[0]) >= epsilon) { result = -1; }
+  ASSERT_EQ(0, result);
+}
+
+//Particula en cordenada z = 0 que interacciona, comprobacion vel_z
+TEST(int_z,4) {
+  double const epsilon  = 0.0000001;
+  double const posicion = -0.07;
+  Particula particulas(1);
+  particulas.pos_z[0] = posicion;
+  particulas.hv_z[0]  = 0.0;
+  particulas.vel_z[0] = 1;
+  particulas.loc_z[0] = 0;
+  calc::int_z(particulas, 0);
+  const double calculo = -1;
+  int result           = 0;
+  if (fabs(calculo - particulas.vel_z[0]) >= epsilon) { result = -1; }
+  ASSERT_EQ(0, result);
+}
+
+//Particula en cordenada z=2(considerado num_bloque[0]-1) que interacciona, comprobacion pos_z
+TEST(int_z,5) {
+  double const epsilon  = 0.0000001;
+  double const posicion = 0.08;
+  Particula particulas(1);
+  particulas.pos_z[0] = posicion;
+  particulas.hv_z[0]  = 0.0;
+  particulas.vel_z[0] = 0.0;
+  particulas.loc_z[0] = 2;
+  calc::int_z(particulas, 0);
+  const double calculo = 0.05;
+  int result           = 0;
+  if (fabs(calculo - particulas.pos_z[0]) >= epsilon) { result = -1; }
   ASSERT_EQ(0, result);
 }
 
@@ -1508,7 +1732,7 @@ TEST(lectura_file,9){
   ficheros::lectura_file(archivo_prueba, numpar, particulas);
   if (remove("prueba_lf.fld") == 0) {EXPECT_EQ(9.5 ,particulas.vel_z[0]);}
 }
-/*
+
 //Comprobacion funcion escritura_salida, comprobacion ppm
 TEST(escritura_salida,1){
   ofstream file_vacio;
@@ -1521,9 +1745,9 @@ TEST(escritura_salida,1){
   const double num7 = 16.5;
   const double num8 = 17.5;
   const double num9 = 18.5;
-  double ppm = num8;
+  const double ppm = 0.0;
   double ppm2 = num7;
-  double const epsilon = 0.00001;
+  //double const epsilon = 0.00001;
   Particula particulas(1);
   particulas.pos_x[0] = num1;
   particulas.pos_y[0] = num2;
@@ -1540,17 +1764,10 @@ TEST(escritura_salida,1){
   //FICHERO ESCRITO
   ifstream fichero_comprobacion;
   fichero_comprobacion.open("prueba_es1.fld", ios::binary);
+  auto ppm_tmp = static_cast<float>(ppm);
   // NOLINTNEXTLINE(cppcoreguidelines-pro-type-reinterpret-cast)
-  fichero_comprobacion.read(reinterpret_cast<char *>(&ppm), sizeof(float));
-  auto final_ppm = static_cast<double>(ppm);
-  int result = 0;
-  const double good_result = 16.5;
-  if (fabs(final_ppm - good_result ) > epsilon ){
-    result = -1;
-  }
-  cout << final_ppm;
-  //const vector <double> comprobacion = ficheros::comprobacion_lectura1();
-  EXPECT_EQ(0, result);
+  fichero_comprobacion.read(reinterpret_cast<char *>(&ppm_tmp), sizeof(float));
+  EXPECT_EQ(16.5, ppm_tmp);
 }
 
 
@@ -1567,7 +1784,7 @@ TEST(escritura_salida,2){
   const double num8 = 17.5;
   const double num9 = 18.5;
   double ppm = num7;
-  int nps = 4;
+  const int nps = 4;
   Particula particulas(nps);
   particulas.pos_x[0] = num1;
   particulas.pos_y[0] = num2;
@@ -1584,11 +1801,14 @@ TEST(escritura_salida,2){
   //FICHERO ESCRITO
   ifstream fichero_comprobacion;
   fichero_comprobacion.open("prueba_es.fld", ios::binary);
+  auto ppm_tmp = static_cast<float>(ppm);
   // NOLINTNEXTLINE(cppcoreguidelines-pro-type-reinterpret-cast)
-  fichero_comprobacion.read(reinterpret_cast<char *>(&ppm), sizeof(float));
+  fichero_comprobacion.read(reinterpret_cast<char *>(&ppm_tmp), sizeof(float));
+  int nps_tmp = static_cast<int>(nps);
   // NOLINTNEXTLINE(cppcoreguidelines-pro-type-reinterpret-cast)
-  fichero_comprobacion.read(reinterpret_cast<char *>(&nps), sizeof(int));
-  EXPECT_EQ(4, nps);
+  fichero_comprobacion.read(reinterpret_cast<char *>(&nps_tmp), sizeof(int));
+
+  EXPECT_EQ(4, nps_tmp);
 }
 
 //Comprobacion funcion escritura_salida, comprobacion pos_x
@@ -1604,7 +1824,7 @@ TEST(escritura_salida,3){
   const double num8 = 17.5;
   const double num9 = 18.5;
   double ppm = num7;
-  int nps = 4;
+  const int nps = 4;
   Particula particulas(nps);
   particulas.pos_x[0] = num1;
   particulas.pos_y[0] = num2;
@@ -1621,250 +1841,368 @@ TEST(escritura_salida,3){
   //FICHERO ESCRITO
   ifstream fichero_comprobacion;
   fichero_comprobacion.open("prueba_es.fld", ios::binary);
+  auto ppm_tmp = static_cast<float>(ppm);
   // NOLINTNEXTLINE(cppcoreguidelines-pro-type-reinterpret-cast)
-  fichero_comprobacion.read(reinterpret_cast<char *>(&ppm), sizeof(float));
+  fichero_comprobacion.read(reinterpret_cast<char *>(&ppm_tmp), sizeof(float));
+  int nps_tmp = static_cast<int>(nps);
   // NOLINTNEXTLINE(cppcoreguidelines-pro-type-reinterpret-cast)
-  fichero_comprobacion.read(reinterpret_cast<char *>(&nps), sizeof(int));
+  fichero_comprobacion.read(reinterpret_cast<char *>(&nps_tmp), sizeof(int));
   particulas.pos_x[0]  = ficheros::lectura_float_to_double(fichero_comprobacion);
   EXPECT_EQ(10.5 ,particulas.pos_x[0]);
 }
 
 //Comprobacion funcion escritura_salida, comprobacion pos_y
 TEST(escritura_salida,4){
-  ofstream file_vacio("prueba_es.fld", ios::binary);
-  const double num1 = 10.0;
-  const double num2 = 11.0;
-  const double num3 = 12.0;
-  const double num4 = 13.0;
-  const double num5 = 14.0;
-  const double num6 = 15.0;
-  const double num7 = 16.0;
-  const double num8 = 17.0;
-  const double num9 = 18.0;
+  ofstream file_vacio;
+  const double num1 = 10.5;
+  const double num2 = 11.5;
+  const double num3 = 12.5;
+  const double num4 = 13.5;
+  const double num5 = 14.5;
+  const double num6 = 15.5;
+  const double num7 = 16.5;
+  const double num8 = 17.5;
+  const double num9 = 18.5;
   double ppm = num7;
-  Particula particulas(1);
+  const int nps = 1;
+  Particula particulas(nps);
   particulas.pos_x[0] = num1;
   particulas.pos_y[0] = num2;
   particulas.pos_z[0] = num3;
   particulas.hv_x[0] = num4;
   particulas.hv_y[0] = num5;
   particulas.hv_z[0] = num6;
-  particulas.acel_x[0] = num7;
-  particulas.acel_y[0] = num8;
-  particulas.acel_z[0] = num9;
+  particulas.vel_x[0] = num7;
+  particulas.vel_y[0] = num8;
+  particulas.vel_z[0] = num9;
   file_vacio.open("prueba_es.fld", ios::binary);
-  ficheros::escritura_salida(file_vacio, particulas, ppm, 1);
-  ifstream file_lleno("prueba_es.fld", ios::binary);
-  const vector <double> comprobacion = ficheros::comprobacion_lectura1();
-  EXPECT_EQ(11.0 ,comprobacion[2]);
+  ficheros::escritura_salida(file_vacio, particulas, ppm, nps);
+  file_vacio.close();
+  //FICHERO ESCRITO
+  ifstream fichero_comprobacion;
+  fichero_comprobacion.open("prueba_es.fld", ios::binary);
+  auto ppm_tmp = static_cast<float>(ppm);
+  // NOLINTNEXTLINE(cppcoreguidelines-pro-type-reinterpret-cast)
+  fichero_comprobacion.read(reinterpret_cast<char *>(&ppm_tmp), sizeof(float));
+  int nps_tmp = static_cast<int>(nps);
+  // NOLINTNEXTLINE(cppcoreguidelines-pro-type-reinterpret-cast)
+  fichero_comprobacion.read(reinterpret_cast<char *>(&nps_tmp), sizeof(int));
+  particulas.pos_x[0]  = ficheros::lectura_float_to_double(fichero_comprobacion);
+  particulas.pos_y[0]  = ficheros::lectura_float_to_double(fichero_comprobacion);
+  EXPECT_EQ(11.5 ,particulas.pos_y[0] );
 }
 
 //Comprobacion funcion escritura_salida, comprobacion pos_z
 TEST(escritura_salida,5){
-  ofstream file_vacio("prueba_es.fld", ios::binary);
-  const double num1 = 10.0;
-  const double num2 = 11.0;
-  const double num3 = 12.0;
-  const double num4 = 13.0;
-  const double num5 = 14.0;
-  const double num6 = 15.0;
-  const double num7 = 16.0;
-  const double num8 = 17.0;
-  const double num9 = 18.0;
+  ofstream file_vacio;
+  const double num1 = 10.5;
+  const double num2 = 11.5;
+  const double num3 = 12.5;
+  const double num4 = 13.5;
+  const double num5 = 14.5;
+  const double num6 = 15.5;
+  const double num7 = 16.5;
+  const double num8 = 17.5;
+  const double num9 = 18.5;
   double ppm = num7;
-  Particula particulas(1);
+  const int nps = 1;
+  Particula particulas(nps);
   particulas.pos_x[0] = num1;
   particulas.pos_y[0] = num2;
   particulas.pos_z[0] = num3;
   particulas.hv_x[0] = num4;
   particulas.hv_y[0] = num5;
   particulas.hv_z[0] = num6;
-  particulas.acel_x[0] = num7;
-  particulas.acel_y[0] = num8;
-  particulas.acel_z[0] = num9;
+  particulas.vel_x[0] = num7;
+  particulas.vel_y[0] = num8;
+  particulas.vel_z[0] = num9;
   file_vacio.open("prueba_es.fld", ios::binary);
-  ficheros::escritura_salida(file_vacio, particulas, ppm, 1);
-  ifstream file_lleno("prueba_es.fld", ios::binary);
-  const vector <double> comprobacion = ficheros::comprobacion_lectura1(file_lleno);
-  EXPECT_EQ(12.0 ,comprobacion[3]);
+  ficheros::escritura_salida(file_vacio, particulas, ppm, nps);
+  file_vacio.close();
+  //FICHERO ESCRITO
+  ifstream fichero_comprobacion;
+  fichero_comprobacion.open("prueba_es.fld", ios::binary);
+  auto ppm_tmp = static_cast<float>(ppm);
+  // NOLINTNEXTLINE(cppcoreguidelines-pro-type-reinterpret-cast)
+  fichero_comprobacion.read(reinterpret_cast<char *>(&ppm_tmp), sizeof(float));
+  int nps_tmp = static_cast<int>(nps);
+  // NOLINTNEXTLINE(cppcoreguidelines-pro-type-reinterpret-cast)
+  fichero_comprobacion.read(reinterpret_cast<char *>(&nps_tmp), sizeof(int));
+  particulas.pos_x[0]  = ficheros::lectura_float_to_double(fichero_comprobacion);
+  particulas.pos_y[0]  = ficheros::lectura_float_to_double(fichero_comprobacion);
+  particulas.pos_z[0]  = ficheros::lectura_float_to_double(fichero_comprobacion);
+  EXPECT_EQ(12.5 ,particulas.pos_z[0]);
 }
 
 //Comprobacion funcion escritura_salida, comprobacion hv_x
 TEST(escritura_salida,6){
-  ofstream file_vacio("prueba_es.fld", ios::binary);
-  const double num1 = 10.0;
-  const double num2 = 11.0;
-  const double num3 = 12.0;
-  const double num4 = 13.0;
-  const double num5 = 14.0;
-  const double num6 = 15.0;
-  const double num7 = 16.0;
-  const double num8 = 17.0;
-  const double num9 = 18.0;
+  ofstream file_vacio;
+  const double num1 = 10.5;
+  const double num2 = 11.5;
+  const double num3 = 12.5;
+  const double num4 = 13.5;
+  const double num5 = 14.5;
+  const double num6 = 15.5;
+  const double num7 = 16.5;
+  const double num8 = 17.5;
+  const double num9 = 18.5;
   double ppm = num7;
-  Particula particulas(1);
+  const int nps = 1;
+  Particula particulas(nps);
   particulas.pos_x[0] = num1;
   particulas.pos_y[0] = num2;
   particulas.pos_z[0] = num3;
   particulas.hv_x[0] = num4;
   particulas.hv_y[0] = num5;
   particulas.hv_z[0] = num6;
-  particulas.acel_x[0] = num7;
-  particulas.acel_y[0] = num8;
-  particulas.acel_z[0] = num9;
+  particulas.vel_x[0] = num7;
+  particulas.vel_y[0] = num8;
+  particulas.vel_z[0] = num9;
   file_vacio.open("prueba_es.fld", ios::binary);
-  ficheros::escritura_salida(file_vacio, particulas, ppm, 1);
-  ifstream file_lleno("prueba_es.fld", ios::binary);
-  const vector <double> comprobacion = ficheros::comprobacion_lectura1(file_lleno);
-  EXPECT_EQ(13.0 ,comprobacion[4]);
+  ficheros::escritura_salida(file_vacio, particulas, ppm, nps);
+  file_vacio.close();
+  //FICHERO ESCRITO
+  ifstream fichero_comprobacion;
+  fichero_comprobacion.open("prueba_es.fld", ios::binary);
+  auto ppm_tmp = static_cast<float>(ppm);
+  // NOLINTNEXTLINE(cppcoreguidelines-pro-type-reinterpret-cast)
+  fichero_comprobacion.read(reinterpret_cast<char *>(&ppm_tmp), sizeof(float));
+  int nps_tmp = static_cast<int>(nps);
+  // NOLINTNEXTLINE(cppcoreguidelines-pro-type-reinterpret-cast)
+  fichero_comprobacion.read(reinterpret_cast<char *>(&nps_tmp), sizeof(int));
+  particulas.pos_x[0]  = ficheros::lectura_float_to_double(fichero_comprobacion);
+  particulas.pos_y[0]  = ficheros::lectura_float_to_double(fichero_comprobacion);
+  particulas.pos_z[0]  = ficheros::lectura_float_to_double(fichero_comprobacion);
+  particulas.hv_x[0]  = ficheros::lectura_float_to_double(fichero_comprobacion);
+  EXPECT_EQ(13.5 ,particulas.hv_x[0] );
 }
 
 //Comprobacion funcion escritura_salida, comprobacion hv_y
 TEST(escritura_salida,7){
-  ofstream file_vacio("prueba_es.fld", ios::binary);
-  const double num1 = 10.0;
-  const double num2 = 11.0;
-  const double num3 = 12.0;
-  const double num4 = 13.0;
-  const double num5 = 14.0;
-  const double num6 = 15.0;
-  const double num7 = 16.0;
-  const double num8 = 17.0;
-  const double num9 = 18.0;
+  ofstream file_vacio;
+  const double num1 = 10.5;
+  const double num2 = 11.5;
+  const double num3 = 12.5;
+  const double num4 = 13.5;
+  const double num5 = 14.5;
+  const double num6 = 15.5;
+  const double num7 = 16.5;
+  const double num8 = 17.5;
+  const double num9 = 18.5;
   double ppm = num7;
-  Particula particulas(1);
+  const int nps = 1;
+  Particula particulas(nps);
   particulas.pos_x[0] = num1;
   particulas.pos_y[0] = num2;
   particulas.pos_z[0] = num3;
   particulas.hv_x[0] = num4;
   particulas.hv_y[0] = num5;
   particulas.hv_z[0] = num6;
-  particulas.acel_x[0] = num7;
-  particulas.acel_y[0] = num8;
-  particulas.acel_z[0] = num9;
+  particulas.vel_x[0] = num7;
+  particulas.vel_y[0] = num8;
+  particulas.vel_z[0] = num9;
   file_vacio.open("prueba_es.fld", ios::binary);
-  ficheros::escritura_salida(file_vacio, particulas, ppm, 1);
-  ifstream file_lleno("prueba_es.fld", ios::binary);
-  const vector <double> comprobacion = ficheros::comprobacion_lectura1(file_lleno);
-  EXPECT_EQ(14.0 ,comprobacion[5]);
+  ficheros::escritura_salida(file_vacio, particulas, ppm, nps);
+  file_vacio.close();
+  //FICHERO ESCRITO
+  ifstream fichero_comprobacion;
+  fichero_comprobacion.open("prueba_es.fld", ios::binary);
+  auto ppm_tmp = static_cast<float>(ppm);
+  // NOLINTNEXTLINE(cppcoreguidelines-pro-type-reinterpret-cast)
+  fichero_comprobacion.read(reinterpret_cast<char *>(&ppm_tmp), sizeof(float));
+  int nps_tmp = static_cast<int>(nps);
+  // NOLINTNEXTLINE(cppcoreguidelines-pro-type-reinterpret-cast)
+  fichero_comprobacion.read(reinterpret_cast<char *>(&nps_tmp), sizeof(int));
+  particulas.pos_x[0]  = ficheros::lectura_float_to_double(fichero_comprobacion);
+  particulas.pos_y[0]  = ficheros::lectura_float_to_double(fichero_comprobacion);
+  particulas.pos_z[0]  = ficheros::lectura_float_to_double(fichero_comprobacion);
+  particulas.hv_x[0]  = ficheros::lectura_float_to_double(fichero_comprobacion);
+  particulas.hv_y[0]  = ficheros::lectura_float_to_double(fichero_comprobacion);
+  EXPECT_EQ(14.5 ,particulas.hv_y[0] );
 }
 
 //Comprobacion funcion escritura_salida, comprobacion hv_z
 TEST(escritura_salida,8){
-  ofstream file_vacio("prueba_es.fld", ios::binary);
-  const double num1 = 10.0;
-  const double num2 = 11.0;
-  const double num3 = 12.0;
-  const double num4 = 13.0;
-  const double num5 = 14.0;
-  const double num6 = 15.0;
-  const double num7 = 16.0;
-  const double num8 = 17.0;
-  const double num9 = 18.0;
+  ofstream file_vacio;
+  const double num1 = 10.5;
+  const double num2 = 11.5;
+  const double num3 = 12.5;
+  const double num4 = 13.5;
+  const double num5 = 14.5;
+  const double num6 = 15.5;
+  const double num7 = 16.5;
+  const double num8 = 17.5;
+  const double num9 = 18.5;
   double ppm = num7;
-  Particula particulas(1);
+  const int nps = 1;
+  Particula particulas(nps);
   particulas.pos_x[0] = num1;
   particulas.pos_y[0] = num2;
   particulas.pos_z[0] = num3;
   particulas.hv_x[0] = num4;
   particulas.hv_y[0] = num5;
   particulas.hv_z[0] = num6;
-  particulas.acel_x[0] = num7;
-  particulas.acel_y[0] = num8;
-  particulas.acel_z[0] = num9;
+  particulas.vel_x[0] = num7;
+  particulas.vel_y[0] = num8;
+  particulas.vel_z[0] = num9;
   file_vacio.open("prueba_es.fld", ios::binary);
-  ficheros::escritura_salida(file_vacio, particulas, ppm, 1);
-  ifstream file_lleno("prueba_es.fld", ios::binary);
-  const vector <double> comprobacion = ficheros::comprobacion_lectura1(file_lleno);
-  EXPECT_EQ(15.0 ,comprobacion[6]);
+  ficheros::escritura_salida(file_vacio, particulas, ppm, nps);
+  file_vacio.close();
+  //FICHERO ESCRITO
+  ifstream fichero_comprobacion;
+  fichero_comprobacion.open("prueba_es.fld", ios::binary);
+  auto ppm_tmp = static_cast<float>(ppm);
+  // NOLINTNEXTLINE(cppcoreguidelines-pro-type-reinterpret-cast)
+  fichero_comprobacion.read(reinterpret_cast<char *>(&ppm_tmp), sizeof(float));
+  int nps_tmp = static_cast<int>(nps);
+  // NOLINTNEXTLINE(cppcoreguidelines-pro-type-reinterpret-cast)
+  fichero_comprobacion.read(reinterpret_cast<char *>(&nps_tmp), sizeof(int));
+  particulas.pos_x[0]  = ficheros::lectura_float_to_double(fichero_comprobacion);
+  particulas.pos_y[0]  = ficheros::lectura_float_to_double(fichero_comprobacion);
+  particulas.pos_z[0]  = ficheros::lectura_float_to_double(fichero_comprobacion);
+  particulas.hv_x[0]  = ficheros::lectura_float_to_double(fichero_comprobacion);
+  particulas.hv_y[0]  = ficheros::lectura_float_to_double(fichero_comprobacion);
+  particulas.hv_z[0]  = ficheros::lectura_float_to_double(fichero_comprobacion);
+  EXPECT_EQ(15.5 ,particulas.hv_z[0] );
 }
 
 //Comprobacion funcion escritura_salida, comprobacion vel_x
 TEST(escritura_salida,9){
-  ofstream file_vacio("prueba_es.fld", ios::binary);
-  const double num1 = 10.0;
-  const double num2 = 11.0;
-  const double num3 = 12.0;
-  const double num4 = 13.0;
-  const double num5 = 14.0;
-  const double num6 = 15.0;
-  const double num7 = 16.0;
-  const double num8 = 17.0;
-  const double num9 = 18.0;
+  ofstream file_vacio;
+  const double num1 = 10.5;
+  const double num2 = 11.5;
+  const double num3 = 12.5;
+  const double num4 = 13.5;
+  const double num5 = 14.5;
+  const double num6 = 15.5;
+  const double num7 = 16.5;
+  const double num8 = 17.5;
+  const double num9 = 18.5;
   double ppm = num7;
-  Particula particulas(1);
+  const int nps = 1;
+  Particula particulas(nps);
   particulas.pos_x[0] = num1;
   particulas.pos_y[0] = num2;
   particulas.pos_z[0] = num3;
   particulas.hv_x[0] = num4;
   particulas.hv_y[0] = num5;
   particulas.hv_z[0] = num6;
-  particulas.acel_x[0] = num7;
-  particulas.acel_y[0] = num8;
-  particulas.acel_z[0] = num9;
+  particulas.vel_x[0] = num7;
+  particulas.vel_y[0] = num8;
+  particulas.vel_z[0] = num9;
   file_vacio.open("prueba_es.fld", ios::binary);
-  ficheros::escritura_salida(file_vacio, particulas, ppm, 1);
-  ifstream file_lleno("prueba_es.fld", ios::binary);
-  const vector <double> comprobacion = ficheros::comprobacion_lectura1(file_lleno);
-  EXPECT_EQ(16.0 ,comprobacion[7]);
+  ficheros::escritura_salida(file_vacio, particulas, ppm, nps);
+  file_vacio.close();
+  //FICHERO ESCRITO
+  ifstream fichero_comprobacion;
+  fichero_comprobacion.open("prueba_es.fld", ios::binary);
+  auto ppm_tmp = static_cast<float>(ppm);
+  // NOLINTNEXTLINE(cppcoreguidelines-pro-type-reinterpret-cast)
+  fichero_comprobacion.read(reinterpret_cast<char *>(&ppm_tmp), sizeof(float));
+  int nps_tmp = static_cast<int>(nps);
+  // NOLINTNEXTLINE(cppcoreguidelines-pro-type-reinterpret-cast)
+  fichero_comprobacion.read(reinterpret_cast<char *>(&nps_tmp), sizeof(int));
+  particulas.pos_x[0]  = ficheros::lectura_float_to_double(fichero_comprobacion);
+  particulas.pos_y[0]  = ficheros::lectura_float_to_double(fichero_comprobacion);
+  particulas.pos_z[0]  = ficheros::lectura_float_to_double(fichero_comprobacion);
+  particulas.hv_x[0]  = ficheros::lectura_float_to_double(fichero_comprobacion);
+  particulas.hv_y[0]  = ficheros::lectura_float_to_double(fichero_comprobacion);
+  particulas.hv_z[0]  = ficheros::lectura_float_to_double(fichero_comprobacion);
+  particulas.vel_x[0]  = ficheros::lectura_float_to_double(fichero_comprobacion);
+  EXPECT_EQ(16.5 ,particulas.vel_x[0]);
 }
 
 //Comprobacion funcion escritura_salida, comprobacion vel_y
 TEST(escritura_salida,10){
-  ofstream file_vacio("prueba_es.fld", ios::binary);
-  const double num1 = 10.0;
-  const double num2 = 11.0;
-  const double num3 = 12.0;
-  const double num4 = 13.0;
-  const double num5 = 14.0;
-  const double num6 = 15.0;
-  const double num7 = 16.0;
-  const double num8 = 17.0;
-  const double num9 = 18.0;
+  ofstream file_vacio;
+  const double num1 = 10.5;
+  const double num2 = 11.5;
+  const double num3 = 12.5;
+  const double num4 = 13.5;
+  const double num5 = 14.5;
+  const double num6 = 15.5;
+  const double num7 = 16.5;
+  const double num8 = 17.5;
+  const double num9 = 18.5;
   double ppm = num7;
-  Particula particulas(1);
+  const int nps = 1;
+  Particula particulas(nps);
   particulas.pos_x[0] = num1;
   particulas.pos_y[0] = num2;
   particulas.pos_z[0] = num3;
   particulas.hv_x[0] = num4;
   particulas.hv_y[0] = num5;
   particulas.hv_z[0] = num6;
-  particulas.acel_x[0] = num7;
-  particulas.acel_y[0] = num8;
-  particulas.acel_z[0] = num9;
+  particulas.vel_x[0] = num7;
+  particulas.vel_y[0] = num8;
+  particulas.vel_z[0] = num9;
   file_vacio.open("prueba_es.fld", ios::binary);
-  ficheros::escritura_salida(file_vacio, particulas, ppm, 1);
-  ifstream file_lleno("prueba_es.fld", ios::binary);
-  const vector <double> comprobacion = ficheros::comprobacion_lectura1(file_lleno);
-  EXPECT_EQ(17.0 ,comprobacion[8]);
+  ficheros::escritura_salida(file_vacio, particulas, ppm, nps);
+  file_vacio.close();
+  //FICHERO ESCRITO
+  ifstream fichero_comprobacion;
+  fichero_comprobacion.open("prueba_es.fld", ios::binary);
+  auto ppm_tmp = static_cast<float>(ppm);
+  // NOLINTNEXTLINE(cppcoreguidelines-pro-type-reinterpret-cast)
+  fichero_comprobacion.read(reinterpret_cast<char *>(&ppm_tmp), sizeof(float));
+  int nps_tmp = static_cast<int>(nps);
+  // NOLINTNEXTLINE(cppcoreguidelines-pro-type-reinterpret-cast)
+  fichero_comprobacion.read(reinterpret_cast<char *>(&nps_tmp), sizeof(int));
+  particulas.pos_x[0]  = ficheros::lectura_float_to_double(fichero_comprobacion);
+  particulas.pos_y[0]  = ficheros::lectura_float_to_double(fichero_comprobacion);
+  particulas.pos_z[0]  = ficheros::lectura_float_to_double(fichero_comprobacion);
+  particulas.hv_x[0]  = ficheros::lectura_float_to_double(fichero_comprobacion);
+  particulas.hv_y[0]  = ficheros::lectura_float_to_double(fichero_comprobacion);
+  particulas.hv_z[0]  = ficheros::lectura_float_to_double(fichero_comprobacion);
+  particulas.vel_x[0]  = ficheros::lectura_float_to_double(fichero_comprobacion);
+  particulas.vel_y[0]  = ficheros::lectura_float_to_double(fichero_comprobacion);
+  EXPECT_EQ(17.5 ,particulas.vel_y[0] );
 }
 
 //Comprobacion funcion escritura_salida, comprobacion vel_z
 TEST(escritura_salida,11){
-  ofstream file_vacio("prueba_es.fld", ios::binary);
-  const double num1 = 10.0;
-  const double num2 = 11.0;
-  const double num3 = 12.0;
-  const double num4 = 13.0;
-  const double num5 = 14.0;
-  const double num6 = 15.0;
-  const double num7 = 16.0;
-  const double num8 = 17.0;
-  const double num9 = 18.0;
+  ofstream file_vacio;
+  const double num1 = 10.5;
+  const double num2 = 11.5;
+  const double num3 = 12.5;
+  const double num4 = 13.5;
+  const double num5 = 14.5;
+  const double num6 = 15.5;
+  const double num7 = 16.5;
+  const double num8 = 17.5;
+  const double num9 = 18.5;
   double ppm = num7;
-  Particula particulas(1);
+  const int nps = 1;
+  Particula particulas(nps);
   particulas.pos_x[0] = num1;
   particulas.pos_y[0] = num2;
   particulas.pos_z[0] = num3;
   particulas.hv_x[0] = num4;
   particulas.hv_y[0] = num5;
   particulas.hv_z[0] = num6;
-  particulas.acel_x[0] = num7;
-  particulas.acel_y[0] = num8;
-  particulas.acel_z[0] = num9;
+  particulas.vel_x[0] = num7;
+  particulas.vel_y[0] = num8;
+  particulas.vel_z[0] = num9;
   file_vacio.open("prueba_es.fld", ios::binary);
-  ficheros::escritura_salida(file_vacio, particulas, ppm, 1);
-  ifstream file_lleno("prueba_es.fld", ios::binary);
-  const vector <double> comprobacion = ficheros::comprobacion_lectura1(file_lleno);
-  EXPECT_EQ(18.0 ,comprobacion[9]);
-}*/
+  ficheros::escritura_salida(file_vacio, particulas, ppm, nps);
+  file_vacio.close();
+  //FICHERO ESCRITO
+  ifstream fichero_comprobacion;
+  fichero_comprobacion.open("prueba_es.fld", ios::binary);
+  auto ppm_tmp = static_cast<float>(ppm);
+  // NOLINTNEXTLINE(cppcoreguidelines-pro-type-reinterpret-cast)
+  fichero_comprobacion.read(reinterpret_cast<char *>(&ppm_tmp), sizeof(float));
+  int nps_tmp = static_cast<int>(nps);
+  // NOLINTNEXTLINE(cppcoreguidelines-pro-type-reinterpret-cast)
+  fichero_comprobacion.read(reinterpret_cast<char *>(&nps_tmp), sizeof(int));
+  particulas.pos_x[0]  = ficheros::lectura_float_to_double(fichero_comprobacion);
+  particulas.pos_y[0]  = ficheros::lectura_float_to_double(fichero_comprobacion);
+  particulas.pos_z[0]  = ficheros::lectura_float_to_double(fichero_comprobacion);
+  particulas.hv_x[0]  = ficheros::lectura_float_to_double(fichero_comprobacion);
+  particulas.hv_y[0]  = ficheros::lectura_float_to_double(fichero_comprobacion);
+  particulas.hv_z[0]  = ficheros::lectura_float_to_double(fichero_comprobacion);
+  particulas.vel_x[0]  = ficheros::lectura_float_to_double(fichero_comprobacion);
+  particulas.vel_y[0]  = ficheros::lectura_float_to_double(fichero_comprobacion);
+  particulas.vel_z[0]  = ficheros::lectura_float_to_double(fichero_comprobacion);
+  EXPECT_EQ(18.5,particulas.vel_z[0]);
+}

@@ -2,16 +2,31 @@
 
 using namespace std;
 
-// NOLINTBEGIN
 namespace ficheros {
+  inline void read_value(std::istream & is, float & value) {
+    // NOLINTNEXTLINE(cppcoreguidelines-pro-type-reinterpret-cast)
+    is.read(reinterpret_cast<char *>(&value), sizeof(value));
+  }
+
+  inline void read_value(std::istream & is, int & value) {
+    // NOLINTNEXTLINE(cppcoreguidelines-pro-type-reinterpret-cast)
+    is.read(reinterpret_cast<char *>(&value), sizeof(value));
+  }
+
+  inline void read_value(std::istream & is, double & value) {
+    // NOLINTNEXTLINE(cppcoreguidelines-pro-type-reinterpret-cast)
+    is.read(reinterpret_cast<char *>(&value), sizeof(value));
+  }
+
   // Función que se encarga de leer la cabecera
   tuple<int, double> lectura_cabecera(ifstream & file_in) {
-    tuple<int, double> bad_return = {-5, 5.0};
-    int nps                             = 0;
-    float ppm                           = 0.0;
-
-    file_in.read(reinterpret_cast<char *>(&ppm), sizeof(float));
-    file_in.read(reinterpret_cast<char *>(&nps), sizeof(int));
+    const int menos_cinco = -5;
+    const double cinco_punto_cero = 5.0;
+    tuple<int, double> bad_return = {menos_cinco, cinco_punto_cero};
+    int nps                 = 0;
+    float ppm               = 0.0;
+    read_value(file_in, ppm);
+    read_value(file_in, nps);
     // Comprobación del nps
     if (entry::check_np(nps) != 0) { return bad_return; }
     tuple<int, double> good_return = {nps, static_cast<double>(ppm)};
@@ -19,7 +34,6 @@ namespace ficheros {
   }
 
   // Función que se encarga de leer un objeto del fichero, hacer el cast a double y devolverlo
-
   double lectura_float_to_double(ifstream & fichero) {
     float aux_float = 0.0;
     // NOLINTNEXTLINE(cppcoreguidelines-pro-type-reinterpret-cast)
@@ -28,10 +42,11 @@ namespace ficheros {
   }
 
   int lectura_file(ifstream & file_in, int np, struct Particula & particulas) {
-    const int bad_return = -5;
+    int const bad_return = -5;
     int np_real          = 0;
     while (!file_in.eof()) {
-      // hay que hacer el checkeo de np (variable que vaya sumando, comprobar al final o poner un if con un break)
+      // hay que hacer el checkeo de np (variable que vaya sumando, comprobar al final o poner un if
+      // con un break)
       particulas.pos_x[np_real]  = lectura_float_to_double(file_in);
       particulas.pos_y[np_real]  = lectura_float_to_double(file_in);
       particulas.pos_z[np_real]  = lectura_float_to_double(file_in);
@@ -84,19 +99,17 @@ namespace ficheros {
       fichero_comp_salida << identificador << " ";
       double aux = 0.0;
       for (int k = 0; k < 3; k++) {
-        // NOLINTNEXTLINE(cppcoreguidelines-pro-type-reinterpret-cast)
-        fichero_comp.read(reinterpret_cast<char *>(&aux), sizeof(double));
+        read_value(fichero_comp, aux);
         fichero_comp_salida << aux << " ";
-        // NOLINTNEXTLINE(cppcoreguidelines-pro-type-reinterpret-cast)
-        fichero_comp.read(reinterpret_cast<char *>(&aux), sizeof(double));
+        read_value(fichero_comp, aux);
         fichero_comp_salida << aux << " ";
-        fichero_comp.read(reinterpret_cast<char *>(&aux), sizeof(double));
+        read_value(fichero_comp, aux);
         fichero_comp_salida << aux << " ";
       }
-      fichero_comp.read(reinterpret_cast<char *>(&aux), sizeof(double));
+      read_value(fichero_comp, aux);
       fichero_comp_salida << aux << " ";
       for (int k = 0; k < 3; k++) {
-        fichero_comp.read(reinterpret_cast<char *>(&aux), sizeof(double));
+        read_value(fichero_comp, aux);
         fichero_comp_salida << aux << " ";
       }
       fichero_comp_salida << "\n";
@@ -133,168 +146,53 @@ namespace ficheros {
   }
 
   // Función con overloading que castea un entero a un char*
-  const char* to_str(int & parameter) {
-    //NOLINTNEXTLINE(cppcoreguidelines-pro-type-reinterpret-cast)
-    const char * value = reinterpret_cast<const char*>(&parameter);
+  char const * to_str(int & parameter) {
+    // NOLINTNEXTLINE(cppcoreguidelines-pro-type-reinterpret-cast)
+    char const * value = reinterpret_cast<char const *>(&parameter);
     return value;
   }
 
-  const char* to_str(float & parameter) {
-    //NOLINTNEXTLINE(cppcoreguidelines-pro-type-reinterpret-cast)
-    const char * value = reinterpret_cast<const char *>(&parameter);
+  char const * to_str(float & parameter) {
+    // NOLINTNEXTLINE(cppcoreguidelines-pro-type-reinterpret-cast)
+    char const * value = reinterpret_cast<char const *>(&parameter);
     return value;
   }
-/*
-  void read_float(std::istream&is,float value) {
-    //NOLINTNEXTLINE(cppcoreguidelines-pro-type-reinterpret-cast)
-    is.read(reinterpret_cast<char*>(&value),sizeof(value));
-  };*/
-
 
   //------------FUNCIONES AUXILIARES PARA LOS TEST FUNCIONALES---------------
-
   // Función que compara dos ficheros (usada en los test)
   int comparar_ficheros(ifstream & file_in, ifstream & file_corect) {
     int nps_1         = 0;
     float ppm_float_1 = 0.0;
     int nps_2         = 0;
     float ppm_float_2 = 0.0;
-
-    file_in.read(reinterpret_cast<char *>(&ppm_float_1), sizeof(float));
-    file_in.read(reinterpret_cast<char *>(&nps_1), sizeof(int));
-    file_corect.read(reinterpret_cast<char *>(&ppm_float_2), sizeof(float));
-    file_corect.read(reinterpret_cast<char *>(&nps_2), sizeof(int));
-    if (nps_1 != nps_2 or ppm_float_1 != ppm_float_2) { return -1; }
+    read_value(file_in, ppm_float_1);
+    read_value(file_in, nps_1);
+    read_value(file_corect, ppm_float_2);
+    read_value(file_corect, nps_2);
+    const int nps_temp = static_cast<int>(nps_2);
+    if (nps_1 != nps_temp || ppm_float_1 != ppm_float_2) { return -1; }
     float aux_float_1 = 0.0;
     float aux_float_2 = 0.0;
     while (!file_corect.eof()) {
-      file_in.read(reinterpret_cast<char *>(&aux_float_1), sizeof(float));
-      file_corect.read(reinterpret_cast<char *>(&aux_float_2), sizeof(float));
+      read_value(file_in, aux_float_1);
+      read_value(file_corect, aux_float_2);
       if (aux_float_1 != aux_float_2) { return -1; }
     }
     return 0;
   }
-  /*
-  // Función que modifica un fichero (Usada para los tests)
-  int modificar_fichero(string & file_name, int nps_mod) {
-    ofstream file_out;
-    file_out.open("small_modificado.fld", ios::binary);
-    //ifstream file_in;
-    //file_in.open(file_name, ios::binary);
-    //int nps         = 0;
-    float ppm_float = 0.0;
-    //file_in.read(reinterpret_cast<char *>(&ppm_float), sizeof(float));
-    file_out.write(to_str(ppm_float), sizeof(float));
-    //file_in.read(reinterpret_cast<char *>(&nps), sizeof(int));
-    file_out.write(to_str(nps_mod), sizeof(int));
-    //float aux_float = 0.0;
-
-    while(!file_in.eof()){
-      //file_in.read(reinterpret_cast<char *>(&aux_float), sizeof(float));
-      file_out.write(to_str(aux_float), sizeof(float));
-    }
-
-
-    //file_in.close();
-    file_out.close();
-    string a = file_name;
-    return nps_mod;
-    //return 0;
-  }
-
-  // Función que compara un fichero de trazas con unas partículas
-  int trazas(ifstream & fichero_comp, Particula & particulas) {
-    int cabecera = 0;
-    fichero_comp.read(reinterpret_cast<char *>(&cabecera), sizeof(int));
-    while (!fichero_comp.eof()) {
-      long int num_p = 0;
-      fichero_comp.read(reinterpret_cast<char *>(&num_p), sizeof(long int));
-      double aux = 0.0;
-      for (int j = 0; j < num_p; j++) {
-        fichero_comp.read(reinterpret_cast<char *>(&aux), sizeof(double));
-        read_pos_xyz(fichero_comp, particulas);
-        read_hv_xyz(fichero_comp, particulas);
-        read_vel_xyz(fichero_comp, particulas);
-        fichero_comp.read(reinterpret_cast<char *>(&aux), sizeof(double));
-        read_acel_xyz(fichero_comp, particulas);
-      }
-    }
-    return 0;
-  }
-
-  int read_pos_xyz(ifstream & fichero_comp, Particula & particulas) {
-    const double epsilon         = 0.000001;
-    const long int identificador = 0;
-    double aux                   = 0.0;
-    fichero_comp.read(reinterpret_cast<char *>(&aux), sizeof(double));
-    if (fabs(particulas.pos_x[identificador] - aux) >= epsilon) { return -1; }
-    fichero_comp.read(reinterpret_cast<char *>(&aux), sizeof(double));
-    if (fabs(particulas.pos_y[identificador] - aux) >= epsilon) { return -1; }
-    fichero_comp.read(reinterpret_cast<char *>(&aux), sizeof(double));
-    if (fabs(particulas.pos_z[identificador] - aux) >= epsilon) { return -1; }
-    fichero_comp.read(reinterpret_cast<char *>(&aux), sizeof(double));
-    return 0;
-  }
-
-  int read_hv_xyz(ifstream & fichero_comp, Particula & particulas) {
-    const double epsilon         = 0.000001;
-    const long int identificador = 0;
-    double aux                   = 0.0;
-    fichero_comp.read(reinterpret_cast<char *>(&aux), sizeof(double));
-    if (fabs(particulas.hv_x[identificador] - aux) >= epsilon) { return -2; }
-    fichero_comp.read(reinterpret_cast<char *>(&aux), sizeof(double));
-    if (fabs(particulas.hv_y[identificador] - aux) >= epsilon) { return -2; }
-    fichero_comp.read(reinterpret_cast<char *>(&aux), sizeof(double));
-    if (fabs(particulas.hv_z[identificador] - aux) >= epsilon) { return -2; }
-    fichero_comp.read(reinterpret_cast<char *>(&aux), sizeof(double));
-    return 0;
-  }
-
-  int read_vel_xyz(ifstream & fichero_comp, Particula & particulas) {
-    const double epsilon         = 0.000001;
-    const long int identificador = 0;
-    double aux                   = 0.0;
-    fichero_comp.read(reinterpret_cast<char *>(&aux), sizeof(double));
-    if (fabs(particulas.vel_x[identificador] - aux) >= epsilon) { return -3; }
-    fichero_comp.read(reinterpret_cast<char *>(&aux), sizeof(double));
-    if (fabs(particulas.vel_y[identificador] - aux) >= epsilon) { return -3; }
-    fichero_comp.read(reinterpret_cast<char *>(&aux), sizeof(double));
-    if (fabs(particulas.vel_z[identificador] - aux) >= epsilon) { return -3; }
-    fichero_comp.read(reinterpret_cast<char *>(&aux), sizeof(double));
-    return 0;
-  }
-
-  int read_acel_xyz(ifstream & fichero_comp, Particula & particulas) {
-    const double epsilon         = 0.000001;
-    const long int identificador = 0;
-    double aux                   = 0.0;
-    const int numb               = -5;
-    fichero_comp.read(reinterpret_cast<char *>(&aux), sizeof(double));
-    if (fabs(particulas.acel_x[identificador] - aux) >= epsilon) { return numb; }
-    fichero_comp.read(reinterpret_cast<char *>(&aux), sizeof(double));
-    if (fabs(particulas.acel_y[identificador] - aux) >= epsilon) { return numb; }
-    fichero_comp.read(reinterpret_cast<char *>(&aux), sizeof(double));
-    if (fabs(particulas.acel_z[identificador] - aux) >= epsilon) { return numb; }
-    fichero_comp.read(reinterpret_cast<char *>(&aux), sizeof(double));
-    return 0;
-  }
-  */
 
   //------------FUNCIONES AUXILIARES PARA LOS TEST UNITARIOS----------------
-
+  //Las funciones para los unitest hemos decidido que no pasen el clang-tidy
+  // ya que aumentaría la complejidad de la lectura del código al tener que dividir muchas funciones
+  //NOLINTBEGIN
   vector<float> vector_creacion() {
-    vector<float> parametros;
-    parametros.push_back(1.5);
-    parametros.push_back(2.5);
-    parametros.push_back(3.5);
-    parametros.push_back(4.5);
-    parametros.push_back(5.5);
-    parametros.push_back(6.5);
-    parametros.push_back(7.5);
-    parametros.push_back(8.5);
-    parametros.push_back(9.5);
-
-    return parametros;
+   vector<float> vec;
+   float sum = 1.0;
+   for (int i = 0; i <= 2*2*2; i++) {
+      vec.push_back(sum + static_cast<float>(1.0/2));
+      sum++;
+   }
+   return vec;
   }
 
   void archivo_creacion() {
@@ -322,49 +220,19 @@ namespace ficheros {
     prueba_escritura.close();
     parametros.clear();
   }
-/*
-  vector<double> comprobacion_lectura1() {
-    vector<double> comprobacion;
-    ifstream fichero_comprobacion;
-    fichero_comprobacion.open("prueba_es.fld", ios::binary);
-    comprobacion[0] = ficheros::lectura_float_to_double(fichero_comprobacion);
-    int aux         = 0;
-    // NOLINTNEXTLINE(cppcoreguidelines-pro-type-reinterpret-cast)
-    fichero_comprobacion.read(reinterpret_cast<char *>(&aux), sizeof(int));
-    comprobacion[1] = ficheros::lectura_float_to_double(fichero_comprobacion);
-    comprobacion[2] = ficheros::lectura_float_to_double(fichero_comprobacion);
-    comprobacion[3] = ficheros::lectura_float_to_double(fichero_comprobacion);
-    comprobacion[4] = ficheros::lectura_float_to_double(fichero_comprobacion);
-    comprobacion[5] = ficheros::lectura_float_to_double(fichero_comprobacion);
-    comprobacion[6] = ficheros::lectura_float_to_double(fichero_comprobacion);
-    comprobacion[7] = ficheros::lectura_float_to_double(fichero_comprobacion);
-    comprobacion[8] = ficheros::lectura_float_to_double(fichero_comprobacion);
-    comprobacion[9] = ficheros::lectura_float_to_double(fichero_comprobacion);
-    return comprobacion;
-  }
 
-  int comprobacion_lectura2() {
-    ifstream fichero_comprobacion;
-    fichero_comprobacion.open("prueba_es.fld", ios::binary);
-    double inn = 0.0;
-    int npart  = 0;
-    // NOLINTNEXTLINE(cppcoreguidelines-pro-type-reinterpret-cast)
-    fichero_comprobacion.read(reinterpret_cast<char *>(&inn), sizeof(double));
-    fichero_comprobacion.read(reinterpret_cast<char *>(&npart), sizeof(int));
-    return inn;
-  }
-*/
   void archivo_creacion_entero(int nps_in) {
     ofstream prueba_escritura;
     prueba_escritura.open("prueba_escr.fld", ios::binary);
-    const float ppm_in = 6.5;
+    float const ppm_in = 6.5;
     // Escribir el número en binario en el archivo
     auto aux_ppm = static_cast<float>(ppm_in);
     auto aux_nps = static_cast<int>(nps_in);
     prueba_escritura.write(ficheros::to_str(aux_ppm), sizeof(aux_ppm));
-    prueba_escritura.write(ficheros::to_str(aux_nps), sizeof(aux_nps));;
+    prueba_escritura.write(ficheros::to_str(aux_nps), sizeof(aux_nps));
+    ;
     vector<float> parametros = vector_creacion();
-    for(int i = 0; i < 2 ;i++) {
+    for (int i = 0; i < 2; i++) {
       auto aux = static_cast<float>(parametros[0]);
       prueba_escritura.write(ficheros::to_str(aux), sizeof(float));
       auto aux2 = static_cast<float>(parametros[1]);
@@ -387,6 +255,5 @@ namespace ficheros {
     prueba_escritura.close();
     parametros.clear();
   }
-}
-// NOLINTEND
-
+}  // namespace ficheros
+//NOLINTEND

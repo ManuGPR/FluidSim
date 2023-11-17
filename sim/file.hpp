@@ -28,21 +28,10 @@ namespace ficheros {
   char const * to_str(int & parameter);
   //@param1: parametro a castear a char*
   char const * to_str(float & parameter);
-  //void write_float(std::ostream&os,float value);
   //@param1: fichero de entrada, @param2: fichero con el que corregir
   int comparar_ficheros(ifstream & file_in, ifstream & file_corect);
-  //@param1: string con el nombre del fichero que modificar, @param2: número por el que cambiar nps
-  //int modificar_fichero(string & file_name, int nps_mod);
-  //@param1: fichero con el que comparar, @param2: partículas con las que comparar
-  //int trazas(ifstream & fichero_comp, Particula & particula);
-  //int read_pos_xyz (ifstream & fichero_comp, Particula & particulas);
-  //int read_hv_xyz (ifstream & fichero_comp, Particula & particulas);
-  //int read_vel_xyz (ifstream & fichero_comp, Particula & particulas);
-  //int read_acel_xyz (ifstream & fichero_comp, Particula & particulas);
   vector<float> vector_creacion();
   void archivo_creacion();
-  //vector<double> comprobacion_lectura1();
-  //int comprobacion_lectura2();
   void archivo_creacion_entero(int nps_in) ;
 }  // namespace ficheros
 
