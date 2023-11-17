@@ -31,6 +31,10 @@ namespace entry {
     //Hace el cast a entero
     int const number_nts = stoi(arguments);
     //Si ha dado un error
+    if(number_nts <=0){
+      cerr << "Invalid number of time steps. \n";
+      return -2;
+    }
     return number_nts;
   }
 

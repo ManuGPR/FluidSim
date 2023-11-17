@@ -47,7 +47,7 @@ namespace ficheros {
       np_real++;
     }
     if (np_real - 1 != np) {
-      cerr << " Number of particles mismatch. Header: " << np << ", Found:" << np_real << "\n";
+      cerr << " Number of particles mismatch. Header: " << np << ", Found:" << np_real - 1 << "\n";
       return bad_return;
     }
     return 0;
@@ -142,6 +142,12 @@ namespace ficheros {
     const char * value = reinterpret_cast<const char *>(&parameter);
     return value;
   }
+/*
+  void read_float(std::istream&is,float value) {
+    //NOLINTNEXTLINE(cppcoreguidelines-pro-type-reinterpret-cast)
+    is.read(reinterpret_cast<char*>(&value),sizeof(value));
+  };*/
+
 
   //------------FUNCIONES AUXILIARES PARA LOS TEST FUNCIONALES---------------
 
@@ -165,27 +171,32 @@ namespace ficheros {
     }
     return 0;
   }
-
+  /*
   // Función que modifica un fichero (Usada para los tests)
   int modificar_fichero(string & file_name, int nps_mod) {
     ofstream file_out;
     file_out.open("small_modificado.fld", ios::binary);
-    ifstream file_in;
-    file_in.open(file_name, ios::binary);
-    int nps         = 0;
+    //ifstream file_in;
+    //file_in.open(file_name, ios::binary);
+    //int nps         = 0;
     float ppm_float = 0.0;
-    file_in.read(reinterpret_cast<char *>(&ppm_float), sizeof(float));
+    //file_in.read(reinterpret_cast<char *>(&ppm_float), sizeof(float));
     file_out.write(to_str(ppm_float), sizeof(float));
-    file_in.read(reinterpret_cast<char *>(&nps), sizeof(int));
+    //file_in.read(reinterpret_cast<char *>(&nps), sizeof(int));
     file_out.write(to_str(nps_mod), sizeof(int));
-    float aux_float = 0.0;
-    while (!file_in.eof()) {
-      file_in.read(reinterpret_cast<char *>(&aux_float), sizeof(float));
+    //float aux_float = 0.0;
+
+    while(!file_in.eof()){
+      //file_in.read(reinterpret_cast<char *>(&aux_float), sizeof(float));
       file_out.write(to_str(aux_float), sizeof(float));
     }
-    file_in.close();
+
+
+    //file_in.close();
     file_out.close();
-    return 0;
+    string a = file_name;
+    return nps_mod;
+    //return 0;
   }
 
   // Función que compara un fichero de trazas con unas partículas
@@ -264,6 +275,7 @@ namespace ficheros {
     fichero_comp.read(reinterpret_cast<char *>(&aux), sizeof(double));
     return 0;
   }
+  */
 
   //------------FUNCIONES AUXILIARES PARA LOS TEST UNITARIOS----------------
 
@@ -338,5 +350,40 @@ namespace ficheros {
     fichero_comprobacion.read(reinterpret_cast<char *>(&npart), sizeof(int));
     return inn;
   }
+*/
+  void archivo_creacion_entero(int nps_in) {
+    ofstream prueba_escritura;
+    prueba_escritura.open("prueba_escr.fld", ios::binary);
+    const float ppm_in = 6.5;
+    // Escribir el número en binario en el archivo
+    auto aux_ppm = static_cast<float>(ppm_in);
+    auto aux_nps = static_cast<int>(nps_in);
+    prueba_escritura.write(ficheros::to_str(aux_ppm), sizeof(aux_ppm));
+    prueba_escritura.write(ficheros::to_str(aux_nps), sizeof(aux_nps));;
+    vector<float> parametros = vector_creacion();
+    for(int i = 0; i < 2 ;i++) {
+      auto aux = static_cast<float>(parametros[0]);
+      prueba_escritura.write(ficheros::to_str(aux), sizeof(float));
+      auto aux2 = static_cast<float>(parametros[1]);
+      prueba_escritura.write(ficheros::to_str(aux2), sizeof(float));
+      auto aux3 = static_cast<float>(parametros[2]);
+      prueba_escritura.write(ficheros::to_str(aux3), sizeof(float));
+      auto aux4 = static_cast<float>(parametros[3]);
+      prueba_escritura.write(ficheros::to_str(aux4), sizeof(float));
+      auto aux5 = static_cast<float>(parametros[4]);
+      prueba_escritura.write(ficheros::to_str(aux5), sizeof(float));
+      auto aux6 = static_cast<float>(parametros[5]);
+      prueba_escritura.write(ficheros::to_str(aux6), sizeof(float));
+      auto aux7 = static_cast<float>(parametros[6]);
+      prueba_escritura.write(ficheros::to_str(aux7), sizeof(float));
+      auto aux8 = static_cast<float>(parametros[7]);
+      prueba_escritura.write(ficheros::to_str(aux8), sizeof(float));
+      auto aux9 = static_cast<float>(parametros[8]);
+      prueba_escritura.write(ficheros::to_str(aux9), sizeof(float));
+    }
+    prueba_escritura.close();
+    parametros.clear();
+  }
 }
 // NOLINTEND
+

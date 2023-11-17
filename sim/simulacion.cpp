@@ -20,7 +20,7 @@ namespace sim {
     block::num_bloques(malla.num_bloques, constantes.h);
     block::tam_bloques(malla.tam_bloques, malla.num_bloques);
     struct Particula particulas(nps);                  // Inicialización de las partículas
-    ficheros::lectura_file(file_in, nps, particulas);  // Lectura del fichero
+    if (ficheros::lectura_file(file_in, nps, particulas) == -5){return -5;};  // Lectura del fichero
     int const total_bloques = block::total_bloques(malla.num_bloques);
     vector<struct block::Bloque> vector_bloques;  // Inicialización y creación de los bloques
     block::crear_bloques(vector_bloques, total_bloques, malla.num_bloques);
