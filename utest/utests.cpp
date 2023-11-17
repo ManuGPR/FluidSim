@@ -634,7 +634,7 @@ TEST(trans_densidad,4){
 }
 
 //Comprobacion funcion trans_acele cmprobacion del parametro diferencia
-TEST(trans_acele, 1){
+TEST(trans_acelec, 1){
   const double uno = 0.1;
   const double dos = 0.2;
   const double  tres = 0.3;
@@ -860,6 +860,228 @@ TEST(trans_acelec, 7){
   ASSERT_EQ(0 , result );
 }
 
+//Particula en cordenada x 0 que no interacciona
+TEST(col_x,1){
+  double const epsilon = 0.0000001;
+  Particula particulas(1);
+  particulas.pos_x[0] = 0.0;
+  particulas.hv_x[0] = 0.0;
+  particulas.vel_x[0] = 0.0;
+  particulas.acel_x[0] = 0.0;
+  particulas.loc_x[0] = 0;
+  calc::col_x(particulas,0);
+  const double calculo = 0.0;
+  int result = 0;
+  if (fabs(calculo - particulas.acel_x[0]) >= epsilon){
+    result = -1;
+  }
+  ASSERT_EQ(0, result);
+}
+
+//Particula en cordenada x 2(considerada num_bloque -1 en este test) que no interacciona
+TEST(col_x,2){
+  double const epsilon = 0.0000001;
+  Particula particulas(1);
+  particulas.pos_x[0] = 0.0;
+  particulas.hv_x[0] = 0.0;
+  particulas.vel_x[0] = 0.0;
+  particulas.acel_x[0] = 0.0;
+  particulas.loc_x[0] = 2;
+  calc::col_x(particulas,0);
+  const double calculo = 0.0;
+  int result = 0;
+  if (fabs(calculo - particulas.acel_x[0]) >= epsilon){
+    result = -1;
+  }
+  ASSERT_EQ(0, result);
+}
+
+//Particula fuera de la malla por vector pos_x negativo
+TEST(col_x,3){
+  double const epsilon = 0.0000000001;
+  double const posicion = -0.07;
+  Particula particulas(1);
+  particulas.pos_x[0] = posicion;
+  particulas.hv_x[0] = 0.0;
+  particulas.vel_x[0] = 0.0;
+  particulas.acel_x[0] = 0.0;
+  particulas.loc_x[0] = 0;
+  calc::col_x(particulas,0);
+  const double calculo = 156.0;
+  int result = 0;
+  if (fabs(calculo - particulas.acel_x[0]) >= epsilon){
+    result = -1;
+  }
+  ASSERT_EQ(0, result);
+}
+
+//Particula fuera de la malla por vector pos_x positivo
+TEST(col_x,4){
+  double const epsilon = 0.0000000001;
+  double const posicion = 0.08;
+  Particula particulas(1);
+  particulas.pos_x[0] = posicion;
+  particulas.hv_x[0] = 0.0;
+  particulas.vel_x[0] = 0.0;
+  particulas.acel_x[0] = 0.0;
+  particulas.loc_x[0] = 2;
+  calc::col_x(particulas,0);
+  const double calculo = -456.0;
+  int result = 0;
+  if (fabs(calculo - particulas.acel_x[0]) >= epsilon){
+    result = -1;
+  }
+  ASSERT_EQ(0, result);
+}
+
+//Particula en cordenada y 0 que no interacciona
+TEST(col_y,1){
+  double const epsilon = 0.0000001;
+  Particula particulas(1);
+  particulas.pos_y[0] = 0.0;
+  particulas.hv_y[0] = 0.0;
+  particulas.vel_y[0] = 0.0;
+  particulas.acel_y[0] = 0.0;
+  particulas.loc_y[0] = 0;
+  calc::col_y(particulas,0);
+  const double calculo = 0.0;
+  int result = 0;
+  if (fabs(calculo - particulas.acel_y[0]) >= epsilon){
+    result = -1;
+  }
+  ASSERT_EQ(0, result);
+}
+
+//Particula en cordenada y 2(considerada num_bloque -1 en este test) que no interacciona
+TEST(col_y,2){
+  double const epsilon = 0.0000001;
+  Particula particulas(1);
+  particulas.pos_y[0] = 0.0;
+  particulas.hv_y[0] = 0.0;
+  particulas.vel_y[0] = 0.0;
+  particulas.acel_y[0] = 0.0;
+  particulas.loc_y[0] = 2;
+  calc::col_y(particulas,0);
+  const double calculo = 0.0;
+  int result = 0;
+  if (fabs(calculo - particulas.acel_y[0]) >= epsilon){
+    result = -1;
+  }
+  ASSERT_EQ(0, result);
+}
+
+//Particula fuera de la malla por vector pos_x negativo
+TEST(col_y,3){
+  double const epsilon = 0.0000000001;
+  double const posicion = -0.09;
+  Particula particulas(1);
+  particulas.pos_y[0] = posicion;
+  particulas.hv_y[0] = 0.0;
+  particulas.vel_y[0] = 0.0;
+  particulas.acel_y[0] = 0.0;
+  particulas.loc_y[0] = 0;
+  calc::col_y(particulas,0);
+  const double calculo = 306.0;
+  int result = 0;
+  if (fabs(calculo - particulas.acel_y[0]) >= epsilon){
+    result = -1;
+  }
+  ASSERT_EQ(0, result);
+}
+
+//Particula fuera de la malla por vector pos_x positivo
+TEST(col_y,4){
+  double const epsilon = 0.0000000001;
+  double const posicion = 0.12;
+  Particula particulas(1);
+  particulas.pos_y[0] = posicion;
+  particulas.hv_y[0] = 0.0;
+  particulas.vel_y[0] = 0.0;
+  particulas.acel_y[0] = 0.0;
+  particulas.loc_y[0] = 2;
+  calc::col_y(particulas,0);
+  const double calculo = -606.0;
+  int result = 0;
+  if (fabs(calculo - particulas.acel_y[0]) >= epsilon){
+    result = -1;
+  }
+  ASSERT_EQ(0, result);
+}
+
+//Particula en cordenada z 0 que no interacciona
+TEST(col_z,1){
+  double const epsilon = 0.0000001;
+  Particula particulas(1);
+  particulas.pos_z[0] = 0.0;
+  particulas.hv_z[0] = 0.0;
+  particulas.vel_z[0] = 0.0;
+  particulas.acel_z[0] = 0.0;
+  particulas.loc_z[0] = 0;
+  calc::col_z(particulas,0);
+  const double calculo = 0.0;
+  int result = 0;
+  if (fabs(calculo - particulas.acel_z[0]) >= epsilon){
+    result = -1;
+  }
+  ASSERT_EQ(0, result);
+}
+
+//Particula en cordenada z 2(considerada num_bloque -1 en este test) que no interacciona
+TEST(col_z,2){
+  double const epsilon = 0.0000001;
+  Particula particulas(1);
+  particulas.pos_z[0] = 0.0;
+  particulas.hv_z[0] = 0.0;
+  particulas.vel_z[0] = 0.0;
+  particulas.acel_z[0] = 0.0;
+  particulas.loc_z[0] = 2;
+  calc::col_z(particulas,0);
+  const double calculo = 0.0;
+  int result = 0;
+  if (fabs(calculo - particulas.acel_z[0]) >= epsilon){
+    result = -1;
+  }
+  ASSERT_EQ(0, result);
+}
+
+//Particula fuera de la malla por vector pos_x negativo
+TEST(col_z,3){
+  double const epsilon = 0.0000000001;
+  double const posicion = -0.07;
+  Particula particulas(1);
+  particulas.pos_z[0] = posicion;
+  particulas.hv_z[0] = 0.0;
+  particulas.vel_z[0] = 0.0;
+  particulas.acel_z[0] = 0.0;
+  particulas.loc_z[0] = 0;
+  calc::col_z(particulas,0);
+  const double calculo = 156.0;
+  int result = 0;
+  if (fabs(calculo - particulas.acel_z[0]) >= epsilon){
+    result = -1;
+  }
+  ASSERT_EQ(0, result);
+}
+
+//Particula fuera de la malla por vector pos_x positivo
+TEST(col_z,4){
+  double const epsilon = 0.0000000001;
+  double const posicion = 0.08;
+  Particula particulas(1);
+  particulas.pos_z[0] = posicion;
+  particulas.hv_z[0] = 0.0;
+  particulas.vel_z[0] = 0.0;
+  particulas.acel_z[0] = 0.0;
+  particulas.loc_z[0] = 2;
+  calc::col_z(particulas,0);
+  const double calculo = -456.0;
+  int result = 0;
+  if (fabs(calculo - particulas.acel_z[0]) >= epsilon){
+    result = -1;
+  }
+  ASSERT_EQ(0, result);
+}
+
 //Comprobacion funcion mov_part, compracbion pos_x[0]
 TEST(mov_part,1){
   double const epsilon = 0.0000001;
@@ -1013,6 +1235,24 @@ TEST(mov_part,9){
   particulas.acel_z[0] = 1.0;
   calc::mov_part(particulas,0);
   ASSERT_EQ(1.001 , particulas.hv_z[0]);
+}
+
+//Particula en cordenada z 0 que no interacciona
+TEST(int_x,1){
+  double const epsilon = 0.0000001;
+  Particula particulas(1);
+  particulas.pos_x[0] = 0.0;
+  particulas.hv_x[0] = 0.0;
+  particulas.vel_x[0] = 0.0;
+  particulas.acel_x[0] = 0.0;
+  particulas.loc_x[0] = 0;
+  calc::int_x(particulas,0);
+  const double calculo = 0.0;
+  int result = 0;
+  if (fabs(calculo - particulas.acel_x[0]) >= epsilon){
+    result = -1;
+  }
+  ASSERT_EQ(0, result);
 }
 
 //Comprobacion funcion lectura_cabecera, comprobacion nps
