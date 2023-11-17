@@ -5,11 +5,13 @@ using namespace std;
 namespace calc {
   // Función que calcula los operandos de las ecuaciones
   int calcular_operandos(double & masa, double & h, vector<double> & operandos) {
+    // Calcula los operandos y los guardas en variables
     double const op_1 = ((315 * masa) / (64 * std::numbers::pi * pow(h, 9.0)));
     double const op_2 = pow(h, 6) * op_1;
     double const op_3 = (15 * masa * 3 * presion_de_rigidez) / (std::numbers::pi * pow(h, 6.0) * 2);
     double const op_4 = (45 / (std::numbers::pi * pow(h, 6.0))) * viscosidad * masa;
     double const h_c  = h * h;
+    // Hace push back al vector de los operandos
     operandos.push_back(op_1);
     operandos.push_back(op_2);
     operandos.push_back(op_3);
@@ -20,17 +22,19 @@ namespace calc {
 
   // Función que inicializa la densidad y la aceleración de las partículas (Paso 4.3.2.1)
   int inicializar_dens_acel(Particula & part, int id_p) {
+    // Inicializa las variables de las aceleraciones a las constantes
     part.acel_x[id_p] = gravedad_x;
     part.acel_y[id_p] = gravedad_y;
     part.acel_z[id_p] = gravedad_z;
-    part.dens[id_p]   = 0.0;
+    // Inicializa la densidad a 0
+    part.dens[id_p] = 0.0;
     return 0;
   }
 
   // Función que incrementa las densidades (Paso 4.3.2.2)
   void incremento_densidades(Particula & part, double & operandos, vector<int> const & id_p,
                              double & diferencia) {
-    // particula i== id_p[0] y particula j == id_p[1]
+    // Calcula el incremenento a sumar a la densidad de las partículas
     double const incremento =
         (operandos - diferencia) * (operandos - diferencia) * (operandos - diferencia);
     part.dens[id_p[0]] += incremento;
@@ -45,13 +49,16 @@ namespace calc {
   // Función que realiza la transferencia de aceleración (Paso 4.3.2.4)
   inline void trans_acele(Particula & part, vector<int> const & id_p, Constantes & constantes,
                           double const & diferencia) {
+    // Calcula la distancia
     double const distancia = sqrt(max(diferencia, 1e-12));
+    // Calcula un operando y un denominador
     double const operando_1 =
         constantes.operandos[2] *
         ((constantes.h - distancia) * (constantes.h - distancia) / distancia) *
         (part.dens[id_p[0]] + part.dens[id_p[1]] - 2 * densidad_de_fluido);
     double const denominador = part.dens[id_p[0]] * part.dens[id_p[1]];
-    double const acl_x       = ((part.pos_x[id_p[0]] - part.pos_x[id_p[1]]) * operando_1 +
+    // Calculas las aceleraciones y las sumas o restas
+    double const acl_x = ((part.pos_x[id_p[0]] - part.pos_x[id_p[1]]) * operando_1 +
                           (part.vel_x[id_p[1]] - part.vel_x[id_p[0]]) * constantes.operandos[3]) /
                          denominador;
     double const acl_y = ((part.pos_y[id_p[0]] - part.pos_y[id_p[1]]) * operando_1 +
@@ -70,6 +77,7 @@ namespace calc {
 
   // Función que llama a mov_part, col_x, col_y y col_z
   int col_mov(Particula & part, vector<int> const & num_bloques, int id_p) {
+    // Si hay alguna partícula en un extremo, calcula su colisión
     if ((part.loc_x[id_p] == 0) || (part.loc_x[id_p] == (num_bloques[0] - 1))) {
       calc::col_x(part, id_p);
     }
@@ -79,12 +87,14 @@ namespace calc {
     if ((part.loc_z[id_p] == 0) || (part.loc_z[id_p] == (num_bloques[2] - 1))) {
       calc::col_z(part, id_p);
     }
+    // Actualiza los parámetros de la partícula
     calc::mov_part(part, id_p);
     return 0;
   }
 
   // Función grande que llama int_x, int_y e int_z
   int interaccion(Particula & part, vector<int> const & num_bloques, int id_p) {
+    // Si hay alguna partícula en un extremo, calcula su interacción
     if ((part.loc_x[id_p] == 0) || (part.loc_x[id_p] == (num_bloques[0] - 1))) {
       calc::int_x(part, id_p);
     }
@@ -99,6 +109,7 @@ namespace calc {
 
   // Función que realiza la actualización de la vel, pos y hv (Paso 4.3.4)
   int mov_part(Particula & part, int id_p) {
+    // Actualiza la pos, vel y h_v de la partícula
     part.pos_x[id_p] = part.pos_x[id_p] + part.hv_x[id_p] * paso_tiempo +
                        part.acel_x[id_p] * paso_tiempo * paso_tiempo;
     part.pos_y[id_p] = part.pos_y[id_p] + part.hv_y[id_p] * paso_tiempo +
@@ -120,13 +131,16 @@ namespace calc {
   int col_x(Particula & part, int id_p) {
     double const nueva_x = part.pos_x[id_p] + part.hv_x[id_p] * paso_tiempo;
     double dist_x        = tamano_particulas;
+    // Si está en el borde inferior
     if (part.loc_x[id_p] == 0) {
       dist_x -= (nueva_x - lim_inf_x);
+      // Si la distancia es lo suficientemente grande
       if (dist_x > distancia_minima) {
         part.acel_x[id_p] += (s_c * dist_x - d_v * part.vel_x[id_p]);
       }
     } else {
       dist_x -= (lim_sup_x - nueva_x);
+      // Si la distancia es lo suficientemente grande
       if (dist_x > distancia_minima) {
         part.acel_x[id_p] -= (s_c * dist_x + d_v * part.vel_x[id_p]);
       }
@@ -137,13 +151,16 @@ namespace calc {
   int col_y(Particula & part, int id_p) {
     double const nueva_y = part.pos_y[id_p] + part.hv_y[id_p] * paso_tiempo;
     double dist_y        = tamano_particulas;
+    // Si está en el borde inferior
     if (part.loc_y[id_p] == 0) {
       dist_y -= (nueva_y - lim_inf_y);
+      // Si la distancia es lo suficientemente grande
       if (dist_y > distancia_minima) {
         part.acel_y[id_p] += (s_c * dist_y - d_v * part.vel_y[id_p]);
       }
     } else {
       dist_y -= (lim_sup_y - nueva_y);
+      // Si la distancia es lo suficientemente grande
       if (dist_y > distancia_minima) {
         part.acel_y[id_p] -= (s_c * dist_y + d_v * part.vel_y[id_p]);
       }
@@ -154,13 +171,16 @@ namespace calc {
   int col_z(Particula & part, int id_p) {
     double const nueva_z = part.pos_z[id_p] + part.hv_z[id_p] * paso_tiempo;
     double dist_z        = tamano_particulas;
+    // Si está en el borde inferior
     if (part.loc_z[id_p] == 0) {
       dist_z = dist_z - (nueva_z - lim_inf_z);
+      // Si la distancia es lo suficientemente grande
       if (dist_z > distancia_minima) {
         part.acel_z[id_p] += (s_c * dist_z - d_v * part.vel_z[id_p]);
       }
     } else {
       dist_z = dist_z - (lim_sup_z - nueva_z);
+      // Si la distancia es lo suficientemente grande
       if (dist_z > distancia_minima) {
         part.acel_z[id_p] -= (s_c * dist_z + d_v * part.vel_z[id_p]);
       }
@@ -170,8 +190,10 @@ namespace calc {
 
   // Funciones vectoriales que realizan la colisión entre partículas (Paso 4.3.5)
   int int_x(Particula & part, int id_p) {
+    // Si está en en el borde inferior
     if (part.loc_x[id_p] == 0) {
       double const dist_x = part.pos_x[id_p] - lim_inf_x;
+      // Si la distancia es negativa
       if (dist_x < 0) {
         part.pos_x[id_p] = lim_inf_x - dist_x;
         part.vel_x[id_p] = -part.vel_x[id_p];
@@ -179,6 +201,7 @@ namespace calc {
       }
     } else {
       double const dist_x = lim_sup_x - part.pos_x[id_p];
+      // Si la distancia es negativa
       if (dist_x < 0) {
         part.pos_x[id_p] = lim_sup_x + dist_x;
         part.vel_x[id_p] = -part.vel_x[id_p];
@@ -189,8 +212,10 @@ namespace calc {
   }
 
   int int_y(Particula & part, int id_p) {
+    // Si está en un borde inferior
     if (part.loc_y[id_p] == 0) {
       double const dist_y = part.pos_y[id_p] - lim_inf_y;
+      // Si la distancia es negativa
       if (dist_y < 0) {
         part.pos_y[id_p] = lim_inf_y - dist_y;
         part.vel_y[id_p] = -part.vel_y[id_p];
@@ -198,6 +223,7 @@ namespace calc {
       }
     } else {
       double const dist_y = lim_sup_y - part.pos_y[id_p];
+      // Si la distancia es negativa
       if (dist_y < 0) {
         part.pos_y[id_p] = lim_sup_y + dist_y;
         part.vel_y[id_p] = -part.vel_y[id_p];
@@ -208,8 +234,10 @@ namespace calc {
   }
 
   int int_z(Particula & part, int id_p) {
+    // Si está en un borde inferior
     if (part.loc_z[id_p] == 0) {
       double const dist_z = part.pos_z[id_p] - lim_inf_z;
+      // Si la distancia es negativa
       if (dist_z < 0) {
         part.pos_z[id_p] = lim_inf_z - dist_z;
         part.vel_z[id_p] = -part.vel_z[id_p];
@@ -217,6 +245,7 @@ namespace calc {
       }
     } else {
       double const dist_z = lim_sup_z - part.pos_z[id_p];
+      // Si la distancia es negativa
       if (dist_z < 0) {
         part.pos_z[id_p] = lim_sup_z + dist_z;
         part.vel_z[id_p] = -part.vel_z[id_p];
@@ -231,15 +260,20 @@ namespace calc {
                 vector<block::Bloque> & bloques) {
     for (int time = constantes.nts; time > 0; time--) {
       block::loc_particula_bucle(particulas, malla, malla.num_bloques, bloques);  // actualizacion
-      int const num_bloques_total = block::total_bloques(malla.num_bloques);
-      int const it_bloque         = num_bloques_total - 1;
+      int const num_bloques_total = block::total_bloques(malla.num_bloques);  // calcula num bloques
+      int const it_bloque = num_bloques_total - 1;  // Calcula las iteraciones de los bucles grandes
+      // Inicializar la densidad y la aceleración de las partículas
       for (int i = malla.nps - 1; i >= 0; i--) { calc::inicializar_dens_acel(particulas, i); }
+      // Llamada al incremento de densidades
       calc::bucle_incremento_densidades(particulas, constantes, bloques, it_bloque);
+      // Transformación de la densidad
       for (int part_1 = malla.nps - 1; part_1 >= 0; part_1--) {
         particulas.dens[part_1] = calc::trans_densidad(
             particulas.dens[part_1], constantes.operandos[0], constantes.operandos[1]);
       }
+      // Transferencia de aceleración
       calc::bucle_trans(particulas, constantes, bloques, it_bloque);
+      // LLamada a la actualización de los parámetros de las partículas y la interacción con bordes
       for (int part_1 = 0; part_1 < malla.nps; ++part_1) {
         calc::col_mov(particulas, malla.num_bloques, part_1);
         calc::interaccion(particulas, malla.num_bloques, part_1);
@@ -251,11 +285,14 @@ namespace calc {
   // Función que se encarga de realizar la parte explicada en el punto 4.3.2.4
   int bucle_trans(Particula & particulas, Constantes & constantes, vector<block::Bloque> & bloques,
                   int it_bloque) {
+    // Iterar los bloques, bloques contiguos, particulas del bloque inicial y las del contiguo
     for (int bloque = it_bloque; bloque >= 0; bloque--) {
       for (int const bloques_cont : bloques[bloque].bloque_contiguo) {
         for (int const part_1 : bloques[bloque].lista_particulas) {
           for (int const part_2 : bloques[bloques_cont].lista_particulas) {
+            //If que sirve para que la interacción de partículas sea i->j y no se haga j->i
             if (part_1 < part_2) {
+              //Calculo de la diferencia fuera, si no es grande no se llama a la función
               double const diferencia = (particulas.pos_x[part_1] - particulas.pos_x[part_2]) *
                                             (particulas.pos_x[part_1] - particulas.pos_x[part_2]) +
                                         (particulas.pos_y[part_1] - particulas.pos_y[part_2]) *
@@ -277,10 +314,12 @@ namespace calc {
   // Función que se encarga de realizar la parte explicada en el punto 4.3.2.2
   int bucle_incremento_densidades(Particula & particulas, Constantes & constantes,
                                   vector<block::Bloque> & bloques, int it_bloque) {
+    //Iterar por bloque, bloque contiguo, partículas del bloque inicial y del contiguo
     for (int bloque = it_bloque; bloque >= 0; bloque--) {
       for (int const part_1 : bloques[bloque].lista_particulas) {
         for (int const bloques_cont : bloques[bloque].bloque_contiguo) {
           for (int const part_2 : bloques[bloques_cont].lista_particulas) {
+            //If para ver que se hace solo i->j, no j->i
             if (part_1 < part_2) {
               double diferencia = ((particulas.pos_x[part_1] - particulas.pos_x[part_2]) *
                                    (particulas.pos_x[part_1] - particulas.pos_x[part_2])) +
@@ -288,6 +327,7 @@ namespace calc {
                                    (particulas.pos_y[part_1] - particulas.pos_y[part_2])) +
                                   ((particulas.pos_z[part_1] - particulas.pos_z[part_2]) *
                                    (particulas.pos_z[part_1] - particulas.pos_z[part_2]));
+              //Si la diferencia no es grande, no se llama a la función
               if (diferencia < constantes.operandos[4]) {
                 vector<int> const part = {part_1, part_2};
                 calc::incremento_densidades(particulas, constantes.operandos[4], part, diferencia);

@@ -3,6 +3,7 @@
 namespace block {
   // Función que calcula el número de bloques
   int num_bloques(vector<int> & num_bloques, double & h) {
+    //Calcula el número de bloques y los guarda en el vector
     num_bloques.push_back(floor((lim_sup_x - lim_inf_x) / h));
     num_bloques.push_back(floor((lim_sup_y - lim_inf_y) / h));
     num_bloques.push_back(floor((lim_sup_z - lim_inf_z) / h));
@@ -11,6 +12,7 @@ namespace block {
 
   // Funcion que calcula el tamaño de bloques
   int tam_bloques(vector<double> & tam_bloques, vector<int> & num_bloques) {
+    //Calcula el tamaño de bloques y los guarda en el vector
     tam_bloques.push_back((lim_sup_x - lim_inf_x) / num_bloques[0]);
     tam_bloques.push_back((lim_sup_y - lim_inf_y) / num_bloques[1]);
     tam_bloques.push_back((lim_sup_z - lim_inf_z) / num_bloques[2]);
@@ -20,8 +22,10 @@ namespace block {
   // Función que localiza todas las partículas
   int loc_particula_bucle(struct Particula & particulas, struct Enclosure3D & malla,
                           vector<int> & num_bloques, vector<struct Bloque> & bloques) {
+    //Calcula el numero de bloques total y reinicia la lista de partículas
     int const num_bloques_total = num_bloques[0] * num_bloques[1] * num_bloques[2];
     for (int i = 0; i < num_bloques_total; i++) { bloques[i].lista_particulas.clear(); }
+    //Calcula la localización de la partícula y la guarda en el bloque
     for (int i = 0; i < malla.nps; i++) {
       particulas.loc_x[i] =
           loc_particula_x(particulas.pos_x[i], malla.tam_bloques[0], num_bloques[0]);
@@ -39,6 +43,7 @@ namespace block {
 
   // Funciones que localizan la partícula
   inline int loc_particula_x(double & pos, double & tam_bloques, int num_bloque) {
+    //Calcula la localización y la ajusta si se sale
     int loc = floor((pos - lim_inf_x) / tam_bloques);
     if (loc < 0) {
       loc = 0;
@@ -49,6 +54,7 @@ namespace block {
   }
 
   inline int loc_particula_y(double & pos, double & tam_bloques, int num_bloque) {
+    //Calcula la localización y la ajusta si se sale
     int loc = floor((pos - lim_inf_y) / tam_bloques);
     if (loc < 0) {
       loc = 0;
@@ -59,6 +65,7 @@ namespace block {
   }
 
   inline int loc_particula_z(double & pos, double & tam_bloques, int num_bloque) {
+    //Calcula la localización y la ajusta si se sale
     int loc = floor((pos - lim_inf_z) / tam_bloques);
     if (loc < 0) {
       loc = 0;
@@ -75,8 +82,10 @@ namespace block {
 
   // Función que crea los bloques
   int crear_bloques(vector<struct Bloque> & bloques, int total_bloques, vector<int> & num_bloques) {
+    // Crea una estructura auxiliar y la inicializa
     struct Aux auxiliar(total_bloques);
     crear_auxiliar(num_bloques, auxiliar);
+    //Rellena el vector de bloques con bloques con la información de partículas y bloques contiguos
     for (int i = 0; i < total_bloques; i++) {
       struct Bloque bloque_i;
       for (int j = 0; j < total_bloques; j++) {
@@ -96,6 +105,7 @@ namespace block {
 
   // Función que crea la struct auxiliar
   int crear_auxiliar(vector<int> & num_bloques, struct Aux & auxiliar) {
+    //Función que inicializa la estructura de bloques
     for (int k = 0; k < num_bloques[2]; k++) {
       for (int j = 0; j < num_bloques[1]; j++) {
         for (int i = 0; i < num_bloques[0]; i++) {

@@ -6,6 +6,7 @@ namespace entry {
   // Función que checkea los argumentos de entrada
   int check_args(vector<std::string> const & arguments) {
     size_t const size = arguments.size();
+    // Si no hay tres argumentos
     if (size != 3) {
       cerr << "Invalid number of arguments " << size << '\n';
       return -1;
@@ -16,8 +17,10 @@ namespace entry {
   // Función que checkea el número de pasos de tiempo
   int check_nts(string const & arguments) {
     for (auto digit : arguments) {
+      //Si el char no es un dígito
       if (isdigit(digit) == 0) {
-        if ('-' == digit) {
+        //Si es un símbolo de menos
+        if ('-' == arguments[0]) {
           cerr << "Invalid number of time steps.\n";
           return -2;
         }
@@ -25,11 +28,9 @@ namespace entry {
         return -1;
       }
     }
+    //Hace el cast a entero
     int const number_nts = stoi(arguments);
-    if (number_nts <= 0) {
-      cerr << "Invalid number of time steps.\n";
-      return -2;
-    }
+    //Si ha dado un error
     return number_nts;
   }
 
@@ -66,7 +67,7 @@ namespace entry {
       std::cerr << "El numero de particulas es negativo\n";
       return bad_return;
     }
-    return 0;  // No se si devolver el numero de particulas
+    return 0;
   }
 
   // Función de checkeo maestra, que llama al resto de funciones
