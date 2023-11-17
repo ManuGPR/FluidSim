@@ -15,6 +15,7 @@ constexpr double viscosidad         = 0.4;
 constexpr double tamano_particulas  = 2e-4;
 constexpr double paso_tiempo        = 1e-3;
 constexpr double distancia_minima   = 1e-10;
+const int cinco =-5;
 
 // Constantes vectoriales de la simulación
 constexpr double lim_inf_x = -0.065, lim_sup_x = 0.065;
