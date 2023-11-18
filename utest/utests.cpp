@@ -1082,7 +1082,7 @@ TEST(col_z,4){
   ASSERT_EQ(0, result);
 }
 
-//Comprobacion funcion mov_part, compracbion pos_x[0]
+//Comprobacion funcion mov_part, comprobacion pos_x[0]
 TEST(mov_part,1){
   double const epsilon = 0.0000001;
   Particula particulas(1);
@@ -1104,7 +1104,7 @@ TEST(mov_part,1){
   ASSERT_EQ(0 , result );
 }
 
-//Comprobacion funcion mov_part, compracbion pos_y[0]
+//Comprobacion funcion mov_part, comprobacion pos_y[0]
 TEST(mov_part,2){
   double const epsilon = 0.0000001;
   Particula particulas(1);
@@ -1125,7 +1125,7 @@ TEST(mov_part,2){
   }
   ASSERT_EQ(0 , result );
 }
-//Comprobacion funcion mov_part, compracbion pos_z[0]
+//Comprobacion funcion mov_part, comprobacion pos_z[0]
 TEST(mov_part,3){
   double const epsilon = 0.0000001;
   Particula particulas(1);
@@ -1146,7 +1146,7 @@ TEST(mov_part,3){
   }
   ASSERT_EQ(0 , result );
 }
-//Comprobacion funcion mov_part, compracbion vel_x[0]
+//Comprobacion funcion mov_part, comprobacion vel_x[0]
 TEST(mov_part,4){
   Particula particulas(1);
   particulas.pos_x[0] = 1.0;
@@ -1161,7 +1161,7 @@ TEST(mov_part,4){
   calc::mov_part(particulas,0);
   ASSERT_EQ(1.0005 , particulas.vel_x[0]);
 }
-//Comprobacion funcion mov_part, compracbion vel_y[0]
+//Comprobacion funcion mov_part, comprobacion vel_y[0]
 TEST(mov_part,5){
   Particula particulas(1);
   particulas.pos_x[0] = 1.0;
@@ -1176,7 +1176,7 @@ TEST(mov_part,5){
   calc::mov_part(particulas,0);
   ASSERT_EQ(1.0005 , particulas.vel_y[0]);
 }
-//Comprobacion funcion mov_part, compracbion vel_z[0]
+//Comprobacion funcion mov_part, comprobacion vel_z[0]
 TEST(mov_part,6){
   Particula particulas(1);
   particulas.pos_x[0] = 1.0;
@@ -1191,7 +1191,7 @@ TEST(mov_part,6){
   calc::mov_part(particulas,0);
   ASSERT_EQ(1.0005 , particulas.vel_z[0]);
 }
-//Comprobacion funcion mov_part, compracbion hv_x[0]
+//Comprobacion funcion mov_part, comprobacion hv_x[0]
 TEST(mov_part,7){
   Particula particulas(1);
   particulas.pos_x[0] = 1.0;
@@ -1206,7 +1206,7 @@ TEST(mov_part,7){
   calc::mov_part(particulas,0);
   ASSERT_EQ(1.001 , particulas.hv_x[0]);
 }
-//Comprobacion funcion mov_part, compracbion hv_y[0]
+//Comprobacion funcion mov_part, comprobacion hv_y[0]
 TEST(mov_part,8){
   Particula particulas(1);
   particulas.pos_x[0] = 1.0;
@@ -1221,7 +1221,7 @@ TEST(mov_part,8){
   calc::mov_part(particulas,0);
   ASSERT_EQ(1.001 , particulas.hv_y[0]);
 }
-//Comprobacion funcion mov_part, compracbion hv_z[0]
+//Comprobacion funcion mov_part, comprobacion hv_z[0]
 TEST(mov_part,9){
   Particula particulas(1);
   particulas.pos_x[0] = 1.0;

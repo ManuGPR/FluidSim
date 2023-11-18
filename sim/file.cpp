@@ -3,6 +3,7 @@
 using namespace std;
 
 namespace ficheros {
+  //Funciones inline auxiliares para evitar el error de reinterpret cast del clang-tidy
   inline void read_value(std::istream & is, float & value) {
     // NOLINTNEXTLINE(cppcoreguidelines-pro-type-reinterpret-cast)
     is.read(reinterpret_cast<char *>(&value), sizeof(value));
@@ -13,16 +14,11 @@ namespace ficheros {
     is.read(reinterpret_cast<char *>(&value), sizeof(value));
   }
 
-  inline void read_value(std::istream & is, double & value) {
-    // NOLINTNEXTLINE(cppcoreguidelines-pro-type-reinterpret-cast)
-    is.read(reinterpret_cast<char *>(&value), sizeof(value));
-  }
-
   // Función que se encarga de leer la cabecera
   tuple<int, double> lectura_cabecera(ifstream & file_in) {
-    const int menos_cinco = -5;
+    const int menos_cinco = -5; //Evitan el error de clang-tidy de magic number
     const double cinco_punto_cero = 5.0;
-    tuple<int, double> bad_return = {menos_cinco, cinco_punto_cero};
+    tuple<int, double> bad_return = {menos_cinco, cinco_punto_cero}; //Crea la tupla de error
     int nps                 = 0;
     float ppm               = 0.0;
     read_value(file_in, ppm);
@@ -44,9 +40,8 @@ namespace ficheros {
   int lectura_file(ifstream & file_in, int np, struct Particula & particulas) {
     int const bad_return = -5;
     int np_real          = 0;
+    //Bucle que se encarga de leer el fichero
     while (!file_in.eof()) {
-      // hay que hacer el checkeo de np (variable que vaya sumando, comprobar al final o poner un if
-      // con un break)
       particulas.pos_x[np_real]  = lectura_float_to_double(file_in);
       particulas.pos_y[np_real]  = lectura_float_to_double(file_in);
       particulas.pos_z[np_real]  = lectura_float_to_double(file_in);
@@ -61,59 +56,12 @@ namespace ficheros {
       particulas.acel_z[np_real] = gravedad_z;
       np_real++;
     }
+    //Si no hay el mismo número de partículas que dice la cabecera
     if (np_real - 1 != np) {
       cerr << " Number of particles mismatch. Header: " << np << ", Found:" << np_real - 1 << "\n";
       return bad_return;
     }
     return 0;
-  }
-
-  // Función que escribe un fichero de salida de comprobación
-  [[maybe_unused]] int escritura_comp() {  // Esta función hay que borrarla
-    ifstream fichero_comp;
-    ofstream fichero_comp_salida("salida.txt");
-    fichero_comp.open("./trz/small/boundint-base-3.trz", ios::binary);
-    int cabecera = 0;
-    // NOLINTNEXTLINE(cppcoreguidelines-pro-type-reinterpret-cast)
-    fichero_comp.read(reinterpret_cast<char *>(&cabecera), sizeof(int));
-    fichero_comp_salida << cabecera << "\n";
-    int num_bloque = 0;
-    while (!fichero_comp.eof()) {
-      long int num_p = 0;
-      // NOLINTNEXTLINE(cppcoreguidelines-pro-type-reinterpret-cast)
-      fichero_comp.read(reinterpret_cast<char *>(&num_p), sizeof(long int));
-      fichero_comp_salida << num_bloque << " " << num_p << "\n";
-      loop_escritura_comp(num_p, fichero_comp, fichero_comp_salida);
-      num_bloque++;
-      fichero_comp_salida << "\n";
-    }
-    return 0;
-  }
-
-  [[maybe_unused]] void loop_escritura_comp(long int & num_p, ifstream & fichero_comp,
-                                            ofstream & fichero_comp_salida) {
-    for (int j = 0; j < num_p; j++) {
-      long int identificador = 0;
-      // NOLINTNEXTLINE(cppcoreguidelines-pro-type-reinterpret-cast)
-      fichero_comp.read(reinterpret_cast<char *>(&identificador), sizeof(long int));
-      fichero_comp_salida << identificador << " ";
-      double aux = 0.0;
-      for (int k = 0; k < 3; k++) {
-        read_value(fichero_comp, aux);
-        fichero_comp_salida << aux << " ";
-        read_value(fichero_comp, aux);
-        fichero_comp_salida << aux << " ";
-        read_value(fichero_comp, aux);
-        fichero_comp_salida << aux << " ";
-      }
-      read_value(fichero_comp, aux);
-      fichero_comp_salida << aux << " ";
-      for (int k = 0; k < 3; k++) {
-        read_value(fichero_comp, aux);
-        fichero_comp_salida << aux << " ";
-      }
-      fichero_comp_salida << "\n";
-    }
   }
 
   // Función que se encarga de la escritura del fichero de salida
@@ -161,22 +109,27 @@ namespace ficheros {
   //------------FUNCIONES AUXILIARES PARA LOS TEST FUNCIONALES---------------
   // Función que compara dos ficheros (usada en los test)
   int comparar_ficheros(ifstream & file_in, ifstream & file_corect) {
-    int nps_1         = 0;
-    float ppm_float_1 = 0.0;
-    int nps_2         = 0;
-    float ppm_float_2 = 0.0;
-    read_value(file_in, ppm_float_1);
-    read_value(file_in, nps_1);
-    read_value(file_corect, ppm_float_2);
-    read_value(file_corect, nps_2);
-    const int nps_temp = static_cast<int>(nps_2);
-    if (nps_1 != nps_temp || ppm_float_1 != ppm_float_2) { return -1; }
-    float aux_float_1 = 0.0;
-    float aux_float_2 = 0.0;
+    const int nps_1         = 0;
+    const float ppm_float_1 = 0.0;
+    const int nps_2         = 0;
+    const float ppm_float_2 = 0.0;
+    auto ppm1 = static_cast<float>(ppm_float_1);
+    read_value(file_in, ppm1);
+    int nps1 = static_cast<int>(nps_1);
+    read_value(file_in, nps1);
+    auto ppm2 = static_cast<float>(ppm_float_2);
+    read_value(file_corect, ppm2);
+    int nps2 = static_cast<int>(nps_2);
+    read_value(file_corect, nps2);
+    if (nps1 != nps2 or ppm1 != ppm2) { return -1; }
+    const float aux_float_1 = 0.0;
+    const float aux_float_2 = 0.0;
     while (!file_corect.eof()) {
-      read_value(file_in, aux_float_1);
-      read_value(file_corect, aux_float_2);
-      if (aux_float_1 != aux_float_2) { return -1; }
+      auto aux1 = static_cast<float>(aux_float_1);
+      read_value(file_in, aux1);
+      auto aux2 = static_cast<float>(aux_float_2);
+      read_value(file_corect, aux2);
+      if (aux1 != aux2) { return -1; }
     }
     return 0;
   }
@@ -230,7 +183,6 @@ namespace ficheros {
     auto aux_nps = static_cast<int>(nps_in);
     prueba_escritura.write(ficheros::to_str(aux_ppm), sizeof(aux_ppm));
     prueba_escritura.write(ficheros::to_str(aux_nps), sizeof(aux_nps));
-    ;
     vector<float> parametros = vector_creacion();
     for (int i = 0; i < 2; i++) {
       auto aux = static_cast<float>(parametros[0]);

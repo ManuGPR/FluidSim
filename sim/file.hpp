@@ -22,16 +22,16 @@ namespace ficheros {
   //@param1: fichero de salida de la simulación, @param2: partículas, @param3: partículas por metro
   //@param4: número de partículas
   int escritura_salida(ofstream & file_out, const struct Particula & particulas, double & ppm, int np);
-  [[maybe_unused]] int escritura_comp();
-  [[maybe_unused]] void loop_escritura_comp(long int & num_p, ifstream & fichero_comp, ofstream & fichero_comp_salida);
   //@param1: parametro a castear a char*
   char const * to_str(int & parameter);
   //@param1: parametro a castear a char*
   char const * to_str(float & parameter);
+  //FUNCIONES PARA LOS TEST
   //@param1: fichero de entrada, @param2: fichero con el que corregir
   int comparar_ficheros(ifstream & file_in, ifstream & file_corect);
   vector<float> vector_creacion();
   void archivo_creacion();
+  //@param1: número de partículas del fichero nuevo
   void archivo_creacion_entero(int nps_in) ;
 }  // namespace ficheros
 
