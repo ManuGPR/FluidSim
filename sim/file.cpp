@@ -210,8 +210,8 @@ namespace ficheros {
     parametros.clear();
   }
 
-  filesystem::path abs_path(const filesystem::path & p) {
-    return std::filesystem::absolute(p);
+  filesystem::path path_to_small() {
+    return std::filesystem::absolute("in/small.fld");
   }
 }  // namespace ficheros
 //NOLINTEND

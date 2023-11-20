@@ -4,32 +4,37 @@
 #include "sim/simulacion.hpp"
 #include "sim/block.hpp"
 #include "sim/grid.hpp"
+#include <filesystem>
 #include <fstream>
 
 
 TEST(argumentos, 1){
-  const vector<string> vec = {"1", "fluid/in/small.fld","out.fld"};
+  const string path_to_small = std::filesystem::absolute("/in/small.fld");
+  const vector<string> vec = {"1", path_to_small,"out.fld"};
   const int resultado = sim::simulacion(vec);
   if (remove("out.fld") == 0) {EXPECT_EQ(0,resultado);}
 }
 
 //Número inválido de argumentos
 TEST(argumentos, 2){
-  const vector<string> vec = { "fluid/in/small.fld","out.fld"};
+  const std::string path_to_small = std::filesystem::absolute("in/small.fld");
+  const vector<string> vec = { path_to_small,"out.fld"};
   const int resultado = sim::simulacion(vec);
   if (remove("out.fld") == 0) {EXPECT_EQ(-1,resultado);}
 }
 
 //El argumento de paso de parametros no es un número
 TEST(argumentos, 3){
-  const vector<string> vec = { "a","fluid/in/small.fld","out.fld"};
+  const std::string path_to_small = std::filesystem::absolute("in/small.fld");
+  const vector<string> vec = { "a",path_to_small,"out.fld"};
   const int resultado = sim::simulacion(vec);
   if (remove("../out,fld") == 0) {EXPECT_EQ(-1,resultado);}
 }
 
 //El número de paso es negativo
 TEST(argumentos, 4){
-  const vector<string> vec = { "-1","fluid/in/small.fld","out.fld"};
+  const std::string path_to_small = std::filesystem::absolute("in/small.fld");
+  const vector<string> vec = { "-1",path_to_small,"out.fld"};
   const int resultado = sim::simulacion(vec);
   if (remove("out.fld") == 0) {EXPECT_EQ(-2,resultado);}
 }
@@ -43,7 +48,8 @@ TEST(argumentos, 5){
 
 //Error al abrir archivo de salida
 TEST(argumentos, 6){
-  const vector<string> vec = { "1","fluid/in/small.fld","../.+./out.fld"};
+  const std::string path_to_small = std::filesystem::absolute("in/small.fld");
+  const vector<string> vec = { "1",path_to_small,"../.+./out.fld"};
   const int resultado = sim::simulacion(vec);
   if (remove("out.fld") == 0) {EXPECT_EQ(-4,resultado);}
 }
@@ -85,43 +91,51 @@ TEST(argumentos, 10) {
 
 //El numero de paso de tiempo 0
 TEST(argumentos, 11){
-  const vector<string> vec = { "0","fluid/in/small.fld","out.fld"};
+  const std::string path_to_small = std::filesystem::absolute("in/small.fld");
+  const vector<string> vec = { "0",path_to_small,"out.fld"};
   const int resultado = sim::simulacion(vec);
   if (remove("out.fld") == 0) {EXPECT_EQ(-2,resultado);}
 }
 
 //Test correcto el archivo out.fld coincide con small-1.fld
 TEST(salida, 1){
-  const vector<string> vec = {"1", "fluid/in/small.fld", "out.fld"};
+  const std::string path_to_small = std::filesystem::absolute("in/small.fld");
+  cout << path_to_small << "\n";
+  const vector<string> vec = {"1", path_to_small, "out.fld"};
   sim::simulacion(vec);
   ifstream file_in;
   ifstream file_correct;
   file_in.open("out.fld", ios::binary);
-  file_correct.open("fluid/out/small-1.fld", ios::binary);
+  const std::string path_to_correct = std::filesystem::absolute("out/small-1.fld");
+  file_correct.open(path_to_correct, ios::binary);
   const int resultado = ficheros::comparar_ficheros(file_in,file_correct);
   if (remove("out.fld") == 0) {EXPECT_EQ(0,resultado);}
 }
 
 //Test correcto el archivo out.fld coincide con small-1.fld
 TEST(salida, 2){
-  const vector<string> vec = {"2", "fluid/in/small.fld","out.fld"};
+  const std::string path_to_small = std::filesystem::absolute("in/small.fld");
+  const vector<string> vec = {"2", path_to_small,"out.fld"};
   sim::simulacion(vec);
   ifstream file_in;
   ifstream file_correct;
   file_in.open("out.fld", ios::binary);
-  file_correct.open("fluid/out/small-2.fld", ios::binary);
+  const std::string path_to_correct = std::filesystem::absolute("out/small-2.fld");
+  file_correct.open(path_to_correct, ios::binary);
   const int resultado = ficheros::comparar_ficheros(file_in,file_correct);
   if (remove("out.fld") == 0) {EXPECT_EQ(0,resultado);}
 }
 
 //Test correcto el archivo out.fld coincide con la el el small-3.fld
 TEST(salida, 3){
-  const vector<string> vec = {"3", "fluid/in/small.fld","out.fld"};
+  const std::string path_to_small = std::filesystem::absolute("in/small.fld");
+  const vector<string> vec = {"3", path_to_small,"out.fld"};
   sim::simulacion(vec);
   ifstream file_in;
   ifstream file_correct;
   file_in.open("out.fld", ios::binary);
-  file_correct.open("fluid/out/small-3.fld", ios::binary);
+  const std::string path_to_correct = std::filesystem::absolute("out/small-3.fld");
+  file_correct.open(path_to_correct, ios::binary);
   const int resultado = ficheros::comparar_ficheros(file_in,file_correct);
   if (remove("out.fld") == 0) {EXPECT_EQ(0,resultado);}
 }

@@ -35,7 +35,7 @@ namespace ficheros {
   //@param1: número de partículas del fichero nuevo
   void archivo_creacion_entero(int nps_in) ;
   //@param2: camino de referencia
-  filesystem::path abs_path(const filesystem::path & p);
+  filesystem::path path_to_small();
 }  // namespace ficheros
 
 #endif  // AC3_FILE_HPP
