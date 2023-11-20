@@ -115,10 +115,12 @@ namespace ficheros {
     const float ppm_float_2 = 0.0;
     auto ppm1 = static_cast<float>(ppm_float_1);
     read_value(file_in, ppm1);
+
     int nps1 = static_cast<int>(nps_1);
     read_value(file_in, nps1);
     auto ppm2 = static_cast<float>(ppm_float_2);
     read_value(file_corect, ppm2);
+
     int nps2 = static_cast<int>(nps_2);
     read_value(file_corect, nps2);
     if (nps1 != nps2 or ppm1 != ppm2) { return -1; }
