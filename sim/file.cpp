@@ -209,5 +209,9 @@ namespace ficheros {
     prueba_escritura.close();
     parametros.clear();
   }
+
+  filesystem::path abs_path(const filesystem::path & p) {
+    return std::filesystem::absolute(p);
+  }
 }  // namespace ficheros
 //NOLINTEND

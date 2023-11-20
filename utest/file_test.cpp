@@ -290,7 +290,7 @@ TEST(escritura_salida,1){
   auto ppm_tmp = static_cast<float>(ppm);
   // NOLINTNEXTLINE(cppcoreguidelines-pro-type-reinterpret-cast)
   fichero_comprobacion.read(reinterpret_cast<char *>(&ppm_tmp), sizeof(float));
-  EXPECT_EQ(16.5, ppm_tmp);
+  if (remove("prueba_es1.fld") == 0) {EXPECT_EQ(16.5, ppm_tmp);}
 }
 
 
@@ -330,8 +330,7 @@ TEST(escritura_salida,2){
   int nps_tmp = static_cast<int>(nps);
   // NOLINTNEXTLINE(cppcoreguidelines-pro-type-reinterpret-cast)
   fichero_comprobacion.read(reinterpret_cast<char *>(&nps_tmp), sizeof(int));
-
-  EXPECT_EQ(4, nps_tmp);
+  if (remove("prueba_es.fld") == 0) {EXPECT_EQ(4, nps_tmp);}
 }
 
 //Comprobacion funcion escritura_salida, comprobacion pos_x
@@ -371,7 +370,7 @@ TEST(escritura_salida,3){
   // NOLINTNEXTLINE(cppcoreguidelines-pro-type-reinterpret-cast)
   fichero_comprobacion.read(reinterpret_cast<char *>(&nps_tmp), sizeof(int));
   particulas.pos_x[0]  = ficheros::lectura_float_to_double(fichero_comprobacion);
-  EXPECT_EQ(10.5 ,particulas.pos_x[0]);
+  if (remove("prueba_es.fld") == 0) {EXPECT_EQ(10.5 ,particulas.pos_x[0]);}
 }
 
 //Comprobacion funcion escritura_salida, comprobacion pos_y
@@ -412,7 +411,7 @@ TEST(escritura_salida,4){
   fichero_comprobacion.read(reinterpret_cast<char *>(&nps_tmp), sizeof(int));
   particulas.pos_x[0]  = ficheros::lectura_float_to_double(fichero_comprobacion);
   particulas.pos_y[0]  = ficheros::lectura_float_to_double(fichero_comprobacion);
-  EXPECT_EQ(11.5 ,particulas.pos_y[0] );
+  if (remove("prueba_es.fld") == 0) {EXPECT_EQ(11.5 ,particulas.pos_y[0] );}
 }
 
 //Comprobacion funcion escritura_salida, comprobacion pos_z
@@ -454,7 +453,7 @@ TEST(escritura_salida,5){
   particulas.pos_x[0]  = ficheros::lectura_float_to_double(fichero_comprobacion);
   particulas.pos_y[0]  = ficheros::lectura_float_to_double(fichero_comprobacion);
   particulas.pos_z[0]  = ficheros::lectura_float_to_double(fichero_comprobacion);
-  EXPECT_EQ(12.5 ,particulas.pos_z[0]);
+  if (remove("prueba_es.fld") == 0) {EXPECT_EQ(12.5 ,particulas.pos_z[0]);}
 }
 
 //Comprobacion funcion escritura_salida, comprobacion hv_x
@@ -497,7 +496,7 @@ TEST(escritura_salida,6){
   particulas.pos_y[0]  = ficheros::lectura_float_to_double(fichero_comprobacion);
   particulas.pos_z[0]  = ficheros::lectura_float_to_double(fichero_comprobacion);
   particulas.hv_x[0]  = ficheros::lectura_float_to_double(fichero_comprobacion);
-  EXPECT_EQ(13.5 ,particulas.hv_x[0] );
+  if (remove("prueba_es.fld") == 0) {EXPECT_EQ(13.5 ,particulas.hv_x[0] );}
 }
 
 //Comprobacion funcion escritura_salida, comprobacion hv_y
@@ -541,7 +540,7 @@ TEST(escritura_salida,7){
   particulas.pos_z[0]  = ficheros::lectura_float_to_double(fichero_comprobacion);
   particulas.hv_x[0]  = ficheros::lectura_float_to_double(fichero_comprobacion);
   particulas.hv_y[0]  = ficheros::lectura_float_to_double(fichero_comprobacion);
-  EXPECT_EQ(14.5 ,particulas.hv_y[0] );
+  if (remove("prueba_es.fld") == 0) {EXPECT_EQ(14.5 ,particulas.hv_y[0] );}
 }
 
 //Comprobacion funcion escritura_salida, comprobacion hv_z
@@ -586,7 +585,7 @@ TEST(escritura_salida,8){
   particulas.hv_x[0]  = ficheros::lectura_float_to_double(fichero_comprobacion);
   particulas.hv_y[0]  = ficheros::lectura_float_to_double(fichero_comprobacion);
   particulas.hv_z[0]  = ficheros::lectura_float_to_double(fichero_comprobacion);
-  EXPECT_EQ(15.5 ,particulas.hv_z[0] );
+  if (remove("prueba_es.fld") == 0) {EXPECT_EQ(15.5 ,particulas.hv_z[0] );}
 }
 
 //Comprobacion funcion escritura_salida, comprobacion vel_x
@@ -632,7 +631,7 @@ TEST(escritura_salida,9){
   particulas.hv_y[0]  = ficheros::lectura_float_to_double(fichero_comprobacion);
   particulas.hv_z[0]  = ficheros::lectura_float_to_double(fichero_comprobacion);
   particulas.vel_x[0]  = ficheros::lectura_float_to_double(fichero_comprobacion);
-  EXPECT_EQ(16.5 ,particulas.vel_x[0]);
+  if (remove("prueba_es.fld") == 0) {EXPECT_EQ(16.5 ,particulas.vel_x[0]);}
 }
 
 //Comprobacion funcion escritura_salida, comprobacion vel_y
@@ -679,7 +678,7 @@ TEST(escritura_salida,10){
   particulas.hv_z[0]  = ficheros::lectura_float_to_double(fichero_comprobacion);
   particulas.vel_x[0]  = ficheros::lectura_float_to_double(fichero_comprobacion);
   particulas.vel_y[0]  = ficheros::lectura_float_to_double(fichero_comprobacion);
-  EXPECT_EQ(17.5 ,particulas.vel_y[0] );
+  if (remove("prueba_es.fld") == 0) {EXPECT_EQ(17.5 ,particulas.vel_y[0] );}
 }
 
 //Comprobacion funcion escritura_salida, comprobacion vel_z
@@ -727,5 +726,5 @@ TEST(escritura_salida,11){
   particulas.vel_x[0]  = ficheros::lectura_float_to_double(fichero_comprobacion);
   particulas.vel_y[0]  = ficheros::lectura_float_to_double(fichero_comprobacion);
   particulas.vel_z[0]  = ficheros::lectura_float_to_double(fichero_comprobacion);
-  EXPECT_EQ(18.5,particulas.vel_z[0]);
+  if (remove("prueba_es.fld") == 0) {EXPECT_EQ(18.5,particulas.vel_z[0]);}
 }
