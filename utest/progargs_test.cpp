@@ -27,3 +27,47 @@ TEST(check_args, 3){
   const int resultado = entry::check_args(arguments);
   EXPECT_EQ(-1,resultado);
 }
+
+//Test para chequear que el numero de nts es correcto
+TEST(check_nts, 1){
+  const string arguments = "123";
+  const int resultado = entry::check_nts(arguments);
+  int const number_nts = stoi(arguments);
+  EXPECT_EQ(number_nts,resultado);
+}
+
+//Test para chequear que el numero de nts es incorrecto (no es un numero)
+TEST(check_nts, 2){
+  const string arguments = "a23";
+  const int resultado = entry::check_nts(arguments);
+  EXPECT_EQ(-1,resultado);
+}
+
+//Test para chequear que el numero de nts es incorrecto (es un numero negativo)
+TEST(check_nts, 3){
+  const string arguments = "-123";
+  const int resultado = entry::check_nts(arguments);
+  EXPECT_EQ(-2,resultado);
+}
+
+//Test para chequear que el numero de particulas es correcto
+TEST(check_np, 1){
+  const int nps = 10;
+  const int resultado = entry::check_np(nps);
+  EXPECT_EQ(0,resultado);
+}
+
+//Test para chequear que el numero de particulas es incorrecto (es 0)
+TEST(check_np, 2){
+  const int nps = 0;
+  const int resultado = entry::check_np(nps);
+  EXPECT_EQ(-5,resultado);
+}
+
+//Test para chequear que el numero de particulas es incorrecto (es negativo)
+TEST(check_np, 3){
+  const int nps = -1;
+  const int resultado = entry::check_np(nps);
+  EXPECT_EQ(-5,resultado);
+}
+

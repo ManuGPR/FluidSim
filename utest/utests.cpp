@@ -1,6 +1,5 @@
 #include "sim/block.hpp"
 #include "sim/calculos.hpp"
-
 #include "sim/constants.hpp"
 #include "sim/file.hpp"
 #include "sim/grid.hpp"
